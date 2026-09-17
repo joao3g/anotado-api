@@ -3,6 +3,7 @@ import z from 'zod';
 import expenseModel from '../models/expense.model.js';
 import userModel from '../models/user.model.js';
 import expenseSchema from '../schemas/expense.schema.js';
+import { ExpenseCreateInput, ExpenseCreateManyInput } from '../generated/prisma/models.js';
 
 function calculateNextInvoiceDate(date: Date, cardClosingDay: number) {
     const dueDate = new Date(date);
@@ -30,6 +31,34 @@ const create = async (userLogin: string, data: z.infer<typeof expenseSchema.crea
         });
     } catch (error) {
         console.error("[createExpense(service)]: ", error);
+        throw error;
+    }
+}
+
+const createMany = async (userLogin: string, data: z.infer<typeof expenseSchema.createMany>) => {
+    try {
+        const userData = await userModel.getByLogin(userLogin);
+        if (!userData) throw Error("User not found!");
+        if (!userData.group?.id) throw Error("User group not found!");
+
+        const toCreateArray: ExpenseCreateManyInput[] = data.map(data => {
+            if (!userData.group?.id) throw Error("User group not found!");
+
+            return {
+                title: data.title,
+                description: data.description,
+                paymentMethod: data.paymentMethod,
+                amount: data.amount,
+                transactionDate: new Date(data.date),
+                dueDate: data.paymentMethod === "CREDIT" ? calculateNextInvoiceDate(new Date(data.date), 3) : new Date(data.date),
+                categoryId: data.category,
+                groupId: userData.group.id
+            }
+        });
+
+        await expenseModel.createMany(toCreateArray);
+    } catch (error) {
+        console.error("[createManyExpense(service)]: ", error);
         throw error;
     }
 }
@@ -124,8 +153,8 @@ const update = async (data: z.infer<typeof expenseSchema.update>) => {
         toUpdate.dueDate = new Date(data.date);
         toUpdate.dueDate = toUpdate.paymentMethod === "CREDIT" ? calculateNextInvoiceDate(toUpdate.transactionDate, 3) : new Date(data.date);
     }
-    
+
     return await expenseModel.update(data.id, toUpdate);
 }
 
-export default { create, getByMonth, getByTitle, getSummarizedByMonth, update };
+export default { create, createMany, getByMonth, getByTitle, getSummarizedByMonth, update };

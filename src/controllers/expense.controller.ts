@@ -22,6 +22,23 @@ const create = async (req: Request, res: Response) => {
     }
 }
 
+const createMany = async (req: Request, res: Response) => {
+    try {
+        if (!req.user) return res.status(401).json({ message: "Authentication failed!" });
+
+        const parsed = expenseSchema.createMany.safeParse(req.body);
+
+        if (!parsed.success) return res.status(400).json(z.treeifyError(parsed.error).errors);
+
+        await expenseService.createMany(req.user.login, parsed.data);
+
+        return res.sendStatus(201);
+    } catch (error) {
+        console.error("[createManyExpense(controller)]: ", error);
+        return res.status(500).json({ message: "Failed to create expense!" })
+    }
+}
+
 const getByMonth = async (req: Request, res: Response) => {
     try {
         if (!req.user) return res.status(401).json({ message: "Authentication failed!" });
@@ -122,4 +139,4 @@ const remove = async (req: Request, res: Response) => {
     }
 }
 
-export default { create, getByMonth, getByTitle, getSummarizedByMonth, totalByRange, update, remove };
+export default { create, createMany, getByMonth, getByTitle, getSummarizedByMonth, totalByRange, update, remove };

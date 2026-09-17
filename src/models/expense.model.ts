@@ -21,6 +21,10 @@ const create = async (data: Prisma.ExpenseCreateInput) => {
     return await prisma.expense.create({ data });
 }
 
+const createMany = async (data: Prisma.ExpenseCreateManyInput[]) => {
+    return await prisma.expense.createMany({ data });
+}
+
 const getById = async (id: string) => {
     return await prisma.expense.findUnique({
         where: { id }
@@ -105,4 +109,4 @@ const remove = async (id: string) => {
     });
 }
 
-export default { create, getByRangeAndTitle, getByTitle, getSummarizedByRange, getById, getTotalByRange, update, remove };
+export default { create, createMany, getByRangeAndTitle, getByTitle, getSummarizedByRange, getById, getTotalByRange, update, remove };

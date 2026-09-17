@@ -10,6 +10,8 @@ const create = z.object({
     category: z.string()
 });
 
+const createMany = z.array(create);
+
 const getByMonth = z.object({
     date: z.iso.date()
 });
@@ -42,4 +44,4 @@ const remove = z.object({
     id: z.string()
 });
 
-export default { create, getByMonth, getSummarizedByMonth, getByTitle, totalByRange, update, remove };
+export default { create, createMany, getByMonth, getSummarizedByMonth, getByTitle, totalByRange, update, remove };
