@@ -5,7 +5,7 @@ import authMiddleware from '../middlewares/auth.middleware.js';
 const router = express.Router();
 
 router.post("/create", authMiddleware, ExpenseController.create);
-router.post("/create", authMiddleware, ExpenseController.createMany);
+router.post("/createMany", authMiddleware, ExpenseController.createMany);
 router.post("/totalByRange", authMiddleware, ExpenseController.totalByRange);
 router.get("/getByMonth/:date", authMiddleware, ExpenseController.getByMonth);
 router.get("/getByTitle/:title", authMiddleware, ExpenseController.getByTitle);

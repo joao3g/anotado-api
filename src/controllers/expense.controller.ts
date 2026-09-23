@@ -18,7 +18,7 @@ const create = async (req: Request, res: Response) => {
         return res.sendStatus(201);
     } catch (error) {
         console.error("[createExpense(controller)]: ", error);
-        return res.status(500).json({ message: "Failed to create expense!" })
+        return res.status(500).json({ message: "Failed to create expense!" });
     }
 }
 
@@ -35,7 +35,7 @@ const createMany = async (req: Request, res: Response) => {
         return res.sendStatus(201);
     } catch (error) {
         console.error("[createManyExpense(controller)]: ", error);
-        return res.status(500).json({ message: "Failed to create expense!" })
+        return res.status(500).json({ message: "Failed to create expense!" });
     }
 }
 
@@ -51,7 +51,7 @@ const getByMonth = async (req: Request, res: Response) => {
         return res.status(200).json(result);
     } catch (error) {
         console.error("[getByMonth(controller)]: ", error);
-        return res.status(500).json({ message: "Failed to find expenses!" })
+        return res.status(500).json({ message: "Failed to find expenses!" });
     }
 }
 
@@ -67,7 +67,7 @@ const getByTitle = async (req: Request, res: Response) => {
         return res.status(200).json(result);
     } catch (error) {
         console.error("[getByTitle(controller)]: ", error);
-        return res.status(500).json({ message: "Failed to find expenses!" })
+        return res.status(500).json({ message: "Failed to find expenses!" });
     }
 }
 
@@ -83,7 +83,7 @@ const getSummarizedByMonth = async (req: Request, res: Response) => {
         return res.status(200).json(result);
     } catch (error) {
         console.error("[getSummarizedByMonth(controller)]: ", error);
-        return res.status(500).json({ message: "Failed to find expenses!" })
+        return res.status(500).json({ message: "Failed to find expenses!" });
     }
 }
 
@@ -103,7 +103,7 @@ const totalByRange = async (req: Request, res: Response) => {
         return res.status(200).json(result);
     } catch (error) {
         console.error("[totalByRange(controller)]: ", error);
-        return res.status(500).json({ message: "Failed to find expenses!" })
+        return res.status(500).json({ message: "Failed to find expenses!" });
     }
 }
 
@@ -135,7 +135,7 @@ const remove = async (req: Request, res: Response) => {
         return res.sendStatus(200);
     } catch (error) {
         console.error("[removeExpense]: ", error);
-        return res.status(500).json({ message: "Failed to remove expense!" })
+        return res.status(500).json({ message: "Failed to remove expense!" });
     }
 }
 
