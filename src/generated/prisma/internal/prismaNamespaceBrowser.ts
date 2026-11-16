@@ -54,6 +54,7 @@ export const ModelName = {
   User: 'User',
   Group: 'Group',
   Category: 'Category',
+  Card: 'Card',
   Expense: 'Expense',
   Recurrence: 'Recurrence',
   Income: 'Income'
@@ -113,6 +114,20 @@ export const CategoryScalarFieldEnum = {
 export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
 
 
+export const CardScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  lastFourDigits: 'lastFourDigits',
+  color: 'color',
+  closingDay: 'closingDay',
+  groupId: 'groupId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CardScalarFieldEnum = (typeof CardScalarFieldEnum)[keyof typeof CardScalarFieldEnum]
+
+
 export const ExpenseScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -124,6 +139,7 @@ export const ExpenseScalarFieldEnum = {
   groupId: 'groupId',
   categoryId: 'categoryId',
   isEssential: 'isEssential',
+  cardId: 'cardId',
   recurrenceId: 'recurrenceId',
   installmentNumber: 'installmentNumber',
   createdAt: 'createdAt',
@@ -145,6 +161,7 @@ export const RecurrenceScalarFieldEnum = {
   generatedCount: 'generatedCount',
   canceledAt: 'canceledAt',
   categoryId: 'categoryId',
+  cardId: 'cardId',
   groupId: 'groupId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

@@ -14,7 +14,7 @@ const create = async (req: Request, res: Response) => {
         if (!parsed.success) return res.status(400).json(z.treeifyError(parsed.error).properties);
 
         const created = await expenseService.create(req.user.login, parsed.data);
-        if (!created) return res.status(404).json({ message: "Category not found!" });
+        if (!created) return res.status(404).json({ message: "Category or card not found!" });
 
         return res.sendStatus(201);
     } catch (error) {
@@ -32,7 +32,7 @@ const createMany = async (req: Request, res: Response) => {
         if (!parsed.success) return res.status(400).json(z.treeifyError(parsed.error).errors);
 
         const created = await expenseService.createMany(req.user.login, parsed.data);
-        if (!created) return res.status(404).json({ message: "Category not found!" });
+        if (!created) return res.status(404).json({ message: "Category or card not found!" });
 
         return res.sendStatus(201);
     } catch (error) {
@@ -117,11 +117,12 @@ const update = async (req: Request, res: Response) => {
 
         if (!parsed.success) return res.status(400).json(z.treeifyError(parsed.error).properties);
 
-        const updatedItem = await expenseService.update(req.user.login, parsed.data);
+        const result = await expenseService.update(req.user.login, parsed.data);
+        if (!result.ok && result.reason === "CARD_REQUIRED") return res.status(400).json({ message: "Card is required for CREDIT!" });
         // Same 404 for "does not exist" and "belongs to another group".
-        if (!updatedItem) return res.status(404).json({ message: "Expense or category not found!" });
+        if (!result.ok) return res.status(404).json({ message: "Expense, category or card not found!" });
 
-        return res.status(200).json(updatedItem);
+        return res.status(200).json(result.data);
     } catch (error) {
         console.error("[updateExpense]: ", error);
         return res.status(500).json({ message: "Failed to update expense!" })

@@ -11,6 +11,7 @@
 export type * from './models/User.js'
 export type * from './models/Group.js'
 export type * from './models/Category.js'
+export type * from './models/Card.js'
 export type * from './models/Expense.js'
 export type * from './models/Recurrence.js'
 export type * from './models/Income.js'

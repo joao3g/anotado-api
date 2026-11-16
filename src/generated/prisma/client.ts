@@ -55,6 +55,11 @@ export type Group = Prisma.GroupModel
  */
 export type Category = Prisma.CategoryModel
 /**
+ * Model Card
+ * 
+ */
+export type Card = Prisma.CardModel
+/**
  * Model Expense
  * 
  */

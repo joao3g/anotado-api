@@ -7,7 +7,6 @@ import { Prisma } from '../generated/prisma/client.js';
 import { PaymentMethod } from '../generated/prisma/enums.js';
 import { addMonthsClamped, calculateNextInvoiceDate, endOfMonth, todayInBrazil } from '../utils/date.js';
 
-const CARD_CLOSING_DAY = 3; // Same hardcoded rule as expense.service
 const OPEN_ENDED_MONTHS_AHEAD = 12; // Never-ending series: keep 12 months of installments created
 const MAX_INSTALLMENTS_PER_RUN = 120; // Safety cap for one top-up of one series
 
@@ -22,8 +21,12 @@ type RecurrenceBase = {
     startDate: Date
     totalInstallments: number | null
     categoryId: string | null // null when the category was deleted
+    cardId: string | null // Set only for CREDIT
     groupId: string
 }
+
+// Closing day of the series' card. Not stored on the series: it is read from the card every time.
+type RecurrenceWithClosingDay = RecurrenceBase & { closingDay: number | null }
 
 async function getGroupId(userLogin: string) {
     const userData = await userModel.getByLogin(userLogin);
@@ -40,7 +43,7 @@ function openEndedHorizon() {
 
 // Installment #number. Dates always come from the anchor (startDate), never from the previous installment.
 // The amount is copied as-is: it is the value of EACH installment. No division, no rounding.
-function buildInstallment(recurrence: RecurrenceBase, number: number): InstallmentInput {
+function buildInstallment(recurrence: RecurrenceWithClosingDay, number: number): InstallmentInput {
     const transactionDate = addMonthsClamped(recurrence.startDate, number - 1);
 
     return {
@@ -50,8 +53,9 @@ function buildInstallment(recurrence: RecurrenceBase, number: number): Installme
         paymentMethod: recurrence.paymentMethod,
         isEssential: recurrence.isEssential,
         transactionDate,
-        dueDate: recurrence.paymentMethod === "CREDIT" ? calculateNextInvoiceDate(transactionDate, CARD_CLOSING_DAY) : transactionDate,
+        dueDate: recurrence.closingDay !== null ? calculateNextInvoiceDate(transactionDate, recurrence.closingDay) : transactionDate,
         categoryId: recurrence.categoryId,
+        cardId: recurrence.cardId,
         groupId: recurrence.groupId,
         installmentNumber: number
     };
@@ -59,7 +63,7 @@ function buildInstallment(recurrence: RecurrenceBase, number: number): Installme
 
 // Builds installments from `fromNumber` on. Finite series stop at totalInstallments.
 // Never-ending series stop when dueDate passes `until`.
-function buildInstallments(recurrence: RecurrenceBase, fromNumber: number, until: Date) {
+function buildInstallments(recurrence: RecurrenceWithClosingDay, fromNumber: number, until: Date) {
     const installments: InstallmentInput[] = [];
 
     for (let number = fromNumber; installments.length < MAX_INSTALLMENTS_PER_RUN; number++) {
@@ -79,7 +83,10 @@ const ensureGeneratedUntil = async (groupId: string, until: Date) => {
     const recurrences = await recurrenceModel.listOpenEndedActive(groupId);
 
     for (const recurrence of recurrences) {
-        const installments = buildInstallments(recurrence, recurrence.generatedCount + 1, until);
+        // CREDIT series always have a card (database CHECK). Defensive: skip if not, never guess a closing day.
+        if (recurrence.paymentMethod === "CREDIT" && !recurrence.card) continue;
+
+        const installments = buildInstallments({ ...recurrence, closingDay: recurrence.card?.closingDay ?? null }, recurrence.generatedCount + 1, until);
         if (installments.length) await recurrenceModel.appendInstallments(recurrence.id, recurrence.generatedCount, installments);
     }
 }
@@ -98,6 +105,10 @@ const create = async (userLogin: string, data: z.infer<typeof recurrenceSchema.c
         const category = await recurrenceModel.findCategoryInGroup(data.category, groupId);
         if (!category) return { ok: false, reason: "NOT_FOUND" };
 
+        // CREDIT: the card must belong to the group. Other methods never keep a card.
+        const card = data.paymentMethod === "CREDIT" && data.card ? await recurrenceModel.findCardInGroup(data.card, groupId) : null;
+        if (data.paymentMethod === "CREDIT" && !card) return { ok: false, reason: "NOT_FOUND" };
+
         const recurrence: RecurrenceBase = {
             title: data.title,
             description: data.description ?? null,
@@ -107,10 +118,11 @@ const create = async (userLogin: string, data: z.infer<typeof recurrenceSchema.c
             startDate: new Date(data.startDate),
             totalInstallments: data.totalInstallments,
             categoryId: category.id,
+            cardId: card?.id ?? null,
             groupId
         };
 
-        const installments = buildInstallments(recurrence, 1, openEndedHorizon());
+        const installments = buildInstallments({ ...recurrence, closingDay: card?.closingDay ?? null }, 1, openEndedHorizon());
         const created = await recurrenceModel.create(recurrence, installments);
 
         return { ok: true, data: { id: created.id, generatedInstallments: installments.length } };
@@ -146,6 +158,7 @@ const list = async (userLogin: string) => {
                 totalInstallments: recurrence.totalInstallments,
                 canceledAt: recurrence.canceledAt,
                 category: recurrence.category,
+                card: recurrence.card,
                 createdAt: recurrence.createdAt,
                 pastCount: pastStats?._count._all ?? 0,
                 futureCount,
