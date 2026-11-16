@@ -30,6 +30,13 @@ const getById = async (id: string) => {
     });
 }
 
+const getByIdInGroup = async (id: string, groupId: string) => {
+    return await prisma.category.findFirst({
+        where: { id, groupId },
+        select: categorySelect
+    });
+}
+
 const getByGroupId = async (groupId: string) => {
     return await prisma.category.findMany({
         where: { groupId },
@@ -52,10 +59,20 @@ const update = async (id: string, data: Prisma.CategoryUpdateInput) => {
     });
 }
 
-const remove = async (id: string) => {
-    return await prisma.category.delete({
-        where: { id }
+// Counts how many of `ids` belong to the group (used to validate category ids sent by the client).
+const countInGroup = async (ids: string[], groupId: string) => {
+    return await prisma.category.count({
+        where: { id: { in: ids }, groupId }
     });
 }
 
-export default { create, getById, getByGroupId, find, update, remove };
+// deleteMany with groupId: deletes nothing if the category belongs to another group. Returns how many were deleted.
+const remove = async (id: string, groupId: string) => {
+    const result = await prisma.category.deleteMany({
+        where: { id, groupId }
+    });
+
+    return result.count;
+}
+
+export default { create, getById, getByIdInGroup, getByGroupId, countInGroup, find, update, remove };

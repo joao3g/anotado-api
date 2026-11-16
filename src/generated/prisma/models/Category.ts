@@ -199,6 +199,7 @@ export type CategoryWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Category"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Category"> | Date | string
   expenses?: Prisma.ExpenseListRelationFilter
+  recurrences?: Prisma.RecurrenceListRelationFilter
   group?: Prisma.XOR<Prisma.GroupScalarRelationFilter, Prisma.GroupWhereInput>
 }
 
@@ -211,6 +212,7 @@ export type CategoryOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   expenses?: Prisma.ExpenseOrderByRelationAggregateInput
+  recurrences?: Prisma.RecurrenceOrderByRelationAggregateInput
   group?: Prisma.GroupOrderByWithRelationInput
 }
 
@@ -226,6 +228,7 @@ export type CategoryWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Category"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Category"> | Date | string
   expenses?: Prisma.ExpenseListRelationFilter
+  recurrences?: Prisma.RecurrenceListRelationFilter
   group?: Prisma.XOR<Prisma.GroupScalarRelationFilter, Prisma.GroupWhereInput>
 }, "id">
 
@@ -263,6 +266,7 @@ export type CategoryCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   expenses?: Prisma.ExpenseCreateNestedManyWithoutCategoryInput
+  recurrences?: Prisma.RecurrenceCreateNestedManyWithoutCategoryInput
   group: Prisma.GroupCreateNestedOneWithoutCategoriesInput
 }
 
@@ -275,6 +279,7 @@ export type CategoryUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutCategoryInput
+  recurrences?: Prisma.RecurrenceUncheckedCreateNestedManyWithoutCategoryInput
 }
 
 export type CategoryUpdateInput = {
@@ -285,6 +290,7 @@ export type CategoryUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expenses?: Prisma.ExpenseUpdateManyWithoutCategoryNestedInput
+  recurrences?: Prisma.RecurrenceUpdateManyWithoutCategoryNestedInput
   group?: Prisma.GroupUpdateOneRequiredWithoutCategoriesNestedInput
 }
 
@@ -297,6 +303,7 @@ export type CategoryUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutCategoryNestedInput
+  recurrences?: Prisma.RecurrenceUncheckedUpdateManyWithoutCategoryNestedInput
 }
 
 export type CategoryCreateManyInput = {
@@ -429,6 +436,20 @@ export type CategoryUpdateOneRequiredWithoutExpensesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CategoryUpdateToOneWithWhereWithoutExpensesInput, Prisma.CategoryUpdateWithoutExpensesInput>, Prisma.CategoryUncheckedUpdateWithoutExpensesInput>
 }
 
+export type CategoryCreateNestedOneWithoutRecurrencesInput = {
+  create?: Prisma.XOR<Prisma.CategoryCreateWithoutRecurrencesInput, Prisma.CategoryUncheckedCreateWithoutRecurrencesInput>
+  connectOrCreate?: Prisma.CategoryCreateOrConnectWithoutRecurrencesInput
+  connect?: Prisma.CategoryWhereUniqueInput
+}
+
+export type CategoryUpdateOneRequiredWithoutRecurrencesNestedInput = {
+  create?: Prisma.XOR<Prisma.CategoryCreateWithoutRecurrencesInput, Prisma.CategoryUncheckedCreateWithoutRecurrencesInput>
+  connectOrCreate?: Prisma.CategoryCreateOrConnectWithoutRecurrencesInput
+  upsert?: Prisma.CategoryUpsertWithoutRecurrencesInput
+  connect?: Prisma.CategoryWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CategoryUpdateToOneWithWhereWithoutRecurrencesInput, Prisma.CategoryUpdateWithoutRecurrencesInput>, Prisma.CategoryUncheckedUpdateWithoutRecurrencesInput>
+}
+
 export type CategoryCreateWithoutGroupInput = {
   id?: string
   title: string
@@ -437,6 +458,7 @@ export type CategoryCreateWithoutGroupInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   expenses?: Prisma.ExpenseCreateNestedManyWithoutCategoryInput
+  recurrences?: Prisma.RecurrenceCreateNestedManyWithoutCategoryInput
 }
 
 export type CategoryUncheckedCreateWithoutGroupInput = {
@@ -447,6 +469,7 @@ export type CategoryUncheckedCreateWithoutGroupInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutCategoryInput
+  recurrences?: Prisma.RecurrenceUncheckedCreateNestedManyWithoutCategoryInput
 }
 
 export type CategoryCreateOrConnectWithoutGroupInput = {
@@ -495,6 +518,7 @@ export type CategoryCreateWithoutExpensesInput = {
   color: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  recurrences?: Prisma.RecurrenceCreateNestedManyWithoutCategoryInput
   group: Prisma.GroupCreateNestedOneWithoutCategoriesInput
 }
 
@@ -506,6 +530,7 @@ export type CategoryUncheckedCreateWithoutExpensesInput = {
   groupId: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  recurrences?: Prisma.RecurrenceUncheckedCreateNestedManyWithoutCategoryInput
 }
 
 export type CategoryCreateOrConnectWithoutExpensesInput = {
@@ -531,6 +556,7 @@ export type CategoryUpdateWithoutExpensesInput = {
   color?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  recurrences?: Prisma.RecurrenceUpdateManyWithoutCategoryNestedInput
   group?: Prisma.GroupUpdateOneRequiredWithoutCategoriesNestedInput
 }
 
@@ -542,6 +568,67 @@ export type CategoryUncheckedUpdateWithoutExpensesInput = {
   groupId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  recurrences?: Prisma.RecurrenceUncheckedUpdateManyWithoutCategoryNestedInput
+}
+
+export type CategoryCreateWithoutRecurrencesInput = {
+  id?: string
+  title: string
+  description?: string | null
+  color: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutCategoryInput
+  group: Prisma.GroupCreateNestedOneWithoutCategoriesInput
+}
+
+export type CategoryUncheckedCreateWithoutRecurrencesInput = {
+  id?: string
+  title: string
+  description?: string | null
+  color: string
+  groupId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutCategoryInput
+}
+
+export type CategoryCreateOrConnectWithoutRecurrencesInput = {
+  where: Prisma.CategoryWhereUniqueInput
+  create: Prisma.XOR<Prisma.CategoryCreateWithoutRecurrencesInput, Prisma.CategoryUncheckedCreateWithoutRecurrencesInput>
+}
+
+export type CategoryUpsertWithoutRecurrencesInput = {
+  update: Prisma.XOR<Prisma.CategoryUpdateWithoutRecurrencesInput, Prisma.CategoryUncheckedUpdateWithoutRecurrencesInput>
+  create: Prisma.XOR<Prisma.CategoryCreateWithoutRecurrencesInput, Prisma.CategoryUncheckedCreateWithoutRecurrencesInput>
+  where?: Prisma.CategoryWhereInput
+}
+
+export type CategoryUpdateToOneWithWhereWithoutRecurrencesInput = {
+  where?: Prisma.CategoryWhereInput
+  data: Prisma.XOR<Prisma.CategoryUpdateWithoutRecurrencesInput, Prisma.CategoryUncheckedUpdateWithoutRecurrencesInput>
+}
+
+export type CategoryUpdateWithoutRecurrencesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  color?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  expenses?: Prisma.ExpenseUpdateManyWithoutCategoryNestedInput
+  group?: Prisma.GroupUpdateOneRequiredWithoutCategoriesNestedInput
+}
+
+export type CategoryUncheckedUpdateWithoutRecurrencesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  color?: Prisma.StringFieldUpdateOperationsInput | string
+  groupId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutCategoryNestedInput
 }
 
 export type CategoryCreateManyGroupInput = {
@@ -561,6 +648,7 @@ export type CategoryUpdateWithoutGroupInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expenses?: Prisma.ExpenseUpdateManyWithoutCategoryNestedInput
+  recurrences?: Prisma.RecurrenceUpdateManyWithoutCategoryNestedInput
 }
 
 export type CategoryUncheckedUpdateWithoutGroupInput = {
@@ -571,6 +659,7 @@ export type CategoryUncheckedUpdateWithoutGroupInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutCategoryNestedInput
+  recurrences?: Prisma.RecurrenceUncheckedUpdateManyWithoutCategoryNestedInput
 }
 
 export type CategoryUncheckedUpdateManyWithoutGroupInput = {
@@ -589,10 +678,12 @@ export type CategoryUncheckedUpdateManyWithoutGroupInput = {
 
 export type CategoryCountOutputType = {
   expenses: number
+  recurrences: number
 }
 
 export type CategoryCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   expenses?: boolean | CategoryCountOutputTypeCountExpensesArgs
+  recurrences?: boolean | CategoryCountOutputTypeCountRecurrencesArgs
 }
 
 /**
@@ -612,6 +703,13 @@ export type CategoryCountOutputTypeCountExpensesArgs<ExtArgs extends runtime.Typ
   where?: Prisma.ExpenseWhereInput
 }
 
+/**
+ * CategoryCountOutputType without action
+ */
+export type CategoryCountOutputTypeCountRecurrencesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RecurrenceWhereInput
+}
+
 
 export type CategorySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -622,6 +720,7 @@ export type CategorySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   createdAt?: boolean
   updatedAt?: boolean
   expenses?: boolean | Prisma.Category$expensesArgs<ExtArgs>
+  recurrences?: boolean | Prisma.Category$recurrencesArgs<ExtArgs>
   group?: boolean | Prisma.GroupDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.CategoryCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["category"]>
@@ -661,6 +760,7 @@ export type CategorySelectScalar = {
 export type CategoryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "color" | "groupId" | "createdAt" | "updatedAt", ExtArgs["result"]["category"]>
 export type CategoryInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   expenses?: boolean | Prisma.Category$expensesArgs<ExtArgs>
+  recurrences?: boolean | Prisma.Category$recurrencesArgs<ExtArgs>
   group?: boolean | Prisma.GroupDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.CategoryCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -675,6 +775,7 @@ export type $CategoryPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   name: "Category"
   objects: {
     expenses: Prisma.$ExpensePayload<ExtArgs>[]
+    recurrences: Prisma.$RecurrencePayload<ExtArgs>[]
     group: Prisma.$GroupPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1080,6 +1181,7 @@ readonly fields: CategoryFieldRefs;
 export interface Prisma__CategoryClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   expenses<T extends Prisma.Category$expensesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Category$expensesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExpensePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  recurrences<T extends Prisma.Category$recurrencesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Category$recurrencesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RecurrencePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   group<T extends Prisma.GroupDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.GroupDefaultArgs<ExtArgs>>): Prisma.Prisma__GroupClient<runtime.Types.Result.GetResult<Prisma.$GroupPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1534,6 +1636,30 @@ export type Category$expensesArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.ExpenseScalarFieldEnum | Prisma.ExpenseScalarFieldEnum[]
+}
+
+/**
+ * Category.recurrences
+ */
+export type Category$recurrencesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Recurrence
+   */
+  select?: Prisma.RecurrenceSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Recurrence
+   */
+  omit?: Prisma.RecurrenceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RecurrenceInclude<ExtArgs> | null
+  where?: Prisma.RecurrenceWhereInput
+  orderBy?: Prisma.RecurrenceOrderByWithRelationInput | Prisma.RecurrenceOrderByWithRelationInput[]
+  cursor?: Prisma.RecurrenceWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RecurrenceScalarFieldEnum | Prisma.RecurrenceScalarFieldEnum[]
 }
 
 /**

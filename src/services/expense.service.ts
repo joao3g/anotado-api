@@ -2,22 +2,21 @@ import 'dotenv/config';
 import z from 'zod';
 import expenseModel from '../models/expense.model.js';
 import userModel from '../models/user.model.js';
+import categoryModel from '../models/category.model.js';
 import expenseSchema from '../schemas/expense.schema.js';
 import { ExpenseCreateInput, ExpenseCreateManyInput } from '../generated/prisma/models.js';
-
-function calculateNextInvoiceDate(date: Date, cardClosingDay: number) {
-    const dueDate = new Date(date);
-    dueDate.setDate(cardClosingDay + 1);
-    if (date.getDate() >= cardClosingDay) dueDate.setMonth(dueDate.getMonth() + 1);
-
-    return dueDate;
-}
+import { calculateNextInvoiceDate } from '../utils/date.js';
+import recurrenceService from './recurrence.service.js';
 
 const create = async (userLogin: string, data: z.infer<typeof expenseSchema.create>) => {
     try {
         const userData = await userModel.getByLogin(userLogin);
         if (!userData) throw Error("User not found!");
         if (!userData.group?.id) throw Error("User group not found!");
+
+        // Returns false when the category does not belong to the user's group.
+        const category = await categoryModel.getByIdInGroup(data.category, userData.group.id);
+        if (!category) return false;
 
         await expenseModel.create({
             title: data.title,
@@ -29,6 +28,8 @@ const create = async (userLogin: string, data: z.infer<typeof expenseSchema.crea
             category: { connect: { id: data.category } },
             group: { connect: { id: userData.group.id } }
         });
+
+        return true;
     } catch (error) {
         console.error("[createExpense(service)]: ", error);
         throw error;
@@ -40,6 +41,11 @@ const createMany = async (userLogin: string, data: z.infer<typeof expenseSchema.
         const userData = await userModel.getByLogin(userLogin);
         if (!userData) throw Error("User not found!");
         if (!userData.group?.id) throw Error("User group not found!");
+
+        // Every category sent must belong to the user's group, or nothing is created (returns false).
+        const categoryIds = [...new Set(data.map(item => item.category))];
+        const validCount = await categoryModel.countInGroup(categoryIds, userData.group.id);
+        if (validCount !== categoryIds.length) return false;
 
         const toCreateArray: ExpenseCreateManyInput[] = data.map(data => {
             if (!userData.group?.id) throw Error("User group not found!");
@@ -57,6 +63,8 @@ const createMany = async (userLogin: string, data: z.infer<typeof expenseSchema.
         });
 
         await expenseModel.createMany(toCreateArray);
+
+        return true;
     } catch (error) {
         console.error("[createManyExpense(service)]: ", error);
         throw error;
@@ -77,6 +85,9 @@ const getByMonth = async (userLogin: string, data: z.infer<typeof expenseSchema.
         endDate.setUTCHours(23, 59, 59);
         endDate.setMonth(endDate.getMonth() + 1);
         endDate.setUTCDate(0);
+
+        // Never-ending recurrences: make sure this month's installments exist (idempotent).
+        await recurrenceService.ensureGeneratedForMonth(userData.group.id, endDate);
 
         return await expenseModel.getByRangeAndTitle(startDate, endDate, userData.group.id);
     } catch (error) {
@@ -104,7 +115,7 @@ const getByTitle = async (userLogin: string, data: z.infer<typeof expenseSchema.
             return await expenseModel.getByRangeAndTitle(startDate, endDate, userData.group.id, data.title);
         }
 
-        return await expenseModel.getByTitle(data.title);
+        return await expenseModel.getByTitle(data.title, userData.group.id);
     } catch (error) {
         console.error("[getByTitle(service)]: ", error);
         throw error;
@@ -126,6 +137,9 @@ const getSummarizedByMonth = async (userLogin: string, data: z.infer<typeof expe
         endDate.setMonth(endDate.getMonth() + 1);
         endDate.setUTCDate(0);
 
+        // Never-ending recurrences: make sure this month's installments exist (idempotent).
+        await recurrenceService.ensureGeneratedForMonth(userData.group.id, endDate);
+
         return await expenseModel.getSummarizedByRange(startDate, endDate, userData.group.id);
     } catch (error) {
         console.error("[getSummarizedByMonth(service)]: ", error);
@@ -133,28 +147,55 @@ const getSummarizedByMonth = async (userLogin: string, data: z.infer<typeof expe
     }
 }
 
-const update = async (data: z.infer<typeof expenseSchema.update>) => {
-    const currentExpense = await expenseModel.getById(data.id);
+// Returns null when the expense (or the new category) does not belong to the user's group.
+const update = async (userLogin: string, data: z.infer<typeof expenseSchema.update>) => {
+    const userData = await userModel.getByLogin(userLogin);
+    if (!userData) throw Error("User not found!");
+    if (!userData.group?.id) throw Error("User group not found!");
 
+    const currentExpense = await expenseModel.getByIdInGroup(data.id, userData.group.id);
+    if (!currentExpense) return null;
+
+    if (data.category) {
+        const category = await categoryModel.getByIdInGroup(data.category, userData.group.id);
+        if (!category) return null;
+    }
+
+    // `??` (not `||`): only a field that was NOT sent keeps its current value.
+    // So an empty description clears it. Empty title and amount <= 0 are rejected by the Zod schema.
     const toUpdate = {
-        id: data.id || currentExpense?.id,
-        title: data.title || currentExpense?.title,
-        description: data.description || currentExpense?.description,
-        amount: data.amount || currentExpense?.amount,
-        paymentMethod: data.paymentMethod || currentExpense?.paymentMethod,
-        transactionDate: data.date || currentExpense?.transactionDate,
-        dueDate: data.date || currentExpense?.dueDate,
-        group: { connect: { id: currentExpense?.groupId } },
-        category: { connect: { id: data.category || currentExpense?.categoryId } },
+        id: currentExpense.id,
+        title: data.title ?? currentExpense.title,
+        description: data.description ?? currentExpense.description,
+        amount: data.amount ?? currentExpense.amount,
+        paymentMethod: data.paymentMethod ?? currentExpense.paymentMethod,
+        transactionDate: data.date ?? currentExpense.transactionDate,
+        dueDate: data.date ?? currentExpense.dueDate,
+        group: { connect: { id: currentExpense.groupId } },
+        category: { connect: { id: data.category ?? currentExpense.categoryId } },
     };
 
-    if (data.date) {
-        toUpdate.transactionDate = new Date(data.date);
-        toUpdate.dueDate = new Date(data.date);
-        toUpdate.dueDate = toUpdate.paymentMethod === "CREDIT" ? calculateNextInvoiceDate(toUpdate.transactionDate, 3) : new Date(data.date);
+    // dueDate depends on BOTH the date and the payment method, so recompute it when either one is sent.
+    // Before, changing only DEBIT -> CREDIT kept dueDate = purchase date (wrong month for the invoice).
+    if (data.date || data.paymentMethod) {
+        const transactionDate = data.date ? new Date(data.date) : currentExpense.transactionDate;
+
+        toUpdate.transactionDate = transactionDate;
+        toUpdate.dueDate = toUpdate.paymentMethod === "CREDIT" ? calculateNextInvoiceDate(transactionDate, 3) : transactionDate;
     }
 
     return await expenseModel.update(data.id, toUpdate);
 }
 
-export default { create, createMany, getByMonth, getByTitle, getSummarizedByMonth, update };
+// Returns false when nothing was deleted (not found, or belongs to another group).
+const remove = async (userLogin: string, data: z.infer<typeof expenseSchema.remove>) => {
+    const userData = await userModel.getByLogin(userLogin);
+    if (!userData) throw Error("User not found!");
+    if (!userData.group?.id) throw Error("User group not found!");
+
+    const deletedCount = await expenseModel.remove(data.id, userData.group.id);
+
+    return deletedCount > 0;
+}
+
+export default { create, createMany, getByMonth, getByTitle, getSummarizedByMonth, update, remove };

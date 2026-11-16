@@ -39,18 +39,37 @@ const getByCurrentGroupId = async (userLogin: string) => {
     }
 }
 
-const update = async (data: z.infer<typeof categorySchema.update>) => {
-    const currentItem = await categoryModel.getById(data.id);
+async function getGroupId(userLogin: string) {
+    const userData = await userModel.getByLogin(userLogin);
+    if (!userData) throw Error("User not found!");
+    if (!userData.group?.id) throw Error("User group not found!");
 
+    return userData.group.id;
+}
+
+// Returns null when the category does not belong to the user's group.
+const update = async (userLogin: string, data: z.infer<typeof categorySchema.update>) => {
+    const currentItem = await categoryModel.getByIdInGroup(data.id, await getGroupId(userLogin));
+    if (!currentItem) return null;
+
+    // `??` (not `||`): only a field that was NOT sent keeps its current value.
+    // So an empty description clears it. Empty title and invalid color are rejected by the Zod schema.
     const toUpdate = {
-        id: data.id || currentItem?.id,
-        title: data.title || currentItem?.title,
-        description: data.description || currentItem?.description,
-        color: data.color || currentItem?.color,
-        group: { connect: { id: currentItem?.group.id } },
+        id: currentItem.id,
+        title: data.title ?? currentItem.title,
+        description: data.description ?? currentItem.description,
+        color: data.color ?? currentItem.color,
+        group: { connect: { id: currentItem.group.id } },
     };
     
     return await categoryModel.update(data.id, toUpdate);
 }
 
-export default { create, getByCurrentGroupId, update };
+// Returns false when nothing was deleted (not found, or belongs to another group).
+const remove = async (userLogin: string, data: z.infer<typeof categorySchema.remove>) => {
+    const deletedCount = await categoryModel.remove(data.id, await getGroupId(userLogin));
+
+    return deletedCount > 0;
+}
+
+export default { create, getByCurrentGroupId, update, remove };

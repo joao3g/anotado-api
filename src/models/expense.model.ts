@@ -14,6 +14,9 @@ const expenseSelect = {
     dueDate: true,
     paymentMethod: true,
     category: true,
+    recurrenceId: true,
+    installmentNumber: true,
+    recurrence: { select: { totalInstallments: true } }, // For the "3/10" label in the UI
     createdAt: true
 }
 
@@ -25,9 +28,10 @@ const createMany = async (data: Prisma.ExpenseCreateManyInput[]) => {
     return await prisma.expense.createMany({ data });
 }
 
-const getById = async (id: string) => {
-    return await prisma.expense.findUnique({
-        where: { id }
+// Always scoped by group: an id from the client alone is never trusted.
+const getByIdInGroup = async (id: string, groupId: string) => {
+    return await prisma.expense.findFirst({
+        where: { id, groupId }
     });
 }
 
@@ -38,7 +42,7 @@ const getByRangeAndTitle = async (startDate: Date, endDate: Date, groupId?: stri
     });
 }
 
-const getByTitle = async (title: string, groupId?: string) => {
+const getByTitle = async (title: string, groupId: string) => {
     return await prisma.expense.findMany({
         where: { title, groupId },
         select: expenseSelect
@@ -103,10 +107,13 @@ const getTotalByRange = async (startDate: Date, endDate: Date, groupId?: string)
     });
 }
 
-const remove = async (id: string) => {
-    return await prisma.expense.delete({
-        where: { id }
+// deleteMany with groupId: deletes nothing if the expense belongs to another group. Returns how many were deleted.
+const remove = async (id: string, groupId: string) => {
+    const result = await prisma.expense.deleteMany({
+        where: { id, groupId }
     });
+
+    return result.count;
 }
 
-export default { create, createMany, getByRangeAndTitle, getByTitle, getSummarizedByRange, getById, getTotalByRange, update, remove };
+export default { create, createMany, getByRangeAndTitle, getByTitle, getSummarizedByRange, getByIdInGroup, getTotalByRange, update, remove };

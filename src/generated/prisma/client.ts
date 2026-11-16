@@ -60,6 +60,11 @@ export type Category = Prisma.CategoryModel
  */
 export type Expense = Prisma.ExpenseModel
 /**
+ * Model Recurrence
+ * 
+ */
+export type Recurrence = Prisma.RecurrenceModel
+/**
  * Model Income
  * 
  */

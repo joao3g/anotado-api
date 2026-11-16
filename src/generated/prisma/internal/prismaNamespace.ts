@@ -388,6 +388,7 @@ export const ModelName = {
   Group: 'Group',
   Category: 'Category',
   Expense: 'Expense',
+  Recurrence: 'Recurrence',
   Income: 'Income'
 } as const
 
@@ -404,7 +405,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "group" | "category" | "expense" | "income"
+    modelProps: "user" | "group" | "category" | "expense" | "recurrence" | "income"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -704,6 +705,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Recurrence: {
+      payload: Prisma.$RecurrencePayload<ExtArgs>
+      fields: Prisma.RecurrenceFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.RecurrenceFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecurrencePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.RecurrenceFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecurrencePayload>
+        }
+        findFirst: {
+          args: Prisma.RecurrenceFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecurrencePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.RecurrenceFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecurrencePayload>
+        }
+        findMany: {
+          args: Prisma.RecurrenceFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecurrencePayload>[]
+        }
+        create: {
+          args: Prisma.RecurrenceCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecurrencePayload>
+        }
+        createMany: {
+          args: Prisma.RecurrenceCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.RecurrenceCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecurrencePayload>[]
+        }
+        delete: {
+          args: Prisma.RecurrenceDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecurrencePayload>
+        }
+        update: {
+          args: Prisma.RecurrenceUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecurrencePayload>
+        }
+        deleteMany: {
+          args: Prisma.RecurrenceDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.RecurrenceUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.RecurrenceUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecurrencePayload>[]
+        }
+        upsert: {
+          args: Prisma.RecurrenceUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RecurrencePayload>
+        }
+        aggregate: {
+          args: Prisma.RecurrenceAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateRecurrence>
+        }
+        groupBy: {
+          args: Prisma.RecurrenceGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RecurrenceGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.RecurrenceCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RecurrenceCountAggregateOutputType> | number
+        }
+      }
+    }
     Income: {
       payload: Prisma.$IncomePayload<ExtArgs>
       fields: Prisma.IncomeFieldRefs
@@ -866,11 +941,33 @@ export const ExpenseScalarFieldEnum = {
   groupId: 'groupId',
   categoryId: 'categoryId',
   isEssential: 'isEssential',
+  recurrenceId: 'recurrenceId',
+  installmentNumber: 'installmentNumber',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type ExpenseScalarFieldEnum = (typeof ExpenseScalarFieldEnum)[keyof typeof ExpenseScalarFieldEnum]
+
+
+export const RecurrenceScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  amount: 'amount',
+  paymentMethod: 'paymentMethod',
+  isEssential: 'isEssential',
+  startDate: 'startDate',
+  totalInstallments: 'totalInstallments',
+  generatedCount: 'generatedCount',
+  canceledAt: 'canceledAt',
+  categoryId: 'categoryId',
+  groupId: 'groupId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type RecurrenceScalarFieldEnum = (typeof RecurrenceScalarFieldEnum)[keyof typeof RecurrenceScalarFieldEnum]
 
 
 export const IncomeScalarFieldEnum = {
@@ -993,6 +1090,20 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
 export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
 
+
+/**
+ * Reference to a field of type 'Float'
+ */
+export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+/**
+ * Reference to a field of type 'Float[]'
+ */
+export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
 /**
  * Batch Payload for updateMany & deleteMany & createMany
  */
@@ -1092,6 +1203,7 @@ export type GlobalOmitConfig = {
   group?: Prisma.GroupOmit
   category?: Prisma.CategoryOmit
   expense?: Prisma.ExpenseOmit
+  recurrence?: Prisma.RecurrenceOmit
   income?: Prisma.IncomeOmit
 }
 
