@@ -375,9 +375,9 @@ export type CategoryMinOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
-export type CategoryScalarRelationFilter = {
-  is?: Prisma.CategoryWhereInput
-  isNot?: Prisma.CategoryWhereInput
+export type CategoryNullableScalarRelationFilter = {
+  is?: Prisma.CategoryWhereInput | null
+  isNot?: Prisma.CategoryWhereInput | null
 }
 
 export type CategoryCreateNestedManyWithoutGroupInput = {
@@ -428,10 +428,12 @@ export type CategoryCreateNestedOneWithoutExpensesInput = {
   connect?: Prisma.CategoryWhereUniqueInput
 }
 
-export type CategoryUpdateOneRequiredWithoutExpensesNestedInput = {
+export type CategoryUpdateOneWithoutExpensesNestedInput = {
   create?: Prisma.XOR<Prisma.CategoryCreateWithoutExpensesInput, Prisma.CategoryUncheckedCreateWithoutExpensesInput>
   connectOrCreate?: Prisma.CategoryCreateOrConnectWithoutExpensesInput
   upsert?: Prisma.CategoryUpsertWithoutExpensesInput
+  disconnect?: Prisma.CategoryWhereInput | boolean
+  delete?: Prisma.CategoryWhereInput | boolean
   connect?: Prisma.CategoryWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.CategoryUpdateToOneWithWhereWithoutExpensesInput, Prisma.CategoryUpdateWithoutExpensesInput>, Prisma.CategoryUncheckedUpdateWithoutExpensesInput>
 }
@@ -442,10 +444,12 @@ export type CategoryCreateNestedOneWithoutRecurrencesInput = {
   connect?: Prisma.CategoryWhereUniqueInput
 }
 
-export type CategoryUpdateOneRequiredWithoutRecurrencesNestedInput = {
+export type CategoryUpdateOneWithoutRecurrencesNestedInput = {
   create?: Prisma.XOR<Prisma.CategoryCreateWithoutRecurrencesInput, Prisma.CategoryUncheckedCreateWithoutRecurrencesInput>
   connectOrCreate?: Prisma.CategoryCreateOrConnectWithoutRecurrencesInput
   upsert?: Prisma.CategoryUpsertWithoutRecurrencesInput
+  disconnect?: Prisma.CategoryWhereInput | boolean
+  delete?: Prisma.CategoryWhereInput | boolean
   connect?: Prisma.CategoryWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.CategoryUpdateToOneWithWhereWithoutRecurrencesInput, Prisma.CategoryUpdateWithoutRecurrencesInput>, Prisma.CategoryUncheckedUpdateWithoutRecurrencesInput>
 }

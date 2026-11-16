@@ -86,8 +86,11 @@ const getSummarizedByRange = async (startDate: Date, endDate: Date, groupId?: st
     return {
         summarizedByTitle,
         summarizedByCategory: await Promise.all(summarizedByCategory.map(async item => {
+            // categoryId is null for expenses whose category was deleted. The UI shows them as "Sem categoria".
+            if (!item.categoryId) return { ...item, categoryTitle: null, categoryColor: null };
+
             const categoryItem = await prisma.category.findUnique({ where: { id: item.categoryId } });
-            return { ...item, categoryTitle: categoryItem?.title, categoryColor: categoryItem?.color };
+            return { ...item, categoryTitle: categoryItem?.title ?? null, categoryColor: categoryItem?.color ?? null };
         })),
         summarizedByPaymentMethod
     }

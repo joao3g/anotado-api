@@ -21,7 +21,7 @@ type RecurrenceBase = {
     isEssential: boolean | null
     startDate: Date
     totalInstallments: number | null
-    categoryId: string
+    categoryId: string | null // null when the category was deleted
     groupId: string
 }
 

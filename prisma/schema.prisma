@@ -81,8 +81,9 @@ model Expense {
 	group Group @relation(fields: [groupId], references: [id])
 	groupId String
 
-	category Category @relation(fields: [categoryId], references: [id])
-	categoryId String
+	// Optional: when the category is deleted, the database sets categoryId to NULL ("Sem categoria" in the UI).
+	category Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+	categoryId String?
 
 	isEssential Boolean?
 
@@ -112,8 +113,9 @@ model Recurrence {
 	generatedCount Int @default(0) // How many installments were created so far
 	canceledAt DateTime?
 
-	category Category @relation(fields: [categoryId], references: [id])
-	categoryId String
+	// Optional: when the category is deleted, the series (and its future installments) have no category.
+	category Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+	categoryId String?
 
 	group Group @relation(fields: [groupId], references: [id])
 	groupId String
