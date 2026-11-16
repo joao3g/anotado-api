@@ -8,4 +8,10 @@ router.post("/register", UserController.register);
 router.post("/login", UserController.login);
 router.get("/me", authMiddleware, UserController.getCurrentUser);
 
+// Settings > Perfil / Segurança. No family needed.
+router.patch("/me", authMiddleware, UserController.updateProfile);
+router.put("/me/avatar", authMiddleware, UserController.updateAvatar);
+router.delete("/me/avatar", authMiddleware, UserController.removeAvatar);
+router.patch("/me/password", authMiddleware, UserController.changePassword);
+
 export default router;

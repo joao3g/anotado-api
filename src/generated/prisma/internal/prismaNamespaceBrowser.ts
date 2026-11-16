@@ -82,6 +82,8 @@ export const UserScalarFieldEnum = {
   email: 'email',
   login: 'login',
   password: 'password',
+  phone: 'phone',
+  avatar: 'avatar',
   groupId: 'groupId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -94,6 +96,7 @@ export const GroupScalarFieldEnum = {
   id: 'id',
   title: 'title',
   description: 'description',
+  inviteCode: 'inviteCode',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
