@@ -14,11 +14,12 @@ const create = z.object({
     startDate: z.iso.date(),
     paymentMethod: z.enum(PaymentMethod),
     category: z.uuid(),
+    card: z.uuid().optional(), // Required for CREDIT, ignored otherwise
     isEssential: z.boolean().optional(),
     totalInstallments: z.int().min(2).max(120).nullable() // null = never ends
-});
+}).refine(data => data.paymentMethod !== "CREDIT" || data.card, { message: "Card is required for CREDIT", path: ["card"] });
 
-// paymentMethod, startDate and totalInstallments are not editable: they would move dates of existing rows.
+// paymentMethod, card, startDate and totalInstallments are not editable: they would move dates of existing rows.
 const update = z.object({
     id: z.uuid(),
     title: z.string().trim().min(1).max(100).optional(),

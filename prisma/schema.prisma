@@ -36,6 +36,7 @@ model Group {
 	expenses Expense[]
 	incomes Income[]
 	recurrences Recurrence[]
+	cards Card[]
 
 	createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
@@ -59,6 +60,26 @@ model Category {
     updatedAt DateTime @updatedAt
 
 	@@index([groupId, title])
+}
+
+// Credit card of a group. Every CREDIT expense and recurrence has one (database CHECK constraint).
+model Card {
+	id String @id @default(uuid())
+	title String
+	lastFourDigits String? // Exactly 4 digits, as a string to keep leading zeros. Never a full card number.
+	color String @default("009A4D") // Hex WITHOUT "#", exactly 6 chars (same format as Category.color)
+	closingDay Int // 1..27 (invoice day 2..28 exists in every month). dueDate of a CREDIT expense = the day after this, in the next invoice.
+
+	expenses Expense[]
+	recurrences Recurrence[]
+
+	group Group @relation(fields: [groupId], references: [id])
+	groupId String
+
+	createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+	@@index([groupId])
 }
 
 enum PaymentMethod {
@@ -87,6 +108,10 @@ model Expense {
 
 	isEssential Boolean?
 
+	// Required when paymentMethod is CREDIT, null otherwise (CHECK constraint). A card in use cannot be deleted.
+	card Card? @relation(fields: [cardId], references: [id], onDelete: Restrict)
+	cardId String?
+
 	recurrence Recurrence? @relation(fields: [recurrenceId], references: [id])
 	recurrenceId String?
 	installmentNumber Int? // 1..N inside its recurrence
@@ -97,6 +122,7 @@ model Expense {
 	@@index([dueDate, groupId])
 	@@index([categoryId, groupId])
 	@@index([paymentMethod, groupId])
+	@@index([cardId, groupId])
 	@@unique([recurrenceId, installmentNumber])
 }
 
@@ -116,6 +142,10 @@ model Recurrence {
 	// Optional: when the category is deleted, the series (and its future installments) have no category.
 	category Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
 	categoryId String?
+
+	// Required when paymentMethod is CREDIT, null otherwise (CHECK constraint).
+	card Card? @relation(fields: [cardId], references: [id], onDelete: Restrict)
+	cardId String?
 
 	group Group @relation(fields: [groupId], references: [id])
 	groupId String

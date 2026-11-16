@@ -6,6 +6,7 @@ import CategoryRouter from './routers/category.router.js';
 import ExpenseRouter from './routers/expense.router.js';
 import IncomeRouter from './routers/income.router.js';
 import RecurrenceRouter from './routers/recurrence.router.js';
+import CardRouter from './routers/card.router.js';
 
 const port = 3000;
 
@@ -20,6 +21,7 @@ app.use("/category", CategoryRouter);
 app.use("/expense", ExpenseRouter);
 app.use("/income", IncomeRouter);
 app.use("/recurrence", RecurrenceRouter);
+app.use("/card", CardRouter);
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);

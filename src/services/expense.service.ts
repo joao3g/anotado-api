@@ -3,10 +3,13 @@ import z from 'zod';
 import expenseModel from '../models/expense.model.js';
 import userModel from '../models/user.model.js';
 import categoryModel from '../models/category.model.js';
+import cardModel from '../models/card.model.js';
 import expenseSchema from '../schemas/expense.schema.js';
 import { ExpenseCreateInput, ExpenseCreateManyInput } from '../generated/prisma/models.js';
 import { calculateNextInvoiceDate } from '../utils/date.js';
 import recurrenceService from './recurrence.service.js';
+
+export type ExpenseUpdateResult<T> = { ok: true, data: T } | { ok: false, reason: "NOT_FOUND" | "CARD_REQUIRED" };
 
 const create = async (userLogin: string, data: z.infer<typeof expenseSchema.create>) => {
     try {
@@ -18,14 +21,20 @@ const create = async (userLogin: string, data: z.infer<typeof expenseSchema.crea
         const category = await categoryModel.getByIdInGroup(data.category, userData.group.id);
         if (!category) return false;
 
+        // CREDIT: the card must belong to the group too, and its closing day sets the invoice date.
+        // Other methods never keep a card (the database also checks this).
+        const card = data.paymentMethod === "CREDIT" && data.card ? await cardModel.getByIdInGroup(data.card, userData.group.id) : null;
+        if (data.paymentMethod === "CREDIT" && !card) return false;
+
         await expenseModel.create({
             title: data.title,
             description: data.description,
             paymentMethod: data.paymentMethod,
             amount: data.amount,
             transactionDate: new Date(data.date),
-            dueDate: data.paymentMethod === "CREDIT" ? calculateNextInvoiceDate(new Date(data.date), 3) : new Date(data.date),
+            dueDate: card ? calculateNextInvoiceDate(new Date(data.date), card.closingDay) : new Date(data.date),
             category: { connect: { id: data.category } },
+            ...(card ? { card: { connect: { id: card.id } } } : {}),
             group: { connect: { id: userData.group.id } }
         });
 
@@ -47,8 +56,16 @@ const createMany = async (userLogin: string, data: z.infer<typeof expenseSchema.
         const validCount = await categoryModel.countInGroup(categoryIds, userData.group.id);
         if (validCount !== categoryIds.length) return false;
 
+        // Same for the cards of CREDIT items. The map also gives each card's closing day.
+        const cardIds = [...new Set(data.filter(item => item.paymentMethod === "CREDIT").map(item => item.card as string))];
+        const cards = await cardModel.listByIdsInGroup(cardIds, userData.group.id);
+        if (cards.length !== cardIds.length) return false;
+        const closingDayByCardId = new Map(cards.map(card => [card.id, card.closingDay]));
+
         const toCreateArray: ExpenseCreateManyInput[] = data.map(data => {
             if (!userData.group?.id) throw Error("User group not found!");
+
+            const closingDay = data.paymentMethod === "CREDIT" ? closingDayByCardId.get(data.card as string) : undefined;
 
             return {
                 title: data.title,
@@ -56,8 +73,9 @@ const createMany = async (userLogin: string, data: z.infer<typeof expenseSchema.
                 paymentMethod: data.paymentMethod,
                 amount: data.amount,
                 transactionDate: new Date(data.date),
-                dueDate: data.paymentMethod === "CREDIT" ? calculateNextInvoiceDate(new Date(data.date), 3) : new Date(data.date),
+                dueDate: closingDay !== undefined ? calculateNextInvoiceDate(new Date(data.date), closingDay) : new Date(data.date),
                 categoryId: data.category,
+                cardId: closingDay !== undefined ? data.card : null,
                 groupId: userData.group.id
             }
         });
@@ -147,18 +165,30 @@ const getSummarizedByMonth = async (userLogin: string, data: z.infer<typeof expe
     }
 }
 
-// Returns null when the expense (or the new category) does not belong to the user's group.
-const update = async (userLogin: string, data: z.infer<typeof expenseSchema.update>) => {
+// NOT_FOUND when the expense (or the new category/card) does not belong to the user's group.
+// CARD_REQUIRED when the result would be CREDIT without a card.
+const update = async (userLogin: string, data: z.infer<typeof expenseSchema.update>): Promise<ExpenseUpdateResult<Awaited<ReturnType<typeof expenseModel.update>>>> => {
     const userData = await userModel.getByLogin(userLogin);
     if (!userData) throw Error("User not found!");
     if (!userData.group?.id) throw Error("User group not found!");
 
     const currentExpense = await expenseModel.getByIdInGroup(data.id, userData.group.id);
-    if (!currentExpense) return null;
+    if (!currentExpense) return { ok: false, reason: "NOT_FOUND" };
 
     if (data.category) {
         const category = await categoryModel.getByIdInGroup(data.category, userData.group.id);
-        if (!category) return null;
+        if (!category) return { ok: false, reason: "NOT_FOUND" };
+    }
+
+    // CREDIT keeps (or gets) a card from the group. Any other method drops the card.
+    const paymentMethod = data.paymentMethod ?? currentExpense.paymentMethod;
+    let card: { id: string, closingDay: number } | null = null;
+    if (paymentMethod === "CREDIT") {
+        const cardId = data.card ?? currentExpense.cardId;
+        if (!cardId) return { ok: false, reason: "CARD_REQUIRED" };
+
+        card = await cardModel.getByIdInGroup(cardId, userData.group.id);
+        if (!card) return { ok: false, reason: "NOT_FOUND" };
     }
 
     // `??` (not `||`): only a field that was NOT sent keeps its current value.
@@ -174,18 +204,18 @@ const update = async (userLogin: string, data: z.infer<typeof expenseSchema.upda
         group: { connect: { id: currentExpense.groupId } },
         // Connect only a category that was sent. Not sent = keep the current one, even when it is null (deleted category).
         ...(data.category ? { category: { connect: { id: data.category } } } : {}),
+        card: card ? { connect: { id: card.id } } : { disconnect: true },
     };
 
-    // dueDate depends on BOTH the date and the payment method, so recompute it when either one is sent.
-    // Before, changing only DEBIT -> CREDIT kept dueDate = purchase date (wrong month for the invoice).
-    if (data.date || data.paymentMethod) {
+    // dueDate depends on the date, the payment method AND the card's closing day, so recompute it when any of them is sent.
+    if (data.date || data.paymentMethod || data.card) {
         const transactionDate = data.date ? new Date(data.date) : currentExpense.transactionDate;
 
         toUpdate.transactionDate = transactionDate;
-        toUpdate.dueDate = toUpdate.paymentMethod === "CREDIT" ? calculateNextInvoiceDate(transactionDate, 3) : transactionDate;
+        toUpdate.dueDate = card ? calculateNextInvoiceDate(transactionDate, card.closingDay) : transactionDate;
     }
 
-    return await expenseModel.update(data.id, toUpdate);
+    return { ok: true, data: await expenseModel.update(data.id, toUpdate) };
 }
 
 // Returns false when nothing was deleted (not found, or belongs to another group).

@@ -10,8 +10,9 @@ const create = z.object({
     amount,
     date: z.iso.date(),
     paymentMethod: z.enum(PaymentMethod),
-    category: z.string()
-});
+    category: z.string(),
+    card: z.uuid().optional() // Required for CREDIT, ignored otherwise
+}).refine(data => data.paymentMethod !== "CREDIT" || data.card, { message: "Card is required for CREDIT", path: ["card"] });
 
 const createMany = z.array(create);
 
@@ -41,7 +42,9 @@ const update = z.object({
     amount: amount.optional(),
     date: z.iso.date().optional(),
     paymentMethod: z.enum(PaymentMethod).optional(),
-    category: z.string().min(1).optional()
+    category: z.string().min(1).optional(),
+    // Not sent = keep the current card. The service rejects CREDIT without a card (sent or current).
+    card: z.uuid().optional()
 });
 
 const remove = z.object({

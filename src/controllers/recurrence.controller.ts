@@ -6,7 +6,7 @@ import recurrenceSchema from '../schemas/recurrence.schema.js';
 // Same 404 for "does not exist" and "belongs to another group": we never reveal other groups' ids.
 function sendFailure(res: Response, result: Extract<ServiceResult<unknown>, { ok: false }>) {
     if (result.reason === "ALREADY_CANCELED") return res.status(409).json({ message: "Recurrence already canceled!" });
-    return res.status(404).json({ message: "Recurrence or category not found!" });
+    return res.status(404).json({ message: "Recurrence, category or card not found!" });
 }
 
 const create = async (req: Request, res: Response) => {

@@ -187,6 +187,7 @@ export type GroupWhereInput = {
   expenses?: Prisma.ExpenseListRelationFilter
   incomes?: Prisma.IncomeListRelationFilter
   recurrences?: Prisma.RecurrenceListRelationFilter
+  cards?: Prisma.CardListRelationFilter
 }
 
 export type GroupOrderByWithRelationInput = {
@@ -200,6 +201,7 @@ export type GroupOrderByWithRelationInput = {
   expenses?: Prisma.ExpenseOrderByRelationAggregateInput
   incomes?: Prisma.IncomeOrderByRelationAggregateInput
   recurrences?: Prisma.RecurrenceOrderByRelationAggregateInput
+  cards?: Prisma.CardOrderByRelationAggregateInput
 }
 
 export type GroupWhereUniqueInput = Prisma.AtLeast<{
@@ -216,6 +218,7 @@ export type GroupWhereUniqueInput = Prisma.AtLeast<{
   expenses?: Prisma.ExpenseListRelationFilter
   incomes?: Prisma.IncomeListRelationFilter
   recurrences?: Prisma.RecurrenceListRelationFilter
+  cards?: Prisma.CardListRelationFilter
 }, "id">
 
 export type GroupOrderByWithAggregationInput = {
@@ -251,6 +254,7 @@ export type GroupCreateInput = {
   expenses?: Prisma.ExpenseCreateNestedManyWithoutGroupInput
   incomes?: Prisma.IncomeCreateNestedManyWithoutGroupInput
   recurrences?: Prisma.RecurrenceCreateNestedManyWithoutGroupInput
+  cards?: Prisma.CardCreateNestedManyWithoutGroupInput
 }
 
 export type GroupUncheckedCreateInput = {
@@ -264,6 +268,7 @@ export type GroupUncheckedCreateInput = {
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutGroupInput
   incomes?: Prisma.IncomeUncheckedCreateNestedManyWithoutGroupInput
   recurrences?: Prisma.RecurrenceUncheckedCreateNestedManyWithoutGroupInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutGroupInput
 }
 
 export type GroupUpdateInput = {
@@ -277,6 +282,7 @@ export type GroupUpdateInput = {
   expenses?: Prisma.ExpenseUpdateManyWithoutGroupNestedInput
   incomes?: Prisma.IncomeUpdateManyWithoutGroupNestedInput
   recurrences?: Prisma.RecurrenceUpdateManyWithoutGroupNestedInput
+  cards?: Prisma.CardUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupUncheckedUpdateInput = {
@@ -290,6 +296,7 @@ export type GroupUncheckedUpdateInput = {
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutGroupNestedInput
   incomes?: Prisma.IncomeUncheckedUpdateManyWithoutGroupNestedInput
   recurrences?: Prisma.RecurrenceUncheckedUpdateManyWithoutGroupNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupCreateManyInput = {
@@ -380,6 +387,20 @@ export type GroupUpdateOneRequiredWithoutCategoriesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.GroupUpdateToOneWithWhereWithoutCategoriesInput, Prisma.GroupUpdateWithoutCategoriesInput>, Prisma.GroupUncheckedUpdateWithoutCategoriesInput>
 }
 
+export type GroupCreateNestedOneWithoutCardsInput = {
+  create?: Prisma.XOR<Prisma.GroupCreateWithoutCardsInput, Prisma.GroupUncheckedCreateWithoutCardsInput>
+  connectOrCreate?: Prisma.GroupCreateOrConnectWithoutCardsInput
+  connect?: Prisma.GroupWhereUniqueInput
+}
+
+export type GroupUpdateOneRequiredWithoutCardsNestedInput = {
+  create?: Prisma.XOR<Prisma.GroupCreateWithoutCardsInput, Prisma.GroupUncheckedCreateWithoutCardsInput>
+  connectOrCreate?: Prisma.GroupCreateOrConnectWithoutCardsInput
+  upsert?: Prisma.GroupUpsertWithoutCardsInput
+  connect?: Prisma.GroupWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.GroupUpdateToOneWithWhereWithoutCardsInput, Prisma.GroupUpdateWithoutCardsInput>, Prisma.GroupUncheckedUpdateWithoutCardsInput>
+}
+
 export type GroupCreateNestedOneWithoutExpensesInput = {
   create?: Prisma.XOR<Prisma.GroupCreateWithoutExpensesInput, Prisma.GroupUncheckedCreateWithoutExpensesInput>
   connectOrCreate?: Prisma.GroupCreateOrConnectWithoutExpensesInput
@@ -432,6 +453,7 @@ export type GroupCreateWithoutUsersInput = {
   expenses?: Prisma.ExpenseCreateNestedManyWithoutGroupInput
   incomes?: Prisma.IncomeCreateNestedManyWithoutGroupInput
   recurrences?: Prisma.RecurrenceCreateNestedManyWithoutGroupInput
+  cards?: Prisma.CardCreateNestedManyWithoutGroupInput
 }
 
 export type GroupUncheckedCreateWithoutUsersInput = {
@@ -444,6 +466,7 @@ export type GroupUncheckedCreateWithoutUsersInput = {
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutGroupInput
   incomes?: Prisma.IncomeUncheckedCreateNestedManyWithoutGroupInput
   recurrences?: Prisma.RecurrenceUncheckedCreateNestedManyWithoutGroupInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutGroupInput
 }
 
 export type GroupCreateOrConnectWithoutUsersInput = {
@@ -472,6 +495,7 @@ export type GroupUpdateWithoutUsersInput = {
   expenses?: Prisma.ExpenseUpdateManyWithoutGroupNestedInput
   incomes?: Prisma.IncomeUpdateManyWithoutGroupNestedInput
   recurrences?: Prisma.RecurrenceUpdateManyWithoutGroupNestedInput
+  cards?: Prisma.CardUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupUncheckedUpdateWithoutUsersInput = {
@@ -484,6 +508,7 @@ export type GroupUncheckedUpdateWithoutUsersInput = {
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutGroupNestedInput
   incomes?: Prisma.IncomeUncheckedUpdateManyWithoutGroupNestedInput
   recurrences?: Prisma.RecurrenceUncheckedUpdateManyWithoutGroupNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupCreateWithoutCategoriesInput = {
@@ -496,6 +521,7 @@ export type GroupCreateWithoutCategoriesInput = {
   expenses?: Prisma.ExpenseCreateNestedManyWithoutGroupInput
   incomes?: Prisma.IncomeCreateNestedManyWithoutGroupInput
   recurrences?: Prisma.RecurrenceCreateNestedManyWithoutGroupInput
+  cards?: Prisma.CardCreateNestedManyWithoutGroupInput
 }
 
 export type GroupUncheckedCreateWithoutCategoriesInput = {
@@ -508,6 +534,7 @@ export type GroupUncheckedCreateWithoutCategoriesInput = {
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutGroupInput
   incomes?: Prisma.IncomeUncheckedCreateNestedManyWithoutGroupInput
   recurrences?: Prisma.RecurrenceUncheckedCreateNestedManyWithoutGroupInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutGroupInput
 }
 
 export type GroupCreateOrConnectWithoutCategoriesInput = {
@@ -536,6 +563,7 @@ export type GroupUpdateWithoutCategoriesInput = {
   expenses?: Prisma.ExpenseUpdateManyWithoutGroupNestedInput
   incomes?: Prisma.IncomeUpdateManyWithoutGroupNestedInput
   recurrences?: Prisma.RecurrenceUpdateManyWithoutGroupNestedInput
+  cards?: Prisma.CardUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupUncheckedUpdateWithoutCategoriesInput = {
@@ -545,6 +573,75 @@ export type GroupUncheckedUpdateWithoutCategoriesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutGroupNestedInput
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutGroupNestedInput
+  incomes?: Prisma.IncomeUncheckedUpdateManyWithoutGroupNestedInput
+  recurrences?: Prisma.RecurrenceUncheckedUpdateManyWithoutGroupNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutGroupNestedInput
+}
+
+export type GroupCreateWithoutCardsInput = {
+  id?: string
+  title: string
+  description?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserCreateNestedManyWithoutGroupInput
+  categories?: Prisma.CategoryCreateNestedManyWithoutGroupInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutGroupInput
+  incomes?: Prisma.IncomeCreateNestedManyWithoutGroupInput
+  recurrences?: Prisma.RecurrenceCreateNestedManyWithoutGroupInput
+}
+
+export type GroupUncheckedCreateWithoutCardsInput = {
+  id?: string
+  title: string
+  description?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutGroupInput
+  categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutGroupInput
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutGroupInput
+  incomes?: Prisma.IncomeUncheckedCreateNestedManyWithoutGroupInput
+  recurrences?: Prisma.RecurrenceUncheckedCreateNestedManyWithoutGroupInput
+}
+
+export type GroupCreateOrConnectWithoutCardsInput = {
+  where: Prisma.GroupWhereUniqueInput
+  create: Prisma.XOR<Prisma.GroupCreateWithoutCardsInput, Prisma.GroupUncheckedCreateWithoutCardsInput>
+}
+
+export type GroupUpsertWithoutCardsInput = {
+  update: Prisma.XOR<Prisma.GroupUpdateWithoutCardsInput, Prisma.GroupUncheckedUpdateWithoutCardsInput>
+  create: Prisma.XOR<Prisma.GroupCreateWithoutCardsInput, Prisma.GroupUncheckedCreateWithoutCardsInput>
+  where?: Prisma.GroupWhereInput
+}
+
+export type GroupUpdateToOneWithWhereWithoutCardsInput = {
+  where?: Prisma.GroupWhereInput
+  data: Prisma.XOR<Prisma.GroupUpdateWithoutCardsInput, Prisma.GroupUncheckedUpdateWithoutCardsInput>
+}
+
+export type GroupUpdateWithoutCardsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUpdateManyWithoutGroupNestedInput
+  categories?: Prisma.CategoryUpdateManyWithoutGroupNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutGroupNestedInput
+  incomes?: Prisma.IncomeUpdateManyWithoutGroupNestedInput
+  recurrences?: Prisma.RecurrenceUpdateManyWithoutGroupNestedInput
+}
+
+export type GroupUncheckedUpdateWithoutCardsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutGroupNestedInput
+  categories?: Prisma.CategoryUncheckedUpdateManyWithoutGroupNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutGroupNestedInput
   incomes?: Prisma.IncomeUncheckedUpdateManyWithoutGroupNestedInput
   recurrences?: Prisma.RecurrenceUncheckedUpdateManyWithoutGroupNestedInput
@@ -560,6 +657,7 @@ export type GroupCreateWithoutExpensesInput = {
   categories?: Prisma.CategoryCreateNestedManyWithoutGroupInput
   incomes?: Prisma.IncomeCreateNestedManyWithoutGroupInput
   recurrences?: Prisma.RecurrenceCreateNestedManyWithoutGroupInput
+  cards?: Prisma.CardCreateNestedManyWithoutGroupInput
 }
 
 export type GroupUncheckedCreateWithoutExpensesInput = {
@@ -572,6 +670,7 @@ export type GroupUncheckedCreateWithoutExpensesInput = {
   categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutGroupInput
   incomes?: Prisma.IncomeUncheckedCreateNestedManyWithoutGroupInput
   recurrences?: Prisma.RecurrenceUncheckedCreateNestedManyWithoutGroupInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutGroupInput
 }
 
 export type GroupCreateOrConnectWithoutExpensesInput = {
@@ -600,6 +699,7 @@ export type GroupUpdateWithoutExpensesInput = {
   categories?: Prisma.CategoryUpdateManyWithoutGroupNestedInput
   incomes?: Prisma.IncomeUpdateManyWithoutGroupNestedInput
   recurrences?: Prisma.RecurrenceUpdateManyWithoutGroupNestedInput
+  cards?: Prisma.CardUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupUncheckedUpdateWithoutExpensesInput = {
@@ -612,6 +712,7 @@ export type GroupUncheckedUpdateWithoutExpensesInput = {
   categories?: Prisma.CategoryUncheckedUpdateManyWithoutGroupNestedInput
   incomes?: Prisma.IncomeUncheckedUpdateManyWithoutGroupNestedInput
   recurrences?: Prisma.RecurrenceUncheckedUpdateManyWithoutGroupNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupCreateWithoutRecurrencesInput = {
@@ -624,6 +725,7 @@ export type GroupCreateWithoutRecurrencesInput = {
   categories?: Prisma.CategoryCreateNestedManyWithoutGroupInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutGroupInput
   incomes?: Prisma.IncomeCreateNestedManyWithoutGroupInput
+  cards?: Prisma.CardCreateNestedManyWithoutGroupInput
 }
 
 export type GroupUncheckedCreateWithoutRecurrencesInput = {
@@ -636,6 +738,7 @@ export type GroupUncheckedCreateWithoutRecurrencesInput = {
   categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutGroupInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutGroupInput
   incomes?: Prisma.IncomeUncheckedCreateNestedManyWithoutGroupInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutGroupInput
 }
 
 export type GroupCreateOrConnectWithoutRecurrencesInput = {
@@ -664,6 +767,7 @@ export type GroupUpdateWithoutRecurrencesInput = {
   categories?: Prisma.CategoryUpdateManyWithoutGroupNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutGroupNestedInput
   incomes?: Prisma.IncomeUpdateManyWithoutGroupNestedInput
+  cards?: Prisma.CardUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupUncheckedUpdateWithoutRecurrencesInput = {
@@ -676,6 +780,7 @@ export type GroupUncheckedUpdateWithoutRecurrencesInput = {
   categories?: Prisma.CategoryUncheckedUpdateManyWithoutGroupNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutGroupNestedInput
   incomes?: Prisma.IncomeUncheckedUpdateManyWithoutGroupNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupCreateWithoutIncomesInput = {
@@ -688,6 +793,7 @@ export type GroupCreateWithoutIncomesInput = {
   categories?: Prisma.CategoryCreateNestedManyWithoutGroupInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutGroupInput
   recurrences?: Prisma.RecurrenceCreateNestedManyWithoutGroupInput
+  cards?: Prisma.CardCreateNestedManyWithoutGroupInput
 }
 
 export type GroupUncheckedCreateWithoutIncomesInput = {
@@ -700,6 +806,7 @@ export type GroupUncheckedCreateWithoutIncomesInput = {
   categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutGroupInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutGroupInput
   recurrences?: Prisma.RecurrenceUncheckedCreateNestedManyWithoutGroupInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutGroupInput
 }
 
 export type GroupCreateOrConnectWithoutIncomesInput = {
@@ -728,6 +835,7 @@ export type GroupUpdateWithoutIncomesInput = {
   categories?: Prisma.CategoryUpdateManyWithoutGroupNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutGroupNestedInput
   recurrences?: Prisma.RecurrenceUpdateManyWithoutGroupNestedInput
+  cards?: Prisma.CardUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupUncheckedUpdateWithoutIncomesInput = {
@@ -740,6 +848,7 @@ export type GroupUncheckedUpdateWithoutIncomesInput = {
   categories?: Prisma.CategoryUncheckedUpdateManyWithoutGroupNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutGroupNestedInput
   recurrences?: Prisma.RecurrenceUncheckedUpdateManyWithoutGroupNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutGroupNestedInput
 }
 
 
@@ -753,6 +862,7 @@ export type GroupCountOutputType = {
   expenses: number
   incomes: number
   recurrences: number
+  cards: number
 }
 
 export type GroupCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -761,6 +871,7 @@ export type GroupCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.
   expenses?: boolean | GroupCountOutputTypeCountExpensesArgs
   incomes?: boolean | GroupCountOutputTypeCountIncomesArgs
   recurrences?: boolean | GroupCountOutputTypeCountRecurrencesArgs
+  cards?: boolean | GroupCountOutputTypeCountCardsArgs
 }
 
 /**
@@ -808,6 +919,13 @@ export type GroupCountOutputTypeCountRecurrencesArgs<ExtArgs extends runtime.Typ
   where?: Prisma.RecurrenceWhereInput
 }
 
+/**
+ * GroupCountOutputType without action
+ */
+export type GroupCountOutputTypeCountCardsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CardWhereInput
+}
+
 
 export type GroupSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -820,6 +938,7 @@ export type GroupSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   expenses?: boolean | Prisma.Group$expensesArgs<ExtArgs>
   incomes?: boolean | Prisma.Group$incomesArgs<ExtArgs>
   recurrences?: boolean | Prisma.Group$recurrencesArgs<ExtArgs>
+  cards?: boolean | Prisma.Group$cardsArgs<ExtArgs>
   _count?: boolean | Prisma.GroupCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["group"]>
 
@@ -854,6 +973,7 @@ export type GroupInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   expenses?: boolean | Prisma.Group$expensesArgs<ExtArgs>
   incomes?: boolean | Prisma.Group$incomesArgs<ExtArgs>
   recurrences?: boolean | Prisma.Group$recurrencesArgs<ExtArgs>
+  cards?: boolean | Prisma.Group$cardsArgs<ExtArgs>
   _count?: boolean | Prisma.GroupCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type GroupIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -867,6 +987,7 @@ export type $GroupPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     expenses: Prisma.$ExpensePayload<ExtArgs>[]
     incomes: Prisma.$IncomePayload<ExtArgs>[]
     recurrences: Prisma.$RecurrencePayload<ExtArgs>[]
+    cards: Prisma.$CardPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1273,6 +1394,7 @@ export interface Prisma__GroupClient<T, Null = never, ExtArgs extends runtime.Ty
   expenses<T extends Prisma.Group$expensesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Group$expensesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExpensePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   incomes<T extends Prisma.Group$incomesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Group$incomesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$IncomePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   recurrences<T extends Prisma.Group$recurrencesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Group$recurrencesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RecurrencePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  cards<T extends Prisma.Group$cardsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Group$cardsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CardPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1812,6 +1934,30 @@ export type Group$recurrencesArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.RecurrenceScalarFieldEnum | Prisma.RecurrenceScalarFieldEnum[]
+}
+
+/**
+ * Group.cards
+ */
+export type Group$cardsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Card
+   */
+  select?: Prisma.CardSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Card
+   */
+  omit?: Prisma.CardOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CardInclude<ExtArgs> | null
+  where?: Prisma.CardWhereInput
+  orderBy?: Prisma.CardOrderByWithRelationInput | Prisma.CardOrderByWithRelationInput[]
+  cursor?: Prisma.CardWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CardScalarFieldEnum | Prisma.CardScalarFieldEnum[]
 }
 
 /**

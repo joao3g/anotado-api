@@ -17,6 +17,7 @@ const recurrenceSelect = {
     generatedCount: true,
     canceledAt: true,
     category: true,
+    card: { select: { id: true, title: true, lastFourDigits: true, color: true, closingDay: true } },
     createdAt: true
 }
 
@@ -36,6 +37,13 @@ const findCategoryInGroup = async (id: string, groupId: string) => {
     return await prisma.category.findFirst({
         where: { id, groupId },
         select: { id: true }
+    });
+}
+
+const findCardInGroup = async (id: string, groupId: string) => {
+    return await prisma.card.findFirst({
+        where: { id, groupId },
+        select: { id: true, closingDay: true }
     });
 }
 
@@ -83,7 +91,9 @@ const appendInstallments = async (recurrenceId: string, expectedGeneratedCount: 
 
 const listOpenEndedActive = async (groupId: string) => {
     return await prisma.recurrence.findMany({
-        where: { groupId, totalInstallments: null, canceledAt: null }
+        where: { groupId, totalInstallments: null, canceledAt: null },
+        // The card's CURRENT closing day is used for new installments.
+        include: { card: { select: { closingDay: true } } }
     });
 }
 
@@ -152,4 +162,4 @@ const cancel = async (id: string, groupId: string, today: Date) => {
     });
 }
 
-export default { findCategoryInGroup, getById, create, appendInstallments, listOpenEndedActive, listByGroup, updateFuture, cancel };
+export default { findCategoryInGroup, findCardInGroup, getById, create, appendInstallments, listOpenEndedActive, listByGroup, updateFuture, cancel };
