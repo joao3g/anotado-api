@@ -16,6 +16,8 @@ model User {
     email    String? @unique
     login    String @unique
     password String
+    phone    String? // Brazilian phone, digits only (10 or 11 digits with area code)
+    avatar   String? // Profile photo as "data:image/jpeg;base64,..." (resized to 256x256 by the browser, max 90,000 chars)
 
 	group Group? @relation(fields: [groupId], references: [id])
 	groupId String?
@@ -30,6 +32,7 @@ model Group {
 	id String @id @default(uuid())
 	title String
 	description String?
+	inviteCode String @unique // 8 chars from ABCDEFGHJKLMNPQRSTUVWXYZ23456789. New users join the family with it.
 	
 	users User[]
 	categories Category[]

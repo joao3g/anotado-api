@@ -7,6 +7,8 @@ import ExpenseRouter from './routers/expense.router.js';
 import IncomeRouter from './routers/income.router.js';
 import RecurrenceRouter from './routers/recurrence.router.js';
 import CardRouter from './routers/card.router.js';
+import authMiddleware from './middlewares/auth.middleware.js';
+import groupMiddleware from './middlewares/group.middleware.js';
 
 const port = 3000;
 
@@ -17,11 +19,13 @@ app.use(cors());
 
 app.use("/auth", UserRouter);
 app.use("/group", GroupRouter);
-app.use("/category", CategoryRouter);
-app.use("/expense", ExpenseRouter);
-app.use("/income", IncomeRouter);
-app.use("/recurrence", RecurrenceRouter);
-app.use("/card", CardRouter);
+// Family data: only for users who belong to a family (403 NO_GROUP otherwise).
+// The routers still call authMiddleware per route; running it twice is harmless.
+app.use("/category", authMiddleware, groupMiddleware, CategoryRouter);
+app.use("/expense", authMiddleware, groupMiddleware, ExpenseRouter);
+app.use("/income", authMiddleware, groupMiddleware, IncomeRouter);
+app.use("/recurrence", authMiddleware, groupMiddleware, RecurrenceRouter);
+app.use("/card", authMiddleware, groupMiddleware, CardRouter);
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);

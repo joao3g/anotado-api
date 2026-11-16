@@ -58,12 +58,65 @@ const getForAuthByLogin = async (login: string) => {
     return await prisma.user.findUnique({
         where: { login },
         select: {
+            id: true,
             login: true,
             name: true,
             email: true,
             password: true,
             group: true
         }
+    });
+}
+
+// Profile for /auth/me and login. Separate from userSelect so the photo (~50 KB) is not loaded on every request.
+const getProfileByLogin = async (login: string) => {
+    return await prisma.user.findUnique({
+        where: { login },
+        select: {
+            id: true,
+            login: true,
+            name: true,
+            email: true,
+            phone: true,
+            avatar: true,
+            group: { select: { id: true, title: true } }
+        }
+    });
+}
+
+// Only name, email, phone and photo. Password and group are changed by their own functions.
+const updateProfile = async (id: string, data: { name?: string, email?: string, phone?: string | null, avatar?: string | null }) => {
+    return await prisma.user.update({
+        where: { id },
+        data,
+        select: { id: true }
+    });
+}
+
+// Joins a family only if the user has none (conditional update: safe against two requests at once).
+// Returns false when the user already has a family.
+const joinGroup = async (id: string, groupId: string) => {
+    const result = await prisma.user.updateMany({
+        where: { id, groupId: null },
+        data: { groupId }
+    });
+
+    return result.count === 1;
+}
+
+// Leaves the family, unless the user is its last member (the family's data would be orphaned).
+// The group row is locked (FOR UPDATE) so two members cannot both leave at the same time.
+// Returns false when the user is the last member.
+const leaveGroup = async (id: string, groupId: string) => {
+    return await prisma.$transaction(async (tx) => {
+        await tx.$queryRaw`SELECT "id" FROM "Group" WHERE "id" = ${groupId} FOR UPDATE`;
+
+        const members = await tx.user.count({ where: { groupId } });
+        if (members <= 1) return false;
+
+        await tx.user.update({ where: { id }, data: { group: { disconnect: true } } });
+
+        return true;
     });
 }
 
@@ -95,4 +148,4 @@ const remove = async (id: string) => {
     });
 }
 
-export default { create, getById, getByLogin, getByEmail, getForAuthByLogin, find, update, remove };
+export default { create, getById, getByLogin, getByEmail, getForAuthByLogin, getProfileByLogin, updateProfile, joinGroup, leaveGroup, find, update, remove };
