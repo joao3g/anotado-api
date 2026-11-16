@@ -44,7 +44,6 @@ export type RecurrenceMinAggregateOutputType = {
   description: string | null
   amount: runtime.Decimal | null
   paymentMethod: $Enums.PaymentMethod | null
-  isEssential: boolean | null
   startDate: Date | null
   totalInstallments: number | null
   generatedCount: number | null
@@ -62,7 +61,6 @@ export type RecurrenceMaxAggregateOutputType = {
   description: string | null
   amount: runtime.Decimal | null
   paymentMethod: $Enums.PaymentMethod | null
-  isEssential: boolean | null
   startDate: Date | null
   totalInstallments: number | null
   generatedCount: number | null
@@ -80,7 +78,6 @@ export type RecurrenceCountAggregateOutputType = {
   description: number
   amount: number
   paymentMethod: number
-  isEssential: number
   startDate: number
   totalInstallments: number
   generatedCount: number
@@ -112,7 +109,6 @@ export type RecurrenceMinAggregateInputType = {
   description?: true
   amount?: true
   paymentMethod?: true
-  isEssential?: true
   startDate?: true
   totalInstallments?: true
   generatedCount?: true
@@ -130,7 +126,6 @@ export type RecurrenceMaxAggregateInputType = {
   description?: true
   amount?: true
   paymentMethod?: true
-  isEssential?: true
   startDate?: true
   totalInstallments?: true
   generatedCount?: true
@@ -148,7 +143,6 @@ export type RecurrenceCountAggregateInputType = {
   description?: true
   amount?: true
   paymentMethod?: true
-  isEssential?: true
   startDate?: true
   totalInstallments?: true
   generatedCount?: true
@@ -253,7 +247,6 @@ export type RecurrenceGroupByOutputType = {
   description: string | null
   amount: runtime.Decimal
   paymentMethod: $Enums.PaymentMethod
-  isEssential: boolean | null
   startDate: Date
   totalInstallments: number | null
   generatedCount: number
@@ -294,7 +287,6 @@ export type RecurrenceWhereInput = {
   description?: Prisma.StringNullableFilter<"Recurrence"> | string | null
   amount?: Prisma.DecimalFilter<"Recurrence"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentMethod?: Prisma.EnumPaymentMethodFilter<"Recurrence"> | $Enums.PaymentMethod
-  isEssential?: Prisma.BoolNullableFilter<"Recurrence"> | boolean | null
   startDate?: Prisma.DateTimeFilter<"Recurrence"> | Date | string
   totalInstallments?: Prisma.IntNullableFilter<"Recurrence"> | number | null
   generatedCount?: Prisma.IntFilter<"Recurrence"> | number
@@ -316,7 +308,6 @@ export type RecurrenceOrderByWithRelationInput = {
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   amount?: Prisma.SortOrder
   paymentMethod?: Prisma.SortOrder
-  isEssential?: Prisma.SortOrderInput | Prisma.SortOrder
   startDate?: Prisma.SortOrder
   totalInstallments?: Prisma.SortOrderInput | Prisma.SortOrder
   generatedCount?: Prisma.SortOrder
@@ -341,7 +332,6 @@ export type RecurrenceWhereUniqueInput = Prisma.AtLeast<{
   description?: Prisma.StringNullableFilter<"Recurrence"> | string | null
   amount?: Prisma.DecimalFilter<"Recurrence"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentMethod?: Prisma.EnumPaymentMethodFilter<"Recurrence"> | $Enums.PaymentMethod
-  isEssential?: Prisma.BoolNullableFilter<"Recurrence"> | boolean | null
   startDate?: Prisma.DateTimeFilter<"Recurrence"> | Date | string
   totalInstallments?: Prisma.IntNullableFilter<"Recurrence"> | number | null
   generatedCount?: Prisma.IntFilter<"Recurrence"> | number
@@ -363,7 +353,6 @@ export type RecurrenceOrderByWithAggregationInput = {
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   amount?: Prisma.SortOrder
   paymentMethod?: Prisma.SortOrder
-  isEssential?: Prisma.SortOrderInput | Prisma.SortOrder
   startDate?: Prisma.SortOrder
   totalInstallments?: Prisma.SortOrderInput | Prisma.SortOrder
   generatedCount?: Prisma.SortOrder
@@ -389,7 +378,6 @@ export type RecurrenceScalarWhereWithAggregatesInput = {
   description?: Prisma.StringNullableWithAggregatesFilter<"Recurrence"> | string | null
   amount?: Prisma.DecimalWithAggregatesFilter<"Recurrence"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentMethod?: Prisma.EnumPaymentMethodWithAggregatesFilter<"Recurrence"> | $Enums.PaymentMethod
-  isEssential?: Prisma.BoolNullableWithAggregatesFilter<"Recurrence"> | boolean | null
   startDate?: Prisma.DateTimeWithAggregatesFilter<"Recurrence"> | Date | string
   totalInstallments?: Prisma.IntNullableWithAggregatesFilter<"Recurrence"> | number | null
   generatedCount?: Prisma.IntWithAggregatesFilter<"Recurrence"> | number
@@ -407,7 +395,6 @@ export type RecurrenceCreateInput = {
   description?: string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentMethod: $Enums.PaymentMethod
-  isEssential?: boolean | null
   startDate: Date | string
   totalInstallments?: number | null
   generatedCount?: number
@@ -426,7 +413,6 @@ export type RecurrenceUncheckedCreateInput = {
   description?: string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentMethod: $Enums.PaymentMethod
-  isEssential?: boolean | null
   startDate: Date | string
   totalInstallments?: number | null
   generatedCount?: number
@@ -445,7 +431,6 @@ export type RecurrenceUpdateInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
-  isEssential?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalInstallments?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   generatedCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -464,7 +449,6 @@ export type RecurrenceUncheckedUpdateInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
-  isEssential?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalInstallments?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   generatedCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -483,7 +467,6 @@ export type RecurrenceCreateManyInput = {
   description?: string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentMethod: $Enums.PaymentMethod
-  isEssential?: boolean | null
   startDate: Date | string
   totalInstallments?: number | null
   generatedCount?: number
@@ -501,7 +484,6 @@ export type RecurrenceUpdateManyMutationInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
-  isEssential?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalInstallments?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   generatedCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -516,7 +498,6 @@ export type RecurrenceUncheckedUpdateManyInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
-  isEssential?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalInstallments?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   generatedCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -549,7 +530,6 @@ export type RecurrenceCountOrderByAggregateInput = {
   description?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   paymentMethod?: Prisma.SortOrder
-  isEssential?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   totalInstallments?: Prisma.SortOrder
   generatedCount?: Prisma.SortOrder
@@ -573,7 +553,6 @@ export type RecurrenceMaxOrderByAggregateInput = {
   description?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   paymentMethod?: Prisma.SortOrder
-  isEssential?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   totalInstallments?: Prisma.SortOrder
   generatedCount?: Prisma.SortOrder
@@ -591,7 +570,6 @@ export type RecurrenceMinOrderByAggregateInput = {
   description?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   paymentMethod?: Prisma.SortOrder
-  isEssential?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   totalInstallments?: Prisma.SortOrder
   generatedCount?: Prisma.SortOrder
@@ -761,7 +739,6 @@ export type RecurrenceCreateWithoutGroupInput = {
   description?: string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentMethod: $Enums.PaymentMethod
-  isEssential?: boolean | null
   startDate: Date | string
   totalInstallments?: number | null
   generatedCount?: number
@@ -779,7 +756,6 @@ export type RecurrenceUncheckedCreateWithoutGroupInput = {
   description?: string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentMethod: $Enums.PaymentMethod
-  isEssential?: boolean | null
   startDate: Date | string
   totalInstallments?: number | null
   generatedCount?: number
@@ -826,7 +802,6 @@ export type RecurrenceScalarWhereInput = {
   description?: Prisma.StringNullableFilter<"Recurrence"> | string | null
   amount?: Prisma.DecimalFilter<"Recurrence"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentMethod?: Prisma.EnumPaymentMethodFilter<"Recurrence"> | $Enums.PaymentMethod
-  isEssential?: Prisma.BoolNullableFilter<"Recurrence"> | boolean | null
   startDate?: Prisma.DateTimeFilter<"Recurrence"> | Date | string
   totalInstallments?: Prisma.IntNullableFilter<"Recurrence"> | number | null
   generatedCount?: Prisma.IntFilter<"Recurrence"> | number
@@ -844,7 +819,6 @@ export type RecurrenceCreateWithoutCategoryInput = {
   description?: string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentMethod: $Enums.PaymentMethod
-  isEssential?: boolean | null
   startDate: Date | string
   totalInstallments?: number | null
   generatedCount?: number
@@ -862,7 +836,6 @@ export type RecurrenceUncheckedCreateWithoutCategoryInput = {
   description?: string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentMethod: $Enums.PaymentMethod
-  isEssential?: boolean | null
   startDate: Date | string
   totalInstallments?: number | null
   generatedCount?: number
@@ -906,7 +879,6 @@ export type RecurrenceCreateWithoutCardInput = {
   description?: string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentMethod: $Enums.PaymentMethod
-  isEssential?: boolean | null
   startDate: Date | string
   totalInstallments?: number | null
   generatedCount?: number
@@ -924,7 +896,6 @@ export type RecurrenceUncheckedCreateWithoutCardInput = {
   description?: string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentMethod: $Enums.PaymentMethod
-  isEssential?: boolean | null
   startDate: Date | string
   totalInstallments?: number | null
   generatedCount?: number
@@ -968,7 +939,6 @@ export type RecurrenceCreateWithoutExpensesInput = {
   description?: string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentMethod: $Enums.PaymentMethod
-  isEssential?: boolean | null
   startDate: Date | string
   totalInstallments?: number | null
   generatedCount?: number
@@ -986,7 +956,6 @@ export type RecurrenceUncheckedCreateWithoutExpensesInput = {
   description?: string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentMethod: $Enums.PaymentMethod
-  isEssential?: boolean | null
   startDate: Date | string
   totalInstallments?: number | null
   generatedCount?: number
@@ -1020,7 +989,6 @@ export type RecurrenceUpdateWithoutExpensesInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
-  isEssential?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalInstallments?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   generatedCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1038,7 +1006,6 @@ export type RecurrenceUncheckedUpdateWithoutExpensesInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
-  isEssential?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalInstallments?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   generatedCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1056,7 +1023,6 @@ export type RecurrenceCreateManyGroupInput = {
   description?: string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentMethod: $Enums.PaymentMethod
-  isEssential?: boolean | null
   startDate: Date | string
   totalInstallments?: number | null
   generatedCount?: number
@@ -1073,7 +1039,6 @@ export type RecurrenceUpdateWithoutGroupInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
-  isEssential?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalInstallments?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   generatedCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1091,7 +1056,6 @@ export type RecurrenceUncheckedUpdateWithoutGroupInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
-  isEssential?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalInstallments?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   generatedCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1109,7 +1073,6 @@ export type RecurrenceUncheckedUpdateManyWithoutGroupInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
-  isEssential?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalInstallments?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   generatedCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1126,7 +1089,6 @@ export type RecurrenceCreateManyCategoryInput = {
   description?: string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentMethod: $Enums.PaymentMethod
-  isEssential?: boolean | null
   startDate: Date | string
   totalInstallments?: number | null
   generatedCount?: number
@@ -1143,7 +1105,6 @@ export type RecurrenceUpdateWithoutCategoryInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
-  isEssential?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalInstallments?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   generatedCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1161,7 +1122,6 @@ export type RecurrenceUncheckedUpdateWithoutCategoryInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
-  isEssential?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalInstallments?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   generatedCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1179,7 +1139,6 @@ export type RecurrenceUncheckedUpdateManyWithoutCategoryInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
-  isEssential?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalInstallments?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   generatedCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1196,7 +1155,6 @@ export type RecurrenceCreateManyCardInput = {
   description?: string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentMethod: $Enums.PaymentMethod
-  isEssential?: boolean | null
   startDate: Date | string
   totalInstallments?: number | null
   generatedCount?: number
@@ -1213,7 +1171,6 @@ export type RecurrenceUpdateWithoutCardInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
-  isEssential?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalInstallments?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   generatedCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1231,7 +1188,6 @@ export type RecurrenceUncheckedUpdateWithoutCardInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
-  isEssential?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalInstallments?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   generatedCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1249,7 +1205,6 @@ export type RecurrenceUncheckedUpdateManyWithoutCardInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
-  isEssential?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalInstallments?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   generatedCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1297,7 +1252,6 @@ export type RecurrenceSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   description?: boolean
   amount?: boolean
   paymentMethod?: boolean
-  isEssential?: boolean
   startDate?: boolean
   totalInstallments?: boolean
   generatedCount?: boolean
@@ -1320,7 +1274,6 @@ export type RecurrenceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   description?: boolean
   amount?: boolean
   paymentMethod?: boolean
-  isEssential?: boolean
   startDate?: boolean
   totalInstallments?: boolean
   generatedCount?: boolean
@@ -1341,7 +1294,6 @@ export type RecurrenceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   description?: boolean
   amount?: boolean
   paymentMethod?: boolean
-  isEssential?: boolean
   startDate?: boolean
   totalInstallments?: boolean
   generatedCount?: boolean
@@ -1362,7 +1314,6 @@ export type RecurrenceSelectScalar = {
   description?: boolean
   amount?: boolean
   paymentMethod?: boolean
-  isEssential?: boolean
   startDate?: boolean
   totalInstallments?: boolean
   generatedCount?: boolean
@@ -1374,7 +1325,7 @@ export type RecurrenceSelectScalar = {
   updatedAt?: boolean
 }
 
-export type RecurrenceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "amount" | "paymentMethod" | "isEssential" | "startDate" | "totalInstallments" | "generatedCount" | "canceledAt" | "categoryId" | "cardId" | "groupId" | "createdAt" | "updatedAt", ExtArgs["result"]["recurrence"]>
+export type RecurrenceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "amount" | "paymentMethod" | "startDate" | "totalInstallments" | "generatedCount" | "canceledAt" | "categoryId" | "cardId" | "groupId" | "createdAt" | "updatedAt", ExtArgs["result"]["recurrence"]>
 export type RecurrenceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   category?: boolean | Prisma.Recurrence$categoryArgs<ExtArgs>
   card?: boolean | Prisma.Recurrence$cardArgs<ExtArgs>
@@ -1407,7 +1358,6 @@ export type $RecurrencePayload<ExtArgs extends runtime.Types.Extensions.Internal
     description: string | null
     amount: runtime.Decimal
     paymentMethod: $Enums.PaymentMethod
-    isEssential: boolean | null
     startDate: Date
     totalInstallments: number | null
     generatedCount: number
@@ -1849,7 +1799,6 @@ export interface RecurrenceFieldRefs {
   readonly description: Prisma.FieldRef<"Recurrence", 'String'>
   readonly amount: Prisma.FieldRef<"Recurrence", 'Decimal'>
   readonly paymentMethod: Prisma.FieldRef<"Recurrence", 'PaymentMethod'>
-  readonly isEssential: Prisma.FieldRef<"Recurrence", 'Boolean'>
   readonly startDate: Prisma.FieldRef<"Recurrence", 'DateTime'>
   readonly totalInstallments: Prisma.FieldRef<"Recurrence", 'Int'>
   readonly generatedCount: Prisma.FieldRef<"Recurrence", 'Int'>
