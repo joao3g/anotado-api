@@ -9,6 +9,9 @@ export default defineConfig({
     path: "prisma/migrations",
   },
   datasource: {
-    url: process.env["DATABASE_URL"],
+    // Prisma CLI only (migrate, status, diff). The app itself uses DATABASE_URL in the models.
+    // Supabase: DATABASE_URL is the Transaction pooler (port 6543), where migrations hang.
+    // Set DIRECT_URL to the Session pooler (port 5432) for migrations. Without it, same as before.
+    url: process.env["DIRECT_URL"] ?? process.env["DATABASE_URL"],
   },
 });
