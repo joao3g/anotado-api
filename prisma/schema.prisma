@@ -35,6 +35,7 @@ model Group {
 	categories Category[]
 	expenses Expense[]
 	incomes Income[]
+	recurrences Recurrence[]
 
 	createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
@@ -49,6 +50,7 @@ model Category {
 	color String
 
 	expenses Expense[]
+	recurrences Recurrence[]
 
 	group Group @relation(fields: [groupId], references: [id])
 	groupId String
@@ -84,12 +86,44 @@ model Expense {
 
 	isEssential Boolean?
 
+	recurrence Recurrence? @relation(fields: [recurrenceId], references: [id])
+	recurrenceId String?
+	installmentNumber Int? // 1..N inside its recurrence
+
 	createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
 	@@index([dueDate, groupId])
 	@@index([categoryId, groupId])
 	@@index([paymentMethod, groupId])
+	@@unique([recurrenceId, installmentNumber])
+}
+
+model Recurrence {
+	id String @id @default(uuid())
+
+	title String
+	description String?
+	amount Decimal @db.Decimal(10, 2) // Value of EACH installment, never the total
+	paymentMethod PaymentMethod
+	isEssential Boolean?
+	startDate DateTime // transactionDate of installment #1 (UTC midnight)
+	totalInstallments Int? // null = never ends
+	generatedCount Int @default(0) // How many installments were created so far
+	canceledAt DateTime?
+
+	category Category @relation(fields: [categoryId], references: [id])
+	categoryId String
+
+	group Group @relation(fields: [groupId], references: [id])
+	groupId String
+
+	expenses Expense[]
+
+	createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+	@@index([groupId])
 }
 
 model Income {

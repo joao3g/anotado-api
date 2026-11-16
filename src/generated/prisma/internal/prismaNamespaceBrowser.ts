@@ -55,6 +55,7 @@ export const ModelName = {
   Group: 'Group',
   Category: 'Category',
   Expense: 'Expense',
+  Recurrence: 'Recurrence',
   Income: 'Income'
 } as const
 
@@ -123,11 +124,33 @@ export const ExpenseScalarFieldEnum = {
   groupId: 'groupId',
   categoryId: 'categoryId',
   isEssential: 'isEssential',
+  recurrenceId: 'recurrenceId',
+  installmentNumber: 'installmentNumber',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type ExpenseScalarFieldEnum = (typeof ExpenseScalarFieldEnum)[keyof typeof ExpenseScalarFieldEnum]
+
+
+export const RecurrenceScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  amount: 'amount',
+  paymentMethod: 'paymentMethod',
+  isEssential: 'isEssential',
+  startDate: 'startDate',
+  totalInstallments: 'totalInstallments',
+  generatedCount: 'generatedCount',
+  canceledAt: 'canceledAt',
+  categoryId: 'categoryId',
+  groupId: 'groupId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type RecurrenceScalarFieldEnum = (typeof RecurrenceScalarFieldEnum)[keyof typeof RecurrenceScalarFieldEnum]
 
 
 export const IncomeScalarFieldEnum = {
