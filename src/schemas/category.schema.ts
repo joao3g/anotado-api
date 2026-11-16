@@ -10,11 +10,12 @@ const getByUserLogin = z.object({
     login: z.string().optional()
 });
 
+// Fields not sent keep their current value. Fields sent must be valid: no empty title, color must be hex (same rule as create).
 const update = z.object({
     id: z.string(),
-    title: z.string().optional(),
+    title: z.string().min(1).optional(),
     description: z.string().optional(),
-    color: z.string().optional()
+    color: z.hex().optional()
 });
 
 const remove = z.object({

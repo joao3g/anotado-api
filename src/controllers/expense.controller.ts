@@ -13,7 +13,8 @@ const create = async (req: Request, res: Response) => {
 
         if (!parsed.success) return res.status(400).json(z.treeifyError(parsed.error).properties);
 
-        await expenseService.create(req.user.login, parsed.data);
+        const created = await expenseService.create(req.user.login, parsed.data);
+        if (!created) return res.status(404).json({ message: "Category not found!" });
 
         return res.sendStatus(201);
     } catch (error) {
@@ -30,7 +31,8 @@ const createMany = async (req: Request, res: Response) => {
 
         if (!parsed.success) return res.status(400).json(z.treeifyError(parsed.error).errors);
 
-        await expenseService.createMany(req.user.login, parsed.data);
+        const created = await expenseService.createMany(req.user.login, parsed.data);
+        if (!created) return res.status(404).json({ message: "Category not found!" });
 
         return res.sendStatus(201);
     } catch (error) {
@@ -109,11 +111,15 @@ const totalByRange = async (req: Request, res: Response) => {
 
 const update = async (req: Request, res: Response) => {
     try {
+        if (!req.user) return res.status(401).json({ message: "Authentication failed!" });
+
         const parsed = expenseSchema.update.safeParse(req.body);
 
         if (!parsed.success) return res.status(400).json(z.treeifyError(parsed.error).properties);
 
-        const updatedItem = await expenseService.update(parsed.data);
+        const updatedItem = await expenseService.update(req.user.login, parsed.data);
+        // Same 404 for "does not exist" and "belongs to another group".
+        if (!updatedItem) return res.status(404).json({ message: "Expense or category not found!" });
 
         return res.status(200).json(updatedItem);
     } catch (error) {
@@ -124,13 +130,15 @@ const update = async (req: Request, res: Response) => {
 
 const remove = async (req: Request, res: Response) => {
     try {
+        if (!req.user) return res.status(401).json({ message: "Authentication failed!" });
+
         const parsed = expenseSchema.remove.safeParse(req.params);
 
         if (!parsed.success) return res.status(400).json(z.treeifyError(parsed.error).properties);
 
-        const { id } = parsed.data;
-
-        await expenseModel.remove(id);
+        const removed = await expenseService.remove(req.user.login, parsed.data);
+        // Same 404 for "does not exist" and "belongs to another group".
+        if (!removed) return res.status(404).json({ message: "Expense not found!" });
 
         return res.sendStatus(200);
     } catch (error) {

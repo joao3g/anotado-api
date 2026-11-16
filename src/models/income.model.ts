@@ -35,16 +35,18 @@ const create = async (data: Prisma.IncomeCreateInput) => {
     return await prisma.income.create({ data });
 }
 
-const getById = async (id: string) => {
-    return await prisma.income.findUnique({
-        where: { id },
+// Always scoped by group: an id from the client alone is never trusted.
+const getByIdInGroup = async (id: string, groupId: string) => {
+    return await prisma.income.findFirst({
+        where: { id, groupId },
         select: incomeSelect
     });
 }
 
-const getByUser = async (userId: string) => {
+// groupId required: a user id from another group returns an empty list.
+const getByUser = async (userId: string, groupId: string) => {
     return await prisma.income.findMany({
-        where: { userId },
+        where: { userId, groupId },
         select: incomeSelect
     });
 }
@@ -66,7 +68,7 @@ const getByDate = async (date: Date, groupId: string) => {
     });
 }
 
-const getTotalByRange = async (startDate: Date, endDate: Date, groupId?: string) => {
+const getTotalByRange = async (startDate: Date, endDate: Date, groupId: string) => {
     return await prisma.income.aggregate({
         where: { groupId, date: { gte: startDate, lte: endDate } },
         _sum: { amount: true }
@@ -87,10 +89,13 @@ const update = async (id: string, data: Prisma.IncomeUpdateInput) => {
     });
 }
 
-const remove = async (id: string) => {
-    return await prisma.income.delete({
-        where: { id }
+// deleteMany with groupId: deletes nothing if the income belongs to another group. Returns how many were deleted.
+const remove = async (id: string, groupId: string) => {
+    const result = await prisma.income.deleteMany({
+        where: { id, groupId }
     });
+
+    return result.count;
 }
 
-export default { create, getById, getByGroup, getByUser, getByDate, getTotalByRange, update, remove };
+export default { create, getByIdInGroup, getByGroup, getByUser, getByDate, getTotalByRange, update, remove };

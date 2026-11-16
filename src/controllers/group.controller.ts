@@ -2,6 +2,15 @@ import z from 'zod';
 import { Request, Response } from 'express';
 import groupModel from '../models/group.model.js';
 import groupSchema from '../schemas/group.schema.js';
+import userModel from '../models/user.model.js';
+
+// The user's own group id, or undefined if the user has no group.
+async function getOwnGroupId(userLogin: string) {
+    const userData = await userModel.getByLogin(userLogin);
+    if (!userData) throw Error("User not found!");
+
+    return userData.group?.id;
+}
 
 const create = async (req: Request, res: Response) => {
     try {
@@ -41,6 +50,13 @@ const getByUserLogin = async (req: Request, res: Response) => {
 
             const { login } = parsed.data;
 
+            // Another login is only allowed if that user is in the same group.
+            if (login && login !== req.user.login) {
+                const ownGroupId = await getOwnGroupId(req.user.login);
+                const otherUser = await userModel.getByLogin(login);
+                if (!ownGroupId || otherUser?.group?.id !== ownGroupId) return res.status(404).json({ message: "Group not found!" });
+            }
+
             const result = await groupModel.getByLogin(login || req.user.login);
 
             return res.status(200).json(result);
@@ -57,11 +73,16 @@ const getByUserLogin = async (req: Request, res: Response) => {
 
 const update = async (req: Request, res: Response) => {
     try {
+        if(!req.user) return res.status(401).json({ message: "Authentication failed!" });
+
         const parsed = groupSchema.update.safeParse(req.body);
 
         if (!parsed.success) return res.status(400).json(z.treeifyError(parsed.error).properties);
 
         const { id, title, description } = parsed.data;
+
+        // Only the user's own group. Same 404 for "does not exist" and "another group".
+        if (id !== await getOwnGroupId(req.user.login)) return res.status(404).json({ message: "Group not found!" });
 
         await groupModel.update(id, {
             title,
@@ -77,11 +98,16 @@ const update = async (req: Request, res: Response) => {
 
 const remove = async (req: Request, res: Response) => {
     try {
+        if(!req.user) return res.status(401).json({ message: "Authentication failed!" });
+
         const parsed = groupSchema.remove.safeParse(req.params);
 
         if (!parsed.success) return res.status(400).json(z.treeifyError(parsed.error).properties);
 
         const { id } = parsed.data;
+
+        // Only the user's own group. Same 404 for "does not exist" and "another group".
+        if (id !== await getOwnGroupId(req.user.login)) return res.status(404).json({ message: "Group not found!" });
 
         await groupModel.remove(id);
 

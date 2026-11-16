@@ -5,6 +5,14 @@ import userModel from '../models/user.model.js';
 import incomeSchema from '../schemas/income.schema.js';
 import incomeService from '../services/income.service.js';
 
+async function getGroupId(userLogin: string) {
+    const userData = await userModel.getByLogin(userLogin);
+    if (!userData) throw Error("User not found!");
+    if (!userData.group?.id) throw Error("User group not found!");
+
+    return { userId: userData.id, groupId: userData.group.id };
+}
+
 const create = async (req: Request, res: Response) => {
     try {
         if (!req.user) return res.status(401).json({ message: "Authentication failed!" });
@@ -31,8 +39,11 @@ const getById = async (req: Request, res: Response) => {
         if (!parsed.success) return res.status(400).json(z.treeifyError(parsed.error).properties);
 
         const { id } = parsed.data;
+        const { groupId } = await getGroupId(req.user.login);
 
-        const result = await incomeModel.getById(id);
+        const result = await incomeModel.getByIdInGroup(id, groupId);
+        // Same 404 for "does not exist" and "belongs to another group".
+        if (!result) return res.status(404).json({ message: "Income not found!" });
 
         return res.status(200).json(result);
     } catch (error) {
@@ -50,11 +61,10 @@ const getByUser = async (req: Request, res: Response) => {
         if (!parsed.success) return res.status(400).json(z.treeifyError(parsed.error).properties);
 
         const { id } = parsed.data;
+        const { userId, groupId } = await getGroupId(req.user.login);
 
-        const userData = await userModel.getByLogin(req.user.login);
-        if (!userData) throw Error("User not found!");
-
-        const result = await incomeModel.getByUser(id || userData.id);
+        // Scoped by group: a user id from another group returns an empty list.
+        const result = await incomeModel.getByUser(id || userId, groupId);
 
         return res.status(200).json(result);
     } catch (error) {
@@ -72,12 +82,12 @@ const getByGroup = async (req: Request, res: Response) => {
         if (!parsed.success) return res.status(400).json(z.treeifyError(parsed.error).properties);
 
         const { id } = parsed.data;
+        const { groupId } = await getGroupId(req.user.login);
 
-        const userData = await userModel.getByLogin(req.user.login);
-        if (!userData) throw Error("User not found!");
-        if (!userData.group?.id) throw Error("User group not found!");
+        // Only the user's own group can be read.
+        if (id && id !== groupId) return res.status(404).json({ message: "Group not found!" });
 
-        const result = await incomeModel.getByGroup(id || userData.group.id);
+        const result = await incomeModel.getByGroup(groupId);
 
         return res.status(200).json(result);
     } catch (error) {
@@ -131,19 +141,26 @@ const totalByRange = async (req: Request, res: Response) => {
 
 const update = async (req: Request, res: Response) => {
     try {
+        if (!req.user) return res.status(401).json({ message: "Authentication failed!" });
+
         const parsed = incomeSchema.update.safeParse(req.body);
 
         if (!parsed.success) return res.status(400).json(z.treeifyError(parsed.error).properties);
 
-        const currentIncome = await incomeModel.getById(parsed.data.id);
+        const { groupId } = await getGroupId(req.user.login);
+        const currentIncome = await incomeModel.getByIdInGroup(parsed.data.id, groupId);
+        // Same 404 for "does not exist" and "belongs to another group".
+        if (!currentIncome) return res.status(404).json({ message: "Income not found!" });
 
+        // `??` (not `||`): only a field that was NOT sent keeps its current value.
+        // Empty title and amount <= 0 are rejected by the Zod schema.
         const toUpdate = {
-            id: parsed.data.id || currentIncome?.id,
-            title: parsed.data.title || currentIncome?.title,
-            amount: parsed.data.amount || currentIncome?.amount,
-            date: parsed.data.date || currentIncome?.date,
-            group: { connect: { id: currentIncome?.group.id } },
-            user: { connect: { id: currentIncome?.user.id } },
+            id: currentIncome.id,
+            title: parsed.data.title ?? currentIncome.title,
+            amount: parsed.data.amount ?? currentIncome.amount,
+            date: parsed.data.date ?? currentIncome.date,
+            group: { connect: { id: currentIncome.group.id } },
+            user: { connect: { id: currentIncome.user.id } },
         };
 
         if (parsed.data.date) toUpdate.date = new Date(parsed.data.date);
@@ -158,13 +175,18 @@ const update = async (req: Request, res: Response) => {
 
 const remove = async (req: Request, res: Response) => {
     try {
+        if (!req.user) return res.status(401).json({ message: "Authentication failed!" });
+
         const parsed = incomeSchema.remove.safeParse(req.params);
 
         if (!parsed.success) return res.status(400).json(z.treeifyError(parsed.error).properties);
 
         const { id } = parsed.data;
+        const { groupId } = await getGroupId(req.user.login);
 
-        await incomeModel.remove(id);
+        const removedCount = await incomeModel.remove(id, groupId);
+        // Same 404 for "does not exist" and "belongs to another group".
+        if (!removedCount) return res.status(404).json({ message: "Income not found!" });
 
         return res.sendStatus(200);
     } catch (error) {
