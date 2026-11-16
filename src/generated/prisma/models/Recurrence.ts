@@ -252,7 +252,7 @@ export type RecurrenceGroupByOutputType = {
   totalInstallments: number | null
   generatedCount: number
   canceledAt: Date | null
-  categoryId: string
+  categoryId: string | null
   groupId: string
   createdAt: Date
   updatedAt: Date
@@ -292,11 +292,11 @@ export type RecurrenceWhereInput = {
   totalInstallments?: Prisma.IntNullableFilter<"Recurrence"> | number | null
   generatedCount?: Prisma.IntFilter<"Recurrence"> | number
   canceledAt?: Prisma.DateTimeNullableFilter<"Recurrence"> | Date | string | null
-  categoryId?: Prisma.StringFilter<"Recurrence"> | string
+  categoryId?: Prisma.StringNullableFilter<"Recurrence"> | string | null
   groupId?: Prisma.StringFilter<"Recurrence"> | string
   createdAt?: Prisma.DateTimeFilter<"Recurrence"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Recurrence"> | Date | string
-  category?: Prisma.XOR<Prisma.CategoryScalarRelationFilter, Prisma.CategoryWhereInput>
+  category?: Prisma.XOR<Prisma.CategoryNullableScalarRelationFilter, Prisma.CategoryWhereInput> | null
   group?: Prisma.XOR<Prisma.GroupScalarRelationFilter, Prisma.GroupWhereInput>
   expenses?: Prisma.ExpenseListRelationFilter
 }
@@ -312,7 +312,7 @@ export type RecurrenceOrderByWithRelationInput = {
   totalInstallments?: Prisma.SortOrderInput | Prisma.SortOrder
   generatedCount?: Prisma.SortOrder
   canceledAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  categoryId?: Prisma.SortOrder
+  categoryId?: Prisma.SortOrderInput | Prisma.SortOrder
   groupId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -335,11 +335,11 @@ export type RecurrenceWhereUniqueInput = Prisma.AtLeast<{
   totalInstallments?: Prisma.IntNullableFilter<"Recurrence"> | number | null
   generatedCount?: Prisma.IntFilter<"Recurrence"> | number
   canceledAt?: Prisma.DateTimeNullableFilter<"Recurrence"> | Date | string | null
-  categoryId?: Prisma.StringFilter<"Recurrence"> | string
+  categoryId?: Prisma.StringNullableFilter<"Recurrence"> | string | null
   groupId?: Prisma.StringFilter<"Recurrence"> | string
   createdAt?: Prisma.DateTimeFilter<"Recurrence"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Recurrence"> | Date | string
-  category?: Prisma.XOR<Prisma.CategoryScalarRelationFilter, Prisma.CategoryWhereInput>
+  category?: Prisma.XOR<Prisma.CategoryNullableScalarRelationFilter, Prisma.CategoryWhereInput> | null
   group?: Prisma.XOR<Prisma.GroupScalarRelationFilter, Prisma.GroupWhereInput>
   expenses?: Prisma.ExpenseListRelationFilter
 }, "id">
@@ -355,7 +355,7 @@ export type RecurrenceOrderByWithAggregationInput = {
   totalInstallments?: Prisma.SortOrderInput | Prisma.SortOrder
   generatedCount?: Prisma.SortOrder
   canceledAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  categoryId?: Prisma.SortOrder
+  categoryId?: Prisma.SortOrderInput | Prisma.SortOrder
   groupId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -380,7 +380,7 @@ export type RecurrenceScalarWhereWithAggregatesInput = {
   totalInstallments?: Prisma.IntNullableWithAggregatesFilter<"Recurrence"> | number | null
   generatedCount?: Prisma.IntWithAggregatesFilter<"Recurrence"> | number
   canceledAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Recurrence"> | Date | string | null
-  categoryId?: Prisma.StringWithAggregatesFilter<"Recurrence"> | string
+  categoryId?: Prisma.StringNullableWithAggregatesFilter<"Recurrence"> | string | null
   groupId?: Prisma.StringWithAggregatesFilter<"Recurrence"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Recurrence"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Recurrence"> | Date | string
@@ -399,7 +399,7 @@ export type RecurrenceCreateInput = {
   canceledAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  category: Prisma.CategoryCreateNestedOneWithoutRecurrencesInput
+  category?: Prisma.CategoryCreateNestedOneWithoutRecurrencesInput
   group: Prisma.GroupCreateNestedOneWithoutRecurrencesInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutRecurrenceInput
 }
@@ -415,7 +415,7 @@ export type RecurrenceUncheckedCreateInput = {
   totalInstallments?: number | null
   generatedCount?: number
   canceledAt?: Date | string | null
-  categoryId: string
+  categoryId?: string | null
   groupId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -435,7 +435,7 @@ export type RecurrenceUpdateInput = {
   canceledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  category?: Prisma.CategoryUpdateOneRequiredWithoutRecurrencesNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutRecurrencesNestedInput
   group?: Prisma.GroupUpdateOneRequiredWithoutRecurrencesNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutRecurrenceNestedInput
 }
@@ -451,7 +451,7 @@ export type RecurrenceUncheckedUpdateInput = {
   totalInstallments?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   generatedCount?: Prisma.IntFieldUpdateOperationsInput | number
   canceledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   groupId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -469,7 +469,7 @@ export type RecurrenceCreateManyInput = {
   totalInstallments?: number | null
   generatedCount?: number
   canceledAt?: Date | string | null
-  categoryId: string
+  categoryId?: string | null
   groupId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -501,7 +501,7 @@ export type RecurrenceUncheckedUpdateManyInput = {
   totalInstallments?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   generatedCount?: Prisma.IntFieldUpdateOperationsInput | number
   canceledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   groupId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -710,7 +710,7 @@ export type RecurrenceCreateWithoutGroupInput = {
   canceledAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  category: Prisma.CategoryCreateNestedOneWithoutRecurrencesInput
+  category?: Prisma.CategoryCreateNestedOneWithoutRecurrencesInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutRecurrenceInput
 }
 
@@ -725,7 +725,7 @@ export type RecurrenceUncheckedCreateWithoutGroupInput = {
   totalInstallments?: number | null
   generatedCount?: number
   canceledAt?: Date | string | null
-  categoryId: string
+  categoryId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutRecurrenceInput
@@ -771,7 +771,7 @@ export type RecurrenceScalarWhereInput = {
   totalInstallments?: Prisma.IntNullableFilter<"Recurrence"> | number | null
   generatedCount?: Prisma.IntFilter<"Recurrence"> | number
   canceledAt?: Prisma.DateTimeNullableFilter<"Recurrence"> | Date | string | null
-  categoryId?: Prisma.StringFilter<"Recurrence"> | string
+  categoryId?: Prisma.StringNullableFilter<"Recurrence"> | string | null
   groupId?: Prisma.StringFilter<"Recurrence"> | string
   createdAt?: Prisma.DateTimeFilter<"Recurrence"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Recurrence"> | Date | string
@@ -850,7 +850,7 @@ export type RecurrenceCreateWithoutExpensesInput = {
   canceledAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  category: Prisma.CategoryCreateNestedOneWithoutRecurrencesInput
+  category?: Prisma.CategoryCreateNestedOneWithoutRecurrencesInput
   group: Prisma.GroupCreateNestedOneWithoutRecurrencesInput
 }
 
@@ -865,7 +865,7 @@ export type RecurrenceUncheckedCreateWithoutExpensesInput = {
   totalInstallments?: number | null
   generatedCount?: number
   canceledAt?: Date | string | null
-  categoryId: string
+  categoryId?: string | null
   groupId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -900,7 +900,7 @@ export type RecurrenceUpdateWithoutExpensesInput = {
   canceledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  category?: Prisma.CategoryUpdateOneRequiredWithoutRecurrencesNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutRecurrencesNestedInput
   group?: Prisma.GroupUpdateOneRequiredWithoutRecurrencesNestedInput
 }
 
@@ -915,7 +915,7 @@ export type RecurrenceUncheckedUpdateWithoutExpensesInput = {
   totalInstallments?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   generatedCount?: Prisma.IntFieldUpdateOperationsInput | number
   canceledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   groupId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -932,7 +932,7 @@ export type RecurrenceCreateManyGroupInput = {
   totalInstallments?: number | null
   generatedCount?: number
   canceledAt?: Date | string | null
-  categoryId: string
+  categoryId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -950,7 +950,7 @@ export type RecurrenceUpdateWithoutGroupInput = {
   canceledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  category?: Prisma.CategoryUpdateOneRequiredWithoutRecurrencesNestedInput
+  category?: Prisma.CategoryUpdateOneWithoutRecurrencesNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutRecurrenceNestedInput
 }
 
@@ -965,7 +965,7 @@ export type RecurrenceUncheckedUpdateWithoutGroupInput = {
   totalInstallments?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   generatedCount?: Prisma.IntFieldUpdateOperationsInput | number
   canceledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutRecurrenceNestedInput
@@ -982,7 +982,7 @@ export type RecurrenceUncheckedUpdateManyWithoutGroupInput = {
   totalInstallments?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   generatedCount?: Prisma.IntFieldUpdateOperationsInput | number
   canceledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1099,7 +1099,7 @@ export type RecurrenceSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   groupId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
+  category?: boolean | Prisma.Recurrence$categoryArgs<ExtArgs>
   group?: boolean | Prisma.GroupDefaultArgs<ExtArgs>
   expenses?: boolean | Prisma.Recurrence$expensesArgs<ExtArgs>
   _count?: boolean | Prisma.RecurrenceCountOutputTypeDefaultArgs<ExtArgs>
@@ -1120,7 +1120,7 @@ export type RecurrenceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   groupId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
+  category?: boolean | Prisma.Recurrence$categoryArgs<ExtArgs>
   group?: boolean | Prisma.GroupDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["recurrence"]>
 
@@ -1139,7 +1139,7 @@ export type RecurrenceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   groupId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
+  category?: boolean | Prisma.Recurrence$categoryArgs<ExtArgs>
   group?: boolean | Prisma.GroupDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["recurrence"]>
 
@@ -1162,24 +1162,24 @@ export type RecurrenceSelectScalar = {
 
 export type RecurrenceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "amount" | "paymentMethod" | "isEssential" | "startDate" | "totalInstallments" | "generatedCount" | "canceledAt" | "categoryId" | "groupId" | "createdAt" | "updatedAt", ExtArgs["result"]["recurrence"]>
 export type RecurrenceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
+  category?: boolean | Prisma.Recurrence$categoryArgs<ExtArgs>
   group?: boolean | Prisma.GroupDefaultArgs<ExtArgs>
   expenses?: boolean | Prisma.Recurrence$expensesArgs<ExtArgs>
   _count?: boolean | Prisma.RecurrenceCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type RecurrenceIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
+  category?: boolean | Prisma.Recurrence$categoryArgs<ExtArgs>
   group?: boolean | Prisma.GroupDefaultArgs<ExtArgs>
 }
 export type RecurrenceIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
+  category?: boolean | Prisma.Recurrence$categoryArgs<ExtArgs>
   group?: boolean | Prisma.GroupDefaultArgs<ExtArgs>
 }
 
 export type $RecurrencePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Recurrence"
   objects: {
-    category: Prisma.$CategoryPayload<ExtArgs>
+    category: Prisma.$CategoryPayload<ExtArgs> | null
     group: Prisma.$GroupPayload<ExtArgs>
     expenses: Prisma.$ExpensePayload<ExtArgs>[]
   }
@@ -1194,7 +1194,7 @@ export type $RecurrencePayload<ExtArgs extends runtime.Types.Extensions.Internal
     totalInstallments: number | null
     generatedCount: number
     canceledAt: Date | null
-    categoryId: string
+    categoryId: string | null
     groupId: string
     createdAt: Date
     updatedAt: Date
@@ -1592,7 +1592,7 @@ readonly fields: RecurrenceFieldRefs;
  */
 export interface Prisma__RecurrenceClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  category<T extends Prisma.CategoryDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CategoryDefaultArgs<ExtArgs>>): Prisma.Prisma__CategoryClient<runtime.Types.Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  category<T extends Prisma.Recurrence$categoryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Recurrence$categoryArgs<ExtArgs>>): Prisma.Prisma__CategoryClient<runtime.Types.Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   group<T extends Prisma.GroupDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.GroupDefaultArgs<ExtArgs>>): Prisma.Prisma__GroupClient<runtime.Types.Result.GetResult<Prisma.$GroupPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   expenses<T extends Prisma.Recurrence$expensesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Recurrence$expensesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExpensePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
@@ -2031,6 +2031,25 @@ export type RecurrenceDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Limit how many Recurrences to delete.
    */
   limit?: number
+}
+
+/**
+ * Recurrence.category
+ */
+export type Recurrence$categoryArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Category
+   */
+  select?: Prisma.CategorySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Category
+   */
+  omit?: Prisma.CategoryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CategoryInclude<ExtArgs> | null
+  where?: Prisma.CategoryWhereInput
 }
 
 /**

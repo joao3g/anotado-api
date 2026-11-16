@@ -172,7 +172,8 @@ const update = async (userLogin: string, data: z.infer<typeof expenseSchema.upda
         transactionDate: data.date ?? currentExpense.transactionDate,
         dueDate: data.date ?? currentExpense.dueDate,
         group: { connect: { id: currentExpense.groupId } },
-        category: { connect: { id: data.category ?? currentExpense.categoryId } },
+        // Connect only a category that was sent. Not sent = keep the current one, even when it is null (deleted category).
+        ...(data.category ? { category: { connect: { id: data.category } } } : {}),
     };
 
     // dueDate depends on BOTH the date and the payment method, so recompute it when either one is sent.
