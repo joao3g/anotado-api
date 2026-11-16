@@ -46,7 +46,6 @@ export type ExpenseMinAggregateOutputType = {
   paymentMethod: $Enums.PaymentMethod | null
   groupId: string | null
   categoryId: string | null
-  isEssential: boolean | null
   cardId: string | null
   recurrenceId: string | null
   installmentNumber: number | null
@@ -64,7 +63,6 @@ export type ExpenseMaxAggregateOutputType = {
   paymentMethod: $Enums.PaymentMethod | null
   groupId: string | null
   categoryId: string | null
-  isEssential: boolean | null
   cardId: string | null
   recurrenceId: string | null
   installmentNumber: number | null
@@ -82,7 +80,6 @@ export type ExpenseCountAggregateOutputType = {
   paymentMethod: number
   groupId: number
   categoryId: number
-  isEssential: number
   cardId: number
   recurrenceId: number
   installmentNumber: number
@@ -112,7 +109,6 @@ export type ExpenseMinAggregateInputType = {
   paymentMethod?: true
   groupId?: true
   categoryId?: true
-  isEssential?: true
   cardId?: true
   recurrenceId?: true
   installmentNumber?: true
@@ -130,7 +126,6 @@ export type ExpenseMaxAggregateInputType = {
   paymentMethod?: true
   groupId?: true
   categoryId?: true
-  isEssential?: true
   cardId?: true
   recurrenceId?: true
   installmentNumber?: true
@@ -148,7 +143,6 @@ export type ExpenseCountAggregateInputType = {
   paymentMethod?: true
   groupId?: true
   categoryId?: true
-  isEssential?: true
   cardId?: true
   recurrenceId?: true
   installmentNumber?: true
@@ -253,7 +247,6 @@ export type ExpenseGroupByOutputType = {
   paymentMethod: $Enums.PaymentMethod
   groupId: string
   categoryId: string | null
-  isEssential: boolean | null
   cardId: string | null
   recurrenceId: string | null
   installmentNumber: number | null
@@ -294,7 +287,6 @@ export type ExpenseWhereInput = {
   paymentMethod?: Prisma.EnumPaymentMethodFilter<"Expense"> | $Enums.PaymentMethod
   groupId?: Prisma.StringFilter<"Expense"> | string
   categoryId?: Prisma.StringNullableFilter<"Expense"> | string | null
-  isEssential?: Prisma.BoolNullableFilter<"Expense"> | boolean | null
   cardId?: Prisma.StringNullableFilter<"Expense"> | string | null
   recurrenceId?: Prisma.StringNullableFilter<"Expense"> | string | null
   installmentNumber?: Prisma.IntNullableFilter<"Expense"> | number | null
@@ -316,7 +308,6 @@ export type ExpenseOrderByWithRelationInput = {
   paymentMethod?: Prisma.SortOrder
   groupId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrderInput | Prisma.SortOrder
-  isEssential?: Prisma.SortOrderInput | Prisma.SortOrder
   cardId?: Prisma.SortOrderInput | Prisma.SortOrder
   recurrenceId?: Prisma.SortOrderInput | Prisma.SortOrder
   installmentNumber?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -342,7 +333,6 @@ export type ExpenseWhereUniqueInput = Prisma.AtLeast<{
   paymentMethod?: Prisma.EnumPaymentMethodFilter<"Expense"> | $Enums.PaymentMethod
   groupId?: Prisma.StringFilter<"Expense"> | string
   categoryId?: Prisma.StringNullableFilter<"Expense"> | string | null
-  isEssential?: Prisma.BoolNullableFilter<"Expense"> | boolean | null
   cardId?: Prisma.StringNullableFilter<"Expense"> | string | null
   recurrenceId?: Prisma.StringNullableFilter<"Expense"> | string | null
   installmentNumber?: Prisma.IntNullableFilter<"Expense"> | number | null
@@ -364,7 +354,6 @@ export type ExpenseOrderByWithAggregationInput = {
   paymentMethod?: Prisma.SortOrder
   groupId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrderInput | Prisma.SortOrder
-  isEssential?: Prisma.SortOrderInput | Prisma.SortOrder
   cardId?: Prisma.SortOrderInput | Prisma.SortOrder
   recurrenceId?: Prisma.SortOrderInput | Prisma.SortOrder
   installmentNumber?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -390,7 +379,6 @@ export type ExpenseScalarWhereWithAggregatesInput = {
   paymentMethod?: Prisma.EnumPaymentMethodWithAggregatesFilter<"Expense"> | $Enums.PaymentMethod
   groupId?: Prisma.StringWithAggregatesFilter<"Expense"> | string
   categoryId?: Prisma.StringNullableWithAggregatesFilter<"Expense"> | string | null
-  isEssential?: Prisma.BoolNullableWithAggregatesFilter<"Expense"> | boolean | null
   cardId?: Prisma.StringNullableWithAggregatesFilter<"Expense"> | string | null
   recurrenceId?: Prisma.StringNullableWithAggregatesFilter<"Expense"> | string | null
   installmentNumber?: Prisma.IntNullableWithAggregatesFilter<"Expense"> | number | null
@@ -406,7 +394,6 @@ export type ExpenseCreateInput = {
   transactionDate: Date | string
   dueDate: Date | string
   paymentMethod: $Enums.PaymentMethod
-  isEssential?: boolean | null
   installmentNumber?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -426,7 +413,6 @@ export type ExpenseUncheckedCreateInput = {
   paymentMethod: $Enums.PaymentMethod
   groupId: string
   categoryId?: string | null
-  isEssential?: boolean | null
   cardId?: string | null
   recurrenceId?: string | null
   installmentNumber?: number | null
@@ -442,7 +428,6 @@ export type ExpenseUpdateInput = {
   transactionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
-  isEssential?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   installmentNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -462,7 +447,6 @@ export type ExpenseUncheckedUpdateInput = {
   paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
   groupId?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isEssential?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   cardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   recurrenceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   installmentNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -480,7 +464,6 @@ export type ExpenseCreateManyInput = {
   paymentMethod: $Enums.PaymentMethod
   groupId: string
   categoryId?: string | null
-  isEssential?: boolean | null
   cardId?: string | null
   recurrenceId?: string | null
   installmentNumber?: number | null
@@ -496,7 +479,6 @@ export type ExpenseUpdateManyMutationInput = {
   transactionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
-  isEssential?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   installmentNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -512,7 +494,6 @@ export type ExpenseUncheckedUpdateManyInput = {
   paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
   groupId?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isEssential?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   cardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   recurrenceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   installmentNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -545,7 +526,6 @@ export type ExpenseCountOrderByAggregateInput = {
   paymentMethod?: Prisma.SortOrder
   groupId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
-  isEssential?: Prisma.SortOrder
   cardId?: Prisma.SortOrder
   recurrenceId?: Prisma.SortOrder
   installmentNumber?: Prisma.SortOrder
@@ -568,7 +548,6 @@ export type ExpenseMaxOrderByAggregateInput = {
   paymentMethod?: Prisma.SortOrder
   groupId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
-  isEssential?: Prisma.SortOrder
   cardId?: Prisma.SortOrder
   recurrenceId?: Prisma.SortOrder
   installmentNumber?: Prisma.SortOrder
@@ -586,7 +565,6 @@ export type ExpenseMinOrderByAggregateInput = {
   paymentMethod?: Prisma.SortOrder
   groupId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
-  isEssential?: Prisma.SortOrder
   cardId?: Prisma.SortOrder
   recurrenceId?: Prisma.SortOrder
   installmentNumber?: Prisma.SortOrder
@@ -737,10 +715,6 @@ export type EnumPaymentMethodFieldUpdateOperationsInput = {
   set?: $Enums.PaymentMethod
 }
 
-export type NullableBoolFieldUpdateOperationsInput = {
-  set?: boolean | null
-}
-
 export type NullableIntFieldUpdateOperationsInput = {
   set?: number | null
   increment?: number
@@ -799,7 +773,6 @@ export type ExpenseCreateWithoutGroupInput = {
   transactionDate: Date | string
   dueDate: Date | string
   paymentMethod: $Enums.PaymentMethod
-  isEssential?: boolean | null
   installmentNumber?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -817,7 +790,6 @@ export type ExpenseUncheckedCreateWithoutGroupInput = {
   dueDate: Date | string
   paymentMethod: $Enums.PaymentMethod
   categoryId?: string | null
-  isEssential?: boolean | null
   cardId?: string | null
   recurrenceId?: string | null
   installmentNumber?: number | null
@@ -864,7 +836,6 @@ export type ExpenseScalarWhereInput = {
   paymentMethod?: Prisma.EnumPaymentMethodFilter<"Expense"> | $Enums.PaymentMethod
   groupId?: Prisma.StringFilter<"Expense"> | string
   categoryId?: Prisma.StringNullableFilter<"Expense"> | string | null
-  isEssential?: Prisma.BoolNullableFilter<"Expense"> | boolean | null
   cardId?: Prisma.StringNullableFilter<"Expense"> | string | null
   recurrenceId?: Prisma.StringNullableFilter<"Expense"> | string | null
   installmentNumber?: Prisma.IntNullableFilter<"Expense"> | number | null
@@ -880,7 +851,6 @@ export type ExpenseCreateWithoutCategoryInput = {
   transactionDate: Date | string
   dueDate: Date | string
   paymentMethod: $Enums.PaymentMethod
-  isEssential?: boolean | null
   installmentNumber?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -898,7 +868,6 @@ export type ExpenseUncheckedCreateWithoutCategoryInput = {
   dueDate: Date | string
   paymentMethod: $Enums.PaymentMethod
   groupId: string
-  isEssential?: boolean | null
   cardId?: string | null
   recurrenceId?: string | null
   installmentNumber?: number | null
@@ -940,7 +909,6 @@ export type ExpenseCreateWithoutCardInput = {
   transactionDate: Date | string
   dueDate: Date | string
   paymentMethod: $Enums.PaymentMethod
-  isEssential?: boolean | null
   installmentNumber?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -959,7 +927,6 @@ export type ExpenseUncheckedCreateWithoutCardInput = {
   paymentMethod: $Enums.PaymentMethod
   groupId: string
   categoryId?: string | null
-  isEssential?: boolean | null
   recurrenceId?: string | null
   installmentNumber?: number | null
   createdAt?: Date | string
@@ -1000,7 +967,6 @@ export type ExpenseCreateWithoutRecurrenceInput = {
   transactionDate: Date | string
   dueDate: Date | string
   paymentMethod: $Enums.PaymentMethod
-  isEssential?: boolean | null
   installmentNumber?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1019,7 +985,6 @@ export type ExpenseUncheckedCreateWithoutRecurrenceInput = {
   paymentMethod: $Enums.PaymentMethod
   groupId: string
   categoryId?: string | null
-  isEssential?: boolean | null
   cardId?: string | null
   installmentNumber?: number | null
   createdAt?: Date | string
@@ -1061,7 +1026,6 @@ export type ExpenseCreateManyGroupInput = {
   dueDate: Date | string
   paymentMethod: $Enums.PaymentMethod
   categoryId?: string | null
-  isEssential?: boolean | null
   cardId?: string | null
   recurrenceId?: string | null
   installmentNumber?: number | null
@@ -1077,7 +1041,6 @@ export type ExpenseUpdateWithoutGroupInput = {
   transactionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
-  isEssential?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   installmentNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1095,7 +1058,6 @@ export type ExpenseUncheckedUpdateWithoutGroupInput = {
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
   categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isEssential?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   cardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   recurrenceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   installmentNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1112,7 +1074,6 @@ export type ExpenseUncheckedUpdateManyWithoutGroupInput = {
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
   categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isEssential?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   cardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   recurrenceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   installmentNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1129,7 +1090,6 @@ export type ExpenseCreateManyCategoryInput = {
   dueDate: Date | string
   paymentMethod: $Enums.PaymentMethod
   groupId: string
-  isEssential?: boolean | null
   cardId?: string | null
   recurrenceId?: string | null
   installmentNumber?: number | null
@@ -1145,7 +1105,6 @@ export type ExpenseUpdateWithoutCategoryInput = {
   transactionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
-  isEssential?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   installmentNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1163,7 +1122,6 @@ export type ExpenseUncheckedUpdateWithoutCategoryInput = {
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
   groupId?: Prisma.StringFieldUpdateOperationsInput | string
-  isEssential?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   cardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   recurrenceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   installmentNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1180,7 +1138,6 @@ export type ExpenseUncheckedUpdateManyWithoutCategoryInput = {
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
   groupId?: Prisma.StringFieldUpdateOperationsInput | string
-  isEssential?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   cardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   recurrenceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   installmentNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1198,7 +1155,6 @@ export type ExpenseCreateManyCardInput = {
   paymentMethod: $Enums.PaymentMethod
   groupId: string
   categoryId?: string | null
-  isEssential?: boolean | null
   recurrenceId?: string | null
   installmentNumber?: number | null
   createdAt?: Date | string
@@ -1213,7 +1169,6 @@ export type ExpenseUpdateWithoutCardInput = {
   transactionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
-  isEssential?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   installmentNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1232,7 +1187,6 @@ export type ExpenseUncheckedUpdateWithoutCardInput = {
   paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
   groupId?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isEssential?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   recurrenceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   installmentNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1249,7 +1203,6 @@ export type ExpenseUncheckedUpdateManyWithoutCardInput = {
   paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
   groupId?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isEssential?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   recurrenceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   installmentNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1266,7 +1219,6 @@ export type ExpenseCreateManyRecurrenceInput = {
   paymentMethod: $Enums.PaymentMethod
   groupId: string
   categoryId?: string | null
-  isEssential?: boolean | null
   cardId?: string | null
   installmentNumber?: number | null
   createdAt?: Date | string
@@ -1281,7 +1233,6 @@ export type ExpenseUpdateWithoutRecurrenceInput = {
   transactionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
-  isEssential?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   installmentNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1300,7 +1251,6 @@ export type ExpenseUncheckedUpdateWithoutRecurrenceInput = {
   paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
   groupId?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isEssential?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   cardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   installmentNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1317,7 +1267,6 @@ export type ExpenseUncheckedUpdateManyWithoutRecurrenceInput = {
   paymentMethod?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
   groupId?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isEssential?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   cardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   installmentNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1336,7 +1285,6 @@ export type ExpenseSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   paymentMethod?: boolean
   groupId?: boolean
   categoryId?: boolean
-  isEssential?: boolean
   cardId?: boolean
   recurrenceId?: boolean
   installmentNumber?: boolean
@@ -1358,7 +1306,6 @@ export type ExpenseSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   paymentMethod?: boolean
   groupId?: boolean
   categoryId?: boolean
-  isEssential?: boolean
   cardId?: boolean
   recurrenceId?: boolean
   installmentNumber?: boolean
@@ -1380,7 +1327,6 @@ export type ExpenseSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   paymentMethod?: boolean
   groupId?: boolean
   categoryId?: boolean
-  isEssential?: boolean
   cardId?: boolean
   recurrenceId?: boolean
   installmentNumber?: boolean
@@ -1402,7 +1348,6 @@ export type ExpenseSelectScalar = {
   paymentMethod?: boolean
   groupId?: boolean
   categoryId?: boolean
-  isEssential?: boolean
   cardId?: boolean
   recurrenceId?: boolean
   installmentNumber?: boolean
@@ -1410,7 +1355,7 @@ export type ExpenseSelectScalar = {
   updatedAt?: boolean
 }
 
-export type ExpenseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "amount" | "transactionDate" | "dueDate" | "paymentMethod" | "groupId" | "categoryId" | "isEssential" | "cardId" | "recurrenceId" | "installmentNumber" | "createdAt" | "updatedAt", ExtArgs["result"]["expense"]>
+export type ExpenseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "amount" | "transactionDate" | "dueDate" | "paymentMethod" | "groupId" | "categoryId" | "cardId" | "recurrenceId" | "installmentNumber" | "createdAt" | "updatedAt", ExtArgs["result"]["expense"]>
 export type ExpenseInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   group?: boolean | Prisma.GroupDefaultArgs<ExtArgs>
   category?: boolean | Prisma.Expense$categoryArgs<ExtArgs>
@@ -1448,7 +1393,6 @@ export type $ExpensePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     paymentMethod: $Enums.PaymentMethod
     groupId: string
     categoryId: string | null
-    isEssential: boolean | null
     cardId: string | null
     recurrenceId: string | null
     installmentNumber: number | null
@@ -1890,7 +1834,6 @@ export interface ExpenseFieldRefs {
   readonly paymentMethod: Prisma.FieldRef<"Expense", 'PaymentMethod'>
   readonly groupId: Prisma.FieldRef<"Expense", 'String'>
   readonly categoryId: Prisma.FieldRef<"Expense", 'String'>
-  readonly isEssential: Prisma.FieldRef<"Expense", 'Boolean'>
   readonly cardId: Prisma.FieldRef<"Expense", 'String'>
   readonly recurrenceId: Prisma.FieldRef<"Expense", 'String'>
   readonly installmentNumber: Prisma.FieldRef<"Expense", 'Int'>

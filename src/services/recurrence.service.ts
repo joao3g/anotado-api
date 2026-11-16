@@ -17,7 +17,6 @@ type RecurrenceBase = {
     description: string | null
     amount: Prisma.Decimal | string
     paymentMethod: PaymentMethod
-    isEssential: boolean | null
     startDate: Date
     totalInstallments: number | null
     categoryId: string | null // null when the category was deleted
@@ -51,7 +50,6 @@ function buildInstallment(recurrence: RecurrenceWithClosingDay, number: number):
         description: recurrence.description,
         amount: recurrence.amount,
         paymentMethod: recurrence.paymentMethod,
-        isEssential: recurrence.isEssential,
         transactionDate,
         dueDate: recurrence.closingDay !== null ? calculateNextInvoiceDate(transactionDate, recurrence.closingDay) : transactionDate,
         categoryId: recurrence.categoryId,
@@ -114,7 +112,6 @@ const create = async (userLogin: string, data: z.infer<typeof recurrenceSchema.c
             description: data.description ?? null,
             amount: data.amount,
             paymentMethod: data.paymentMethod,
-            isEssential: data.isEssential ?? null,
             startDate: new Date(data.startDate),
             totalInstallments: data.totalInstallments,
             categoryId: category.id,
@@ -153,7 +150,6 @@ const list = async (userLogin: string) => {
                 description: recurrence.description,
                 amount: recurrence.amount.toFixed(2),
                 paymentMethod: recurrence.paymentMethod,
-                isEssential: recurrence.isEssential,
                 startDate: recurrence.startDate,
                 totalInstallments: recurrence.totalInstallments,
                 canceledAt: recurrence.canceledAt,
@@ -192,8 +188,7 @@ const update = async (userLogin: string, data: z.infer<typeof recurrenceSchema.u
             title: data.title,
             description: data.description,
             amount: data.amount,
-            categoryId: data.category,
-            isEssential: data.isEssential
+            categoryId: data.category
         };
 
         const result = await recurrenceModel.updateFuture(recurrence.id, groupId, todayInBrazil(), fields);

@@ -1032,7 +1032,6 @@ export const ExpenseScalarFieldEnum = {
   paymentMethod: 'paymentMethod',
   groupId: 'groupId',
   categoryId: 'categoryId',
-  isEssential: 'isEssential',
   cardId: 'cardId',
   recurrenceId: 'recurrenceId',
   installmentNumber: 'installmentNumber',
@@ -1049,7 +1048,6 @@ export const RecurrenceScalarFieldEnum = {
   description: 'description',
   amount: 'amount',
   paymentMethod: 'paymentMethod',
-  isEssential: 'isEssential',
   startDate: 'startDate',
   totalInstallments: 'totalInstallments',
   generatedCount: 'generatedCount',
@@ -1175,13 +1173,6 @@ export type EnumPaymentMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$Pr
  * Reference to a field of type 'PaymentMethod[]'
  */
 export type ListEnumPaymentMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentMethod[]'>
-    
-
-
-/**
- * Reference to a field of type 'Boolean'
- */
-export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 

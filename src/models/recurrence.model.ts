@@ -11,7 +11,6 @@ const recurrenceSelect = {
     description: true,
     amount: true,
     paymentMethod: true,
-    isEssential: true,
     startDate: true,
     totalInstallments: true,
     generatedCount: true,
@@ -30,7 +29,6 @@ export type RecurrenceEditableFields = {
     description?: string
     amount?: string
     categoryId?: string
-    isEssential?: boolean
 }
 
 const findCategoryInGroup = async (id: string, groupId: string) => {

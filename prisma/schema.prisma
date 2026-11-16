@@ -109,7 +109,6 @@ model Expense {
 	category Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
 	categoryId String?
 
-	isEssential Boolean?
 
 	// Required when paymentMethod is CREDIT, null otherwise (CHECK constraint). A card in use cannot be deleted.
 	card Card? @relation(fields: [cardId], references: [id], onDelete: Restrict)
@@ -136,7 +135,6 @@ model Recurrence {
 	description String?
 	amount Decimal @db.Decimal(10, 2) // Value of EACH installment, never the total
 	paymentMethod PaymentMethod
-	isEssential Boolean?
 	startDate DateTime // transactionDate of installment #1 (UTC midnight)
 	totalInstallments Int? // null = never ends
 	generatedCount Int @default(0) // How many installments were created so far
