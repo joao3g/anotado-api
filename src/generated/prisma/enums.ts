@@ -9,6 +9,14 @@
 * 🟢 You can import this file directly.
 */
 
+export const GroupRole = {
+  ADMIN: 'ADMIN',
+  MEMBER: 'MEMBER'
+} as const
+
+export type GroupRole = (typeof GroupRole)[keyof typeof GroupRole]
+
+
 export const PaymentMethod = {
   DEBIT: 'DEBIT',
   CREDIT: 'CREDIT',

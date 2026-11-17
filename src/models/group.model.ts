@@ -43,6 +43,7 @@ const getByInviteCode = async (inviteCode: string) => {
 }
 
 // Family page: the group and its members. Never the members' login, password or phone.
+// The member id is sent so an admin can say who to remove or promote (always checked against the group).
 const getWithMembers = async (id: string) => {
     return await prisma.group.findUnique({
         where: { id },
@@ -50,20 +51,20 @@ const getWithMembers = async (id: string) => {
             title: true,
             inviteCode: true,
             users: {
-                select: { login: true, name: true, email: true, avatar: true },
+                select: { id: true, login: true, name: true, email: true, avatar: true, role: true },
                 orderBy: { createdAt: "asc" }
             }
         }
     });
 }
 
-// Creates a family and puts the user in it, only if the user has no family yet.
+// Creates a family and puts the user in it as its ADMIN, only if the user has no family yet.
 // Returns null (and creates nothing) when the user already has one.
 const createForUser = async (userId: string, title: string, inviteCode: string) => {
     return await prisma.$transaction(async (tx) => {
         const group = await tx.group.create({ data: { title, inviteCode }, select: { id: true } });
 
-        const joined = await tx.user.updateMany({ where: { id: userId, groupId: null }, data: { groupId: group.id } });
+        const joined = await tx.user.updateMany({ where: { id: userId, groupId: null }, data: { groupId: group.id, role: "ADMIN" } });
 
         // Throwing rolls the transaction back, so the empty group is not kept.
         if (joined.count !== 1) throw new Error("USER_ALREADY_IN_GROUP");
@@ -90,10 +91,4 @@ const update = async (id: string, data: Prisma.GroupUpdateInput) => {
     });
 }
 
-const remove = async (id: string) => {
-    return await prisma.group.delete({
-        where: { id }
-    });
-}
-
-export default { create, getById, getByLogin, getByInviteCode, getWithMembers, createForUser, countUsersByGroup, find, update, remove };
+export default { create, getById, getByLogin, getByInviteCode, getWithMembers, createForUser, countUsersByGroup, find, update };

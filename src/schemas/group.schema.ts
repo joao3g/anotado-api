@@ -11,16 +11,6 @@ const getByUserLogin = z.object({
     login: z.string().optional()
 });
 
-const update = z.object({
-    id: z.string(),
-    title: z.string(),
-    description: z.string().optional()
-});
-
-const remove = z.object({
-    id: z.string()
-});
-
 const updateMine = z.object({
     title
 });
@@ -30,4 +20,13 @@ const join = z.object({
     code: z.string().transform((code) => code.replace(/[\s-]/g, "").toUpperCase()).pipe(z.string().regex(/^[A-HJ-NP-Z2-9]{8}$/))
 });
 
-export default { create, getByUserLogin, update, remove, updateMine, join };
+// A member of the family, by user id (always checked against the admin's own family).
+const memberParams = z.object({
+    id: z.uuid()
+});
+
+const setMemberRole = z.object({
+    role: z.enum(["ADMIN", "MEMBER"])
+});
+
+export default { create, getByUserLogin, updateMine, join, memberParams, setMemberRole };

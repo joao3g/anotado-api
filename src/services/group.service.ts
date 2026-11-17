@@ -1,5 +1,5 @@
 import { randomInt } from 'node:crypto';
-import { Prisma } from '../generated/prisma/client.js';
+import { Prisma, GroupRole } from '../generated/prisma/client.js';
 import groupModel from '../models/group.model.js';
 import userModel from '../models/user.model.js';
 
@@ -47,6 +47,8 @@ const getMine = async (login: string) => {
         title: group.title,
         inviteCode: group.inviteCode,
         members: group.users.map(user => ({
+            id: user.id,
+            role: user.role,
             name: user.name,
             email: user.email,
             avatar: user.avatar,
@@ -72,10 +74,24 @@ const regenerateInviteCode = async (login: string) => {
 }
 
 // "LAST_MEMBER" when the user is the only member (the family's data would have nobody left).
+// "LAST_ADMIN" when the user is the only admin and other members stay.
 const leave = async (login: string) => {
     const { userId, groupId } = await getOwnGroupId(login);
 
-    return await userModel.leaveGroup(userId, groupId) ? "OK" : "LAST_MEMBER";
+    return await userModel.leaveGroup(userId, groupId);
+}
+
+// Admin only. "NOT_ADMIN", "SELF" or "NOT_FOUND" instead of throwing, so the controller can answer 403/400/404.
+const removeMember = async (login: string, memberId: string) => {
+    const { userId, groupId } = await getOwnGroupId(login);
+
+    return await userModel.removeMember(userId, memberId, groupId);
+}
+
+const setMemberRole = async (login: string, memberId: string, role: GroupRole) => {
+    const { userId, groupId } = await getOwnGroupId(login);
+
+    return await userModel.setMemberRole(userId, memberId, groupId, role);
 }
 
 // "INVALID_CODE" or "ALREADY_IN_GROUP" instead of throwing, so the controller can answer 404/409.
@@ -99,4 +115,4 @@ const create = async (login: string, title: string) => {
     return group ? "OK" : "ALREADY_IN_GROUP";
 }
 
-export default { getMine, updateMine, regenerateInviteCode, leave, join, create };
+export default { getMine, updateMine, regenerateInviteCode, leave, removeMember, setMemberRole, join, create };
