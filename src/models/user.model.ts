@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { PrismaPg } from "@prisma/adapter-pg";
-import { PrismaClient, Prisma } from '../generated/prisma/client.js';
+import { PrismaClient, Prisma, GroupRole } from '../generated/prisma/client.js';
 import bcrypt from 'bcrypt';
 
 const adapter = new PrismaPg({ connectionString: process.env["DATABASE_URL"] });
@@ -15,6 +15,7 @@ const userSelect = {
     email: true,
     login: true,
     name: true,
+    role: true,
     group: {
         select: {
             id: true,
@@ -79,6 +80,7 @@ const getProfileByLogin = async (login: string) => {
             email: true,
             phone: true,
             avatar: true,
+            role: true,
             group: { select: { id: true, title: true } }
         }
     });
@@ -94,29 +96,93 @@ const updateProfile = async (id: string, data: { name?: string, email?: string, 
 }
 
 // Joins a family only if the user has none (conditional update: safe against two requests at once).
+// Joining with an invite code always makes the user a MEMBER.
 // Returns false when the user already has a family.
 const joinGroup = async (id: string, groupId: string) => {
     const result = await prisma.user.updateMany({
         where: { id, groupId: null },
-        data: { groupId }
+        data: { groupId, role: "MEMBER" }
     });
 
     return result.count === 1;
 }
 
-// Leaves the family, unless the user is its last member (the family's data would be orphaned).
-// The group row is locked (FOR UPDATE) so two members cannot both leave at the same time.
-// Returns false when the user is the last member.
+// Locks the group row (FOR UPDATE), so membership and role changes of one family run one at a time.
+// Without it, two admins removing each other at the same moment could leave the family with no admin.
+const lockGroup = async (tx: Prisma.TransactionClient, groupId: string) => {
+    await tx.$queryRaw`SELECT "id" FROM "Group" WHERE "id" = ${groupId} FOR UPDATE`;
+}
+
+// Takes the user out of the family. The role goes back to MEMBER, so nobody keeps ADMIN from an old family.
+const removeFromGroupTx = async (tx: Prisma.TransactionClient, id: string) => {
+    await tx.user.update({ where: { id }, data: { group: { disconnect: true }, role: "MEMBER" } });
+}
+
+// Leaves the family, unless the user is its last member (the family's data would be orphaned)
+// or its last admin while other members stay (the family would have nobody to manage it).
 const leaveGroup = async (id: string, groupId: string) => {
     return await prisma.$transaction(async (tx) => {
-        await tx.$queryRaw`SELECT "id" FROM "Group" WHERE "id" = ${groupId} FOR UPDATE`;
+        await lockGroup(tx, groupId);
 
         const members = await tx.user.count({ where: { groupId } });
-        if (members <= 1) return false;
+        if (members <= 1) return "LAST_MEMBER";
 
-        await tx.user.update({ where: { id }, data: { group: { disconnect: true } } });
+        const me = await tx.user.findFirst({ where: { id, groupId }, select: { role: true } });
+        if (!me) throw new Error("User is not in this group!");
 
-        return true;
+        if (me.role === "ADMIN") {
+            const admins = await tx.user.count({ where: { groupId, role: "ADMIN" } });
+            if (admins <= 1) return "LAST_ADMIN";
+        }
+
+        await removeFromGroupTx(tx, id);
+
+        return "OK";
+    });
+}
+
+// Checks done inside the lock, for an admin acting on another person of the same family:
+// "NOT_ADMIN" if the actor is no longer an admin of this family, "SELF" if the target is the actor,
+// "NOT_FOUND" if the target does not exist or is in another family (same answer, so nothing leaks).
+async function checkAdminAction(tx: Prisma.TransactionClient, actorId: string, targetId: string, groupId: string) {
+    const actor = await tx.user.findFirst({ where: { id: actorId, groupId }, select: { role: true } });
+    if (actor?.role !== "ADMIN") return "NOT_ADMIN";
+
+    if (targetId === actorId) return "SELF";
+
+    const target = await tx.user.findFirst({ where: { id: targetId, groupId }, select: { id: true } });
+    if (!target) return "NOT_FOUND";
+
+    return "OK";
+}
+
+// An admin removes another person (admin or member) from the family. Admins leave with leaveGroup instead,
+// so the actor always stays and the family keeps at least one admin.
+const removeMember = async (actorId: string, targetId: string, groupId: string) => {
+    return await prisma.$transaction(async (tx) => {
+        await lockGroup(tx, groupId);
+
+        const check = await checkAdminAction(tx, actorId, targetId, groupId);
+        if (check !== "OK") return check;
+
+        await removeFromGroupTx(tx, targetId);
+
+        return "OK";
+    });
+}
+
+// An admin changes the role of another person of the family. The actor cannot change their own role,
+// so demoting another admin never leaves the family without an admin.
+const setMemberRole = async (actorId: string, targetId: string, groupId: string, role: GroupRole) => {
+    return await prisma.$transaction(async (tx) => {
+        await lockGroup(tx, groupId);
+
+        const check = await checkAdminAction(tx, actorId, targetId, groupId);
+        if (check !== "OK") return check;
+
+        await tx.user.update({ where: { id: targetId }, data: { role } });
+
+        return "OK";
     });
 }
 
@@ -148,4 +214,4 @@ const remove = async (id: string) => {
     });
 }
 
-export default { create, getById, getByLogin, getByEmail, getForAuthByLogin, getProfileByLogin, updateProfile, joinGroup, leaveGroup, find, update, remove };
+export default { create, getById, getByLogin, getByEmail, getForAuthByLogin, getProfileByLogin, updateProfile, joinGroup, leaveGroup, removeMember, setMemberRole, find, update, remove };

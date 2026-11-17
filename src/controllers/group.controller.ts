@@ -65,53 +65,6 @@ const getByUserLogin = async (req: Request, res: Response) => {
     }
 }
 
-const update = async (req: Request, res: Response) => {
-    try {
-        if(!req.user) return res.status(401).json({ message: "Authentication failed!" });
-
-        const parsed = groupSchema.update.safeParse(req.body);
-
-        if (!parsed.success) return res.status(400).json(z.treeifyError(parsed.error).properties);
-
-        const { id, title, description } = parsed.data;
-
-        // Only the user's own group. Same 404 for "does not exist" and "another group".
-        if (id !== await getOwnGroupId(req.user.login)) return res.status(404).json({ message: "Group not found!" });
-
-        await groupModel.update(id, {
-            title,
-            description
-        });
-
-        return res.sendStatus(200);
-    } catch (error) {
-        console.error("[updateGroup]: ", error);
-        return res.status(500).json({ message: "Failed to update group!" })
-    }
-}
-
-const remove = async (req: Request, res: Response) => {
-    try {
-        if(!req.user) return res.status(401).json({ message: "Authentication failed!" });
-
-        const parsed = groupSchema.remove.safeParse(req.params);
-
-        if (!parsed.success) return res.status(400).json(z.treeifyError(parsed.error).properties);
-
-        const { id } = parsed.data;
-
-        // Only the user's own group. Same 404 for "does not exist" and "another group".
-        if (id !== await getOwnGroupId(req.user.login)) return res.status(404).json({ message: "Group not found!" });
-
-        await groupModel.remove(id);
-
-        return res.sendStatus(200);
-    } catch (error) {
-        console.error("[removeGroup]: ", error);
-        return res.status(500).json({ message: "Failed to remove group!" })
-    }
-}
-
 const getMine = async (req: Request, res: Response) => {
     try {
         if(!req.user) return res.status(401).json({ message: "Authentication failed!" });
@@ -160,11 +113,64 @@ const leave = async (req: Request, res: Response) => {
         const result = await groupService.leave(req.user.login);
 
         if (result === "LAST_MEMBER") return res.status(409).json({ message: "Você é o último membro da família e não pode sair." });
+        if (result === "LAST_ADMIN") return res.status(409).json({ message: "Você é o único admin. Torne outro membro admin antes de sair." });
 
         return res.sendStatus(200);
     } catch (error) {
         console.error("[leaveGroup]: ", error);
         return res.status(500).json({ message: "Failed to leave family!" })
+    }
+}
+
+// Shared answers for the admin actions on a member.
+function sendMemberActionError(res: Response, result: "NOT_ADMIN" | "SELF" | "NOT_FOUND") {
+    if (result === "NOT_ADMIN") return res.status(403).json({ code: "NOT_ADMIN", message: "Apenas administradores podem fazer isso." });
+    if (result === "SELF") return res.status(400).json({ message: "Você não pode fazer isso com você mesmo." });
+    return res.status(404).json({ message: "Membro não encontrado." });
+}
+
+// Admin only: removes another person (admin or member) from the family.
+const removeMember = async (req: Request, res: Response) => {
+    try {
+        if(!req.user) return res.status(401).json({ message: "Authentication failed!" });
+
+        const parsed = groupSchema.memberParams.safeParse(req.params);
+
+        // Same 404 as a member of another family.
+        if (!parsed.success) return res.status(404).json({ message: "Membro não encontrado." });
+
+        const result = await groupService.removeMember(req.user.login, parsed.data.id);
+
+        if (result !== "OK") return sendMemberActionError(res, result);
+
+        return res.sendStatus(200);
+    } catch (error) {
+        console.error("[removeMember]: ", error);
+        return res.status(500).json({ message: "Failed to remove member!" })
+    }
+}
+
+// Admin only: makes another person an admin, or an admin back a member.
+const setMemberRole = async (req: Request, res: Response) => {
+    try {
+        if(!req.user) return res.status(401).json({ message: "Authentication failed!" });
+
+        const params = groupSchema.memberParams.safeParse(req.params);
+
+        if (!params.success) return res.status(404).json({ message: "Membro não encontrado." });
+
+        const parsed = groupSchema.setMemberRole.safeParse(req.body);
+
+        if (!parsed.success) return res.status(400).json(z.treeifyError(parsed.error).properties);
+
+        const result = await groupService.setMemberRole(req.user.login, params.data.id, parsed.data.role);
+
+        if (result !== "OK") return sendMemberActionError(res, result);
+
+        return res.sendStatus(200);
+    } catch (error) {
+        console.error("[setMemberRole]: ", error);
+        return res.status(500).json({ message: "Failed to change member role!" })
     }
 }
 
@@ -188,4 +194,4 @@ const join = async (req: Request, res: Response) => {
     }
 }
 
-export default { create, getByUserLogin, update, remove, getMine, updateMine, regenerateInviteCode, leave, join };
+export default { create, getByUserLogin, getMine, updateMine, regenerateInviteCode, leave, removeMember, setMemberRole, join };

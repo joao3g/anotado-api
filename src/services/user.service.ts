@@ -21,7 +21,7 @@ const getMe = async (login: string) => {
         phone: profile.phone,
         avatar: profile.avatar,
         group: profile.group ?
-            { title: profile.group.title, totalMembers: await Group.countUsersByGroup(profile.group.id) }
+            { title: profile.group.title, totalMembers: await Group.countUsersByGroup(profile.group.id), role: profile.role }
             : null
     };
 }
@@ -43,7 +43,8 @@ const login = async (login: string, password: string) => {
             login,
             name: user.name ?? "",
             email: user.email ?? "",
-            group: user.group
+            // Without the role: the token lives for a year, so it would go stale. The API reads the role from the database.
+            group: user.group ? { title: user.group.title, totalMembers: user.group.totalMembers } : null
         };
 
         return {
