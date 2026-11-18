@@ -16,7 +16,8 @@ import { ChatChannel, Choice, IncomingMessage } from './types.js';
 
 const DRAFT_MINUTES = 10;
 const RATE_LIMIT = { messages: 30, minutes: 10 }; // Above this, messages from the sender are ignored
-export const LINK_CODE_REGEX = /\bET-?([A-HJ-NP-Z2-9]{8})\b/i;
+// The dash is required: without it, ordinary words would look like codes ("anualmente" = "AN" + 8 valid letters).
+export const LINK_CODE_REGEX = /\bAN-([A-HJ-NP-Z2-9]{8})\b/i;
 
 const PAYMENT_LABEL: Record<PaymentMethod, string> = { DEBIT: "Débito", CREDIT: "Crédito", VOUCHER: "Vale" };
 
@@ -30,8 +31,8 @@ type Context = {
 };
 type Draft = NonNullable<Awaited<ReturnType<typeof botModel.getDraft>>>;
 
-// "ET-K7MZQ2PA", "etk7mzq2pa" and "K7MZQ2PA" are the same code: only the 8 characters are hashed.
-export const hashLinkCode = (code: string) => createHash("sha256").update(code.toUpperCase().replace(/^ET-?/, "")).digest("hex");
+// "AN-K7MZQ2PA", "an-k7mzq2pa" and "K7MZQ2PA" are the same code: only the 8 characters are hashed.
+export const hashLinkCode = (code: string) => createHash("sha256").update(code.toUpperCase().replace(/^AN-/, "")).digest("hex");
 const minutesFromNow = (minutes: number) => new Date(Date.now() + minutes * 60_000);
 const isoDate = (date: Date) => date.toISOString().slice(0, 10);
 const brDate = (date: Date) => isoDate(date).split("-").reverse().join("/");
@@ -45,7 +46,7 @@ const choiceId = (action: string, draft: Draft, value = "") => `${action}:${draf
 function helpText(channel: ChatChannel) {
     const c = channel.commandPrefix;
     return [
-        "Eu registro as despesas da sua família no Expense Tracker. 💸",
+        "Eu registro as despesas da sua família no Anotado. 💸",
         "",
         "Mande assim:",
         "• mercado 45,90",
@@ -63,7 +64,7 @@ function helpText(channel: ChatChannel) {
 }
 
 const notConnectedText = (channel: ChatChannel) =>
-    `Este ${channel.label} não está conectado ao Expense Tracker. No app, vá em Configurações > Perfil > Bots de mensagem para conectar.`;
+    `Este ${channel.label} não está conectado ao Anotado. No app, vá em Configurações > Perfil > Bots de mensagem para conectar.`;
 
 // "/resumo@MeuBot" -> "resumo", "Ajuda!" -> "ajuda"
 const commandOf = (text: string) => normalize(text).replace(/^\//, "").replace(/@\w+/, "").replace(/[!?.]+$/, "").trim();

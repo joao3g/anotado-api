@@ -1,4 +1,4 @@
-# Expense Tracker API
+# Anotado API
 
 API para controle financeiro pessoal ou em grupo, com suporte a despesas categorizadas, métodos de pagamento e metas financeiras mensais por categoria.
 
@@ -44,8 +44,8 @@ Regras importantes:
 
 ### 1. Clonar o repositório
 ```bash
-git clone https://github.com/joao3g/expense-tracker-api
-cd expense-tracker-api
+git clone https://github.com/joao3g/anotado-api
+cd anotado-api
 ```
 
 ### 2. Instalar dependências
@@ -56,7 +56,7 @@ npm install
 ### 3. Configurar variáveis de ambiente
 Crie um arquivo `.env` com a variável:
 ```env
-DATABASE_URL="postgresql://user:password@localhost:5432/expense_tracker"
+DATABASE_URL="postgresql://user:password@localhost:5432/anotado"
 SALT_ROUNDS=0
 SECRET_KEY="secret_key"
 ```

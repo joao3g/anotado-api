@@ -6,7 +6,7 @@ const webhookSecret = env["TELEGRAM_WEBHOOK_SECRET"] ?? "";
 export const telegramConfig = {
     token: env["TELEGRAM_BOT_TOKEN"] ?? "", // From @BotFather. Full control of the bot: never log it (it is part of API URLs)
     webhookSecret, // Telegram sends it back in X-Telegram-Bot-Api-Secret-Token on every webhook call
-    username: (env["TELEGRAM_BOT_USERNAME"] ?? "").replace(/^@/, ""), // For t.me links, e.g. "ExpenseTrackerFamiliaBot"
+    username: (env["TELEGRAM_BOT_USERNAME"] ?? "").replace(/^@/, ""), // For t.me links, e.g. "AnotadoBot"
     apiBaseUrl: env["TELEGRAM_API_BASE_URL"] ?? "https://api.telegram.org",
     // Public address of this API. Render sets RENDER_EXTERNAL_URL by itself.
     publicUrl: (env["TELEGRAM_WEBHOOK_BASE_URL"] ?? env["RENDER_EXTERNAL_URL"] ?? "").replace(/\/+$/, "")
