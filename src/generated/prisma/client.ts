@@ -75,17 +75,17 @@ export type Recurrence = Prisma.RecurrenceModel
  */
 export type Income = Prisma.IncomeModel
 /**
- * Model WhatsappLinkCode
+ * Model BotLinkCode
  * 
  */
-export type WhatsappLinkCode = Prisma.WhatsappLinkCodeModel
+export type BotLinkCode = Prisma.BotLinkCodeModel
 /**
- * Model WhatsappDraft
+ * Model BotDraft
  * 
  */
-export type WhatsappDraft = Prisma.WhatsappDraftModel
+export type BotDraft = Prisma.BotDraftModel
 /**
- * Model WhatsappMessage
+ * Model BotInboundMessage
  * 
  */
-export type WhatsappMessage = Prisma.WhatsappMessageModel
+export type BotInboundMessage = Prisma.BotInboundMessageModel

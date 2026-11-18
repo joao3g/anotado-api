@@ -58,9 +58,9 @@ export const ModelName = {
   Expense: 'Expense',
   Recurrence: 'Recurrence',
   Income: 'Income',
-  WhatsappLinkCode: 'WhatsappLinkCode',
-  WhatsappDraft: 'WhatsappDraft',
-  WhatsappMessage: 'WhatsappMessage'
+  BotLinkCode: 'BotLinkCode',
+  BotDraft: 'BotDraft',
+  BotInboundMessage: 'BotInboundMessage'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -90,6 +90,7 @@ export const UserScalarFieldEnum = {
   groupId: 'groupId',
   role: 'role',
   whatsappId: 'whatsappId',
+  telegramId: 'telegramId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -190,16 +191,16 @@ export const IncomeScalarFieldEnum = {
 export type IncomeScalarFieldEnum = (typeof IncomeScalarFieldEnum)[keyof typeof IncomeScalarFieldEnum]
 
 
-export const WhatsappLinkCodeScalarFieldEnum = {
+export const BotLinkCodeScalarFieldEnum = {
   userId: 'userId',
   codeHash: 'codeHash',
   expiresAt: 'expiresAt'
 } as const
 
-export type WhatsappLinkCodeScalarFieldEnum = (typeof WhatsappLinkCodeScalarFieldEnum)[keyof typeof WhatsappLinkCodeScalarFieldEnum]
+export type BotLinkCodeScalarFieldEnum = (typeof BotLinkCodeScalarFieldEnum)[keyof typeof BotLinkCodeScalarFieldEnum]
 
 
-export const WhatsappDraftScalarFieldEnum = {
+export const BotDraftScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   title: 'title',
@@ -212,16 +213,16 @@ export const WhatsappDraftScalarFieldEnum = {
   createdAt: 'createdAt'
 } as const
 
-export type WhatsappDraftScalarFieldEnum = (typeof WhatsappDraftScalarFieldEnum)[keyof typeof WhatsappDraftScalarFieldEnum]
+export type BotDraftScalarFieldEnum = (typeof BotDraftScalarFieldEnum)[keyof typeof BotDraftScalarFieldEnum]
 
 
-export const WhatsappMessageScalarFieldEnum = {
+export const BotInboundMessageScalarFieldEnum = {
   id: 'id',
-  waId: 'waId',
+  senderId: 'senderId',
   createdAt: 'createdAt'
 } as const
 
-export type WhatsappMessageScalarFieldEnum = (typeof WhatsappMessageScalarFieldEnum)[keyof typeof WhatsappMessageScalarFieldEnum]
+export type BotInboundMessageScalarFieldEnum = (typeof BotInboundMessageScalarFieldEnum)[keyof typeof BotInboundMessageScalarFieldEnum]
 
 
 export const SortOrder = {
