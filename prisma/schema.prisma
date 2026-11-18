@@ -25,6 +25,11 @@ model User {
 	// Back to MEMBER when leaving or being removed. Every family with members keeps at least one ADMIN.
 	role GroupRole @default(MEMBER)
 
+	// WhatsApp id (wa_id, digits with country code) linked with a one-time code sent to the bot. Never guessed from phone.
+	whatsappId String? @unique
+	whatsappLinkCode WhatsappLinkCode?
+	whatsappDraft WhatsappDraft?
+
 	incomes Income[]
 
     createdAt DateTime @default(now())
@@ -183,4 +188,43 @@ model Income {
 
 	createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+}
+
+// One-time code a user sends to the bot to link their WhatsApp. Only the SHA-256 hash is stored. Valid for 10 minutes.
+model WhatsappLinkCode {
+	user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+	userId String @id
+
+	codeHash String @unique
+	expiresAt DateTime
+}
+
+// Expense being built in the WhatsApp chat, waiting for "Salvar". One per user; expires after 10 minutes.
+// cardId and categoryId are checked against the user's group again when saving.
+model WhatsappDraft {
+	id String @id @default(uuid())
+
+	user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+	userId String @unique
+
+	title String
+	amount Decimal @db.Decimal(10, 2)
+	date DateTime // transactionDate, UTC midnight
+	paymentMethod PaymentMethod?
+	cardId String?
+	categoryId String?
+
+	expiresAt DateTime
+	createdAt DateTime @default(now())
+}
+
+// Messages already received from Meta, so a webhook retry is never processed twice. Also used for rate limits.
+// Only the id and sender; never the message text. Rows older than 30 days are deleted.
+model WhatsappMessage {
+	id String @id // Meta message id ("wamid...")
+	waId String
+
+	createdAt DateTime @default(now())
+
+	@@index([waId, createdAt])
 }
