@@ -337,7 +337,7 @@ async function saveDraft(context: Context, draft: Draft) {
     const created = await expenseService.create(context.user.login, parsed.data);
     if (!created) return await channel.sendText(to, "Não consegui salvar: a categoria ou o cartão não existe mais na sua família. Mande de novo.");
 
-    await channel.sendText(to, `✅ Salvo! *${plain(data.title)}*: ${formatBRL(draft.amount.toFixed(2))}`);
+    await channel.sendText(to, `✅ *Anotado!* ${plain(data.title)}:${formatBRL(draft.amount.toFixed(2))}`);
 }
 
 // ---------- Summary ----------
