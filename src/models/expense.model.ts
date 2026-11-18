@@ -120,4 +120,22 @@ const remove = async (id: string, groupId: string) => {
     return result.count;
 }
 
-export default { create, createMany, getByRangeAndTitle, getByTitle, getSummarizedByRange, getByIdInGroup, getTotalByRange, update, remove };
+// Latest expense of the group with the same title (any case). The WhatsApp bot reuses its category, payment method and card.
+const getLatestByTitleInGroup = async (title: string, groupId: string) => {
+    return await prisma.expense.findFirst({
+        where: { groupId, title: { equals: title, mode: "insensitive" } },
+        orderBy: { createdAt: "desc" },
+        select: { categoryId: true, paymentMethod: true, cardId: true }
+    });
+}
+
+// How many expenses per category since a date (most used categories first in the WhatsApp list).
+const countByCategorySince = async (groupId: string, since: Date) => {
+    return await prisma.expense.groupBy({
+        where: { groupId, createdAt: { gte: since }, categoryId: { not: null } },
+        by: ["categoryId"],
+        _count: { _all: true }
+    });
+}
+
+export default { create, createMany, getByRangeAndTitle, getByTitle, getSummarizedByRange, getByIdInGroup, getTotalByRange, update, remove, getLatestByTitleInGroup, countByCategorySince };

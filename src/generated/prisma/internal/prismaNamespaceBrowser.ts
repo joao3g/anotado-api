@@ -57,7 +57,10 @@ export const ModelName = {
   Card: 'Card',
   Expense: 'Expense',
   Recurrence: 'Recurrence',
-  Income: 'Income'
+  Income: 'Income',
+  WhatsappLinkCode: 'WhatsappLinkCode',
+  WhatsappDraft: 'WhatsappDraft',
+  WhatsappMessage: 'WhatsappMessage'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -86,6 +89,7 @@ export const UserScalarFieldEnum = {
   avatar: 'avatar',
   groupId: 'groupId',
   role: 'role',
+  whatsappId: 'whatsappId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -184,6 +188,40 @@ export const IncomeScalarFieldEnum = {
 } as const
 
 export type IncomeScalarFieldEnum = (typeof IncomeScalarFieldEnum)[keyof typeof IncomeScalarFieldEnum]
+
+
+export const WhatsappLinkCodeScalarFieldEnum = {
+  userId: 'userId',
+  codeHash: 'codeHash',
+  expiresAt: 'expiresAt'
+} as const
+
+export type WhatsappLinkCodeScalarFieldEnum = (typeof WhatsappLinkCodeScalarFieldEnum)[keyof typeof WhatsappLinkCodeScalarFieldEnum]
+
+
+export const WhatsappDraftScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  title: 'title',
+  amount: 'amount',
+  date: 'date',
+  paymentMethod: 'paymentMethod',
+  cardId: 'cardId',
+  categoryId: 'categoryId',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt'
+} as const
+
+export type WhatsappDraftScalarFieldEnum = (typeof WhatsappDraftScalarFieldEnum)[keyof typeof WhatsappDraftScalarFieldEnum]
+
+
+export const WhatsappMessageScalarFieldEnum = {
+  id: 'id',
+  waId: 'waId',
+  createdAt: 'createdAt'
+} as const
+
+export type WhatsappMessageScalarFieldEnum = (typeof WhatsappMessageScalarFieldEnum)[keyof typeof WhatsappMessageScalarFieldEnum]
 
 
 export const SortOrder = {

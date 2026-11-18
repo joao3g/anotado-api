@@ -74,3 +74,18 @@ export type Recurrence = Prisma.RecurrenceModel
  * 
  */
 export type Income = Prisma.IncomeModel
+/**
+ * Model WhatsappLinkCode
+ * 
+ */
+export type WhatsappLinkCode = Prisma.WhatsappLinkCodeModel
+/**
+ * Model WhatsappDraft
+ * 
+ */
+export type WhatsappDraft = Prisma.WhatsappDraftModel
+/**
+ * Model WhatsappMessage
+ * 
+ */
+export type WhatsappMessage = Prisma.WhatsappMessageModel

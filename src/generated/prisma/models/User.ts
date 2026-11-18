@@ -34,6 +34,7 @@ export type UserMinAggregateOutputType = {
   avatar: string | null
   groupId: string | null
   role: $Enums.GroupRole | null
+  whatsappId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -48,6 +49,7 @@ export type UserMaxAggregateOutputType = {
   avatar: string | null
   groupId: string | null
   role: $Enums.GroupRole | null
+  whatsappId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -62,6 +64,7 @@ export type UserCountAggregateOutputType = {
   avatar: number
   groupId: number
   role: number
+  whatsappId: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -78,6 +81,7 @@ export type UserMinAggregateInputType = {
   avatar?: true
   groupId?: true
   role?: true
+  whatsappId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -92,6 +96,7 @@ export type UserMaxAggregateInputType = {
   avatar?: true
   groupId?: true
   role?: true
+  whatsappId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -106,6 +111,7 @@ export type UserCountAggregateInputType = {
   avatar?: true
   groupId?: true
   role?: true
+  whatsappId?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -193,6 +199,7 @@ export type UserGroupByOutputType = {
   avatar: string | null
   groupId: string | null
   role: $Enums.GroupRole
+  whatsappId: string | null
   createdAt: Date
   updatedAt: Date
   _count: UserCountAggregateOutputType | null
@@ -228,9 +235,12 @@ export type UserWhereInput = {
   avatar?: Prisma.StringNullableFilter<"User"> | string | null
   groupId?: Prisma.StringNullableFilter<"User"> | string | null
   role?: Prisma.EnumGroupRoleFilter<"User"> | $Enums.GroupRole
+  whatsappId?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   group?: Prisma.XOR<Prisma.GroupNullableScalarRelationFilter, Prisma.GroupWhereInput> | null
+  whatsappLinkCode?: Prisma.XOR<Prisma.WhatsappLinkCodeNullableScalarRelationFilter, Prisma.WhatsappLinkCodeWhereInput> | null
+  whatsappDraft?: Prisma.XOR<Prisma.WhatsappDraftNullableScalarRelationFilter, Prisma.WhatsappDraftWhereInput> | null
   incomes?: Prisma.IncomeListRelationFilter
 }
 
@@ -244,9 +254,12 @@ export type UserOrderByWithRelationInput = {
   avatar?: Prisma.SortOrderInput | Prisma.SortOrder
   groupId?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
+  whatsappId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   group?: Prisma.GroupOrderByWithRelationInput
+  whatsappLinkCode?: Prisma.WhatsappLinkCodeOrderByWithRelationInput
+  whatsappDraft?: Prisma.WhatsappDraftOrderByWithRelationInput
   incomes?: Prisma.IncomeOrderByRelationAggregateInput
 }
 
@@ -254,6 +267,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   email?: string
   login?: string
+  whatsappId?: string
   AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
@@ -266,8 +280,10 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   group?: Prisma.XOR<Prisma.GroupNullableScalarRelationFilter, Prisma.GroupWhereInput> | null
+  whatsappLinkCode?: Prisma.XOR<Prisma.WhatsappLinkCodeNullableScalarRelationFilter, Prisma.WhatsappLinkCodeWhereInput> | null
+  whatsappDraft?: Prisma.XOR<Prisma.WhatsappDraftNullableScalarRelationFilter, Prisma.WhatsappDraftWhereInput> | null
   incomes?: Prisma.IncomeListRelationFilter
-}, "id" | "email" | "login">
+}, "id" | "email" | "login" | "whatsappId">
 
 export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -279,6 +295,7 @@ export type UserOrderByWithAggregationInput = {
   avatar?: Prisma.SortOrderInput | Prisma.SortOrder
   groupId?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
+  whatsappId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
@@ -299,6 +316,7 @@ export type UserScalarWhereWithAggregatesInput = {
   avatar?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   groupId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   role?: Prisma.EnumGroupRoleWithAggregatesFilter<"User"> | $Enums.GroupRole
+  whatsappId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
 }
@@ -312,9 +330,12 @@ export type UserCreateInput = {
   phone?: string | null
   avatar?: string | null
   role?: $Enums.GroupRole
+  whatsappId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   group?: Prisma.GroupCreateNestedOneWithoutUsersInput
+  whatsappLinkCode?: Prisma.WhatsappLinkCodeCreateNestedOneWithoutUserInput
+  whatsappDraft?: Prisma.WhatsappDraftCreateNestedOneWithoutUserInput
   incomes?: Prisma.IncomeCreateNestedManyWithoutUserInput
 }
 
@@ -328,8 +349,11 @@ export type UserUncheckedCreateInput = {
   avatar?: string | null
   groupId?: string | null
   role?: $Enums.GroupRole
+  whatsappId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  whatsappLinkCode?: Prisma.WhatsappLinkCodeUncheckedCreateNestedOneWithoutUserInput
+  whatsappDraft?: Prisma.WhatsappDraftUncheckedCreateNestedOneWithoutUserInput
   incomes?: Prisma.IncomeUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -342,9 +366,12 @@ export type UserUpdateInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumGroupRoleFieldUpdateOperationsInput | $Enums.GroupRole
+  whatsappId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   group?: Prisma.GroupUpdateOneWithoutUsersNestedInput
+  whatsappLinkCode?: Prisma.WhatsappLinkCodeUpdateOneWithoutUserNestedInput
+  whatsappDraft?: Prisma.WhatsappDraftUpdateOneWithoutUserNestedInput
   incomes?: Prisma.IncomeUpdateManyWithoutUserNestedInput
 }
 
@@ -358,8 +385,11 @@ export type UserUncheckedUpdateInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   groupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumGroupRoleFieldUpdateOperationsInput | $Enums.GroupRole
+  whatsappId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  whatsappLinkCode?: Prisma.WhatsappLinkCodeUncheckedUpdateOneWithoutUserNestedInput
+  whatsappDraft?: Prisma.WhatsappDraftUncheckedUpdateOneWithoutUserNestedInput
   incomes?: Prisma.IncomeUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -373,6 +403,7 @@ export type UserCreateManyInput = {
   avatar?: string | null
   groupId?: string | null
   role?: $Enums.GroupRole
+  whatsappId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -386,6 +417,7 @@ export type UserUpdateManyMutationInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumGroupRoleFieldUpdateOperationsInput | $Enums.GroupRole
+  whatsappId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -400,6 +432,7 @@ export type UserUncheckedUpdateManyInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   groupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumGroupRoleFieldUpdateOperationsInput | $Enums.GroupRole
+  whatsappId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -414,6 +447,7 @@ export type UserCountOrderByAggregateInput = {
   avatar?: Prisma.SortOrder
   groupId?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  whatsappId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -428,6 +462,7 @@ export type UserMaxOrderByAggregateInput = {
   avatar?: Prisma.SortOrder
   groupId?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  whatsappId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -442,6 +477,7 @@ export type UserMinOrderByAggregateInput = {
   avatar?: Prisma.SortOrder
   groupId?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  whatsappId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -533,6 +569,34 @@ export type UserUpdateOneRequiredWithoutIncomesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutIncomesInput, Prisma.UserUpdateWithoutIncomesInput>, Prisma.UserUncheckedUpdateWithoutIncomesInput>
 }
 
+export type UserCreateNestedOneWithoutWhatsappLinkCodeInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutWhatsappLinkCodeInput, Prisma.UserUncheckedCreateWithoutWhatsappLinkCodeInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutWhatsappLinkCodeInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutWhatsappLinkCodeNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutWhatsappLinkCodeInput, Prisma.UserUncheckedCreateWithoutWhatsappLinkCodeInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutWhatsappLinkCodeInput
+  upsert?: Prisma.UserUpsertWithoutWhatsappLinkCodeInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutWhatsappLinkCodeInput, Prisma.UserUpdateWithoutWhatsappLinkCodeInput>, Prisma.UserUncheckedUpdateWithoutWhatsappLinkCodeInput>
+}
+
+export type UserCreateNestedOneWithoutWhatsappDraftInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutWhatsappDraftInput, Prisma.UserUncheckedCreateWithoutWhatsappDraftInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutWhatsappDraftInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutWhatsappDraftNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutWhatsappDraftInput, Prisma.UserUncheckedCreateWithoutWhatsappDraftInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutWhatsappDraftInput
+  upsert?: Prisma.UserUpsertWithoutWhatsappDraftInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutWhatsappDraftInput, Prisma.UserUpdateWithoutWhatsappDraftInput>, Prisma.UserUncheckedUpdateWithoutWhatsappDraftInput>
+}
+
 export type UserCreateWithoutGroupInput = {
   id?: string
   name?: string | null
@@ -542,8 +606,11 @@ export type UserCreateWithoutGroupInput = {
   phone?: string | null
   avatar?: string | null
   role?: $Enums.GroupRole
+  whatsappId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  whatsappLinkCode?: Prisma.WhatsappLinkCodeCreateNestedOneWithoutUserInput
+  whatsappDraft?: Prisma.WhatsappDraftCreateNestedOneWithoutUserInput
   incomes?: Prisma.IncomeCreateNestedManyWithoutUserInput
 }
 
@@ -556,8 +623,11 @@ export type UserUncheckedCreateWithoutGroupInput = {
   phone?: string | null
   avatar?: string | null
   role?: $Enums.GroupRole
+  whatsappId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  whatsappLinkCode?: Prisma.WhatsappLinkCodeUncheckedCreateNestedOneWithoutUserInput
+  whatsappDraft?: Prisma.WhatsappDraftUncheckedCreateNestedOneWithoutUserInput
   incomes?: Prisma.IncomeUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -600,6 +670,7 @@ export type UserScalarWhereInput = {
   avatar?: Prisma.StringNullableFilter<"User"> | string | null
   groupId?: Prisma.StringNullableFilter<"User"> | string | null
   role?: Prisma.EnumGroupRoleFilter<"User"> | $Enums.GroupRole
+  whatsappId?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
 }
@@ -613,9 +684,12 @@ export type UserCreateWithoutIncomesInput = {
   phone?: string | null
   avatar?: string | null
   role?: $Enums.GroupRole
+  whatsappId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   group?: Prisma.GroupCreateNestedOneWithoutUsersInput
+  whatsappLinkCode?: Prisma.WhatsappLinkCodeCreateNestedOneWithoutUserInput
+  whatsappDraft?: Prisma.WhatsappDraftCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutIncomesInput = {
@@ -628,8 +702,11 @@ export type UserUncheckedCreateWithoutIncomesInput = {
   avatar?: string | null
   groupId?: string | null
   role?: $Enums.GroupRole
+  whatsappId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  whatsappLinkCode?: Prisma.WhatsappLinkCodeUncheckedCreateNestedOneWithoutUserInput
+  whatsappDraft?: Prisma.WhatsappDraftUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutIncomesInput = {
@@ -657,9 +734,12 @@ export type UserUpdateWithoutIncomesInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumGroupRoleFieldUpdateOperationsInput | $Enums.GroupRole
+  whatsappId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   group?: Prisma.GroupUpdateOneWithoutUsersNestedInput
+  whatsappLinkCode?: Prisma.WhatsappLinkCodeUpdateOneWithoutUserNestedInput
+  whatsappDraft?: Prisma.WhatsappDraftUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutIncomesInput = {
@@ -672,8 +752,179 @@ export type UserUncheckedUpdateWithoutIncomesInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   groupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumGroupRoleFieldUpdateOperationsInput | $Enums.GroupRole
+  whatsappId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  whatsappLinkCode?: Prisma.WhatsappLinkCodeUncheckedUpdateOneWithoutUserNestedInput
+  whatsappDraft?: Prisma.WhatsappDraftUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserCreateWithoutWhatsappLinkCodeInput = {
+  id?: string
+  name?: string | null
+  email?: string | null
+  login: string
+  password: string
+  phone?: string | null
+  avatar?: string | null
+  role?: $Enums.GroupRole
+  whatsappId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  group?: Prisma.GroupCreateNestedOneWithoutUsersInput
+  whatsappDraft?: Prisma.WhatsappDraftCreateNestedOneWithoutUserInput
+  incomes?: Prisma.IncomeCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutWhatsappLinkCodeInput = {
+  id?: string
+  name?: string | null
+  email?: string | null
+  login: string
+  password: string
+  phone?: string | null
+  avatar?: string | null
+  groupId?: string | null
+  role?: $Enums.GroupRole
+  whatsappId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  whatsappDraft?: Prisma.WhatsappDraftUncheckedCreateNestedOneWithoutUserInput
+  incomes?: Prisma.IncomeUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutWhatsappLinkCodeInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutWhatsappLinkCodeInput, Prisma.UserUncheckedCreateWithoutWhatsappLinkCodeInput>
+}
+
+export type UserUpsertWithoutWhatsappLinkCodeInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutWhatsappLinkCodeInput, Prisma.UserUncheckedUpdateWithoutWhatsappLinkCodeInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutWhatsappLinkCodeInput, Prisma.UserUncheckedCreateWithoutWhatsappLinkCodeInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutWhatsappLinkCodeInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutWhatsappLinkCodeInput, Prisma.UserUncheckedUpdateWithoutWhatsappLinkCodeInput>
+}
+
+export type UserUpdateWithoutWhatsappLinkCodeInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  login?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumGroupRoleFieldUpdateOperationsInput | $Enums.GroupRole
+  whatsappId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  group?: Prisma.GroupUpdateOneWithoutUsersNestedInput
+  whatsappDraft?: Prisma.WhatsappDraftUpdateOneWithoutUserNestedInput
+  incomes?: Prisma.IncomeUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutWhatsappLinkCodeInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  login?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  groupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumGroupRoleFieldUpdateOperationsInput | $Enums.GroupRole
+  whatsappId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  whatsappDraft?: Prisma.WhatsappDraftUncheckedUpdateOneWithoutUserNestedInput
+  incomes?: Prisma.IncomeUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutWhatsappDraftInput = {
+  id?: string
+  name?: string | null
+  email?: string | null
+  login: string
+  password: string
+  phone?: string | null
+  avatar?: string | null
+  role?: $Enums.GroupRole
+  whatsappId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  group?: Prisma.GroupCreateNestedOneWithoutUsersInput
+  whatsappLinkCode?: Prisma.WhatsappLinkCodeCreateNestedOneWithoutUserInput
+  incomes?: Prisma.IncomeCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutWhatsappDraftInput = {
+  id?: string
+  name?: string | null
+  email?: string | null
+  login: string
+  password: string
+  phone?: string | null
+  avatar?: string | null
+  groupId?: string | null
+  role?: $Enums.GroupRole
+  whatsappId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  whatsappLinkCode?: Prisma.WhatsappLinkCodeUncheckedCreateNestedOneWithoutUserInput
+  incomes?: Prisma.IncomeUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutWhatsappDraftInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutWhatsappDraftInput, Prisma.UserUncheckedCreateWithoutWhatsappDraftInput>
+}
+
+export type UserUpsertWithoutWhatsappDraftInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutWhatsappDraftInput, Prisma.UserUncheckedUpdateWithoutWhatsappDraftInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutWhatsappDraftInput, Prisma.UserUncheckedCreateWithoutWhatsappDraftInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutWhatsappDraftInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutWhatsappDraftInput, Prisma.UserUncheckedUpdateWithoutWhatsappDraftInput>
+}
+
+export type UserUpdateWithoutWhatsappDraftInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  login?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumGroupRoleFieldUpdateOperationsInput | $Enums.GroupRole
+  whatsappId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  group?: Prisma.GroupUpdateOneWithoutUsersNestedInput
+  whatsappLinkCode?: Prisma.WhatsappLinkCodeUpdateOneWithoutUserNestedInput
+  incomes?: Prisma.IncomeUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutWhatsappDraftInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  login?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  groupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumGroupRoleFieldUpdateOperationsInput | $Enums.GroupRole
+  whatsappId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  whatsappLinkCode?: Prisma.WhatsappLinkCodeUncheckedUpdateOneWithoutUserNestedInput
+  incomes?: Prisma.IncomeUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyGroupInput = {
@@ -685,6 +936,7 @@ export type UserCreateManyGroupInput = {
   phone?: string | null
   avatar?: string | null
   role?: $Enums.GroupRole
+  whatsappId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -698,8 +950,11 @@ export type UserUpdateWithoutGroupInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumGroupRoleFieldUpdateOperationsInput | $Enums.GroupRole
+  whatsappId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  whatsappLinkCode?: Prisma.WhatsappLinkCodeUpdateOneWithoutUserNestedInput
+  whatsappDraft?: Prisma.WhatsappDraftUpdateOneWithoutUserNestedInput
   incomes?: Prisma.IncomeUpdateManyWithoutUserNestedInput
 }
 
@@ -712,8 +967,11 @@ export type UserUncheckedUpdateWithoutGroupInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumGroupRoleFieldUpdateOperationsInput | $Enums.GroupRole
+  whatsappId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  whatsappLinkCode?: Prisma.WhatsappLinkCodeUncheckedUpdateOneWithoutUserNestedInput
+  whatsappDraft?: Prisma.WhatsappDraftUncheckedUpdateOneWithoutUserNestedInput
   incomes?: Prisma.IncomeUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -726,6 +984,7 @@ export type UserUncheckedUpdateManyWithoutGroupInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumGroupRoleFieldUpdateOperationsInput | $Enums.GroupRole
+  whatsappId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -771,9 +1030,12 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   avatar?: boolean
   groupId?: boolean
   role?: boolean
+  whatsappId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   group?: boolean | Prisma.User$groupArgs<ExtArgs>
+  whatsappLinkCode?: boolean | Prisma.User$whatsappLinkCodeArgs<ExtArgs>
+  whatsappDraft?: boolean | Prisma.User$whatsappDraftArgs<ExtArgs>
   incomes?: boolean | Prisma.User$incomesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
@@ -788,6 +1050,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   avatar?: boolean
   groupId?: boolean
   role?: boolean
+  whatsappId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   group?: boolean | Prisma.User$groupArgs<ExtArgs>
@@ -803,6 +1066,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   avatar?: boolean
   groupId?: boolean
   role?: boolean
+  whatsappId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   group?: boolean | Prisma.User$groupArgs<ExtArgs>
@@ -818,13 +1082,16 @@ export type UserSelectScalar = {
   avatar?: boolean
   groupId?: boolean
   role?: boolean
+  whatsappId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "login" | "password" | "phone" | "avatar" | "groupId" | "role" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "login" | "password" | "phone" | "avatar" | "groupId" | "role" | "whatsappId" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   group?: boolean | Prisma.User$groupArgs<ExtArgs>
+  whatsappLinkCode?: boolean | Prisma.User$whatsappLinkCodeArgs<ExtArgs>
+  whatsappDraft?: boolean | Prisma.User$whatsappDraftArgs<ExtArgs>
   incomes?: boolean | Prisma.User$incomesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -839,6 +1106,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   name: "User"
   objects: {
     group: Prisma.$GroupPayload<ExtArgs> | null
+    whatsappLinkCode: Prisma.$WhatsappLinkCodePayload<ExtArgs> | null
+    whatsappDraft: Prisma.$WhatsappDraftPayload<ExtArgs> | null
     incomes: Prisma.$IncomePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -851,6 +1120,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     avatar: string | null
     groupId: string | null
     role: $Enums.GroupRole
+    whatsappId: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["user"]>
@@ -1248,6 +1518,8 @@ readonly fields: UserFieldRefs;
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   group<T extends Prisma.User$groupArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$groupArgs<ExtArgs>>): Prisma.Prisma__GroupClient<runtime.Types.Result.GetResult<Prisma.$GroupPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  whatsappLinkCode<T extends Prisma.User$whatsappLinkCodeArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$whatsappLinkCodeArgs<ExtArgs>>): Prisma.Prisma__WhatsappLinkCodeClient<runtime.Types.Result.GetResult<Prisma.$WhatsappLinkCodePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  whatsappDraft<T extends Prisma.User$whatsappDraftArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$whatsappDraftArgs<ExtArgs>>): Prisma.Prisma__WhatsappDraftClient<runtime.Types.Result.GetResult<Prisma.$WhatsappDraftPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   incomes<T extends Prisma.User$incomesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$incomesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$IncomePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1287,6 +1559,7 @@ export interface UserFieldRefs {
   readonly avatar: Prisma.FieldRef<"User", 'String'>
   readonly groupId: Prisma.FieldRef<"User", 'String'>
   readonly role: Prisma.FieldRef<"User", 'GroupRole'>
+  readonly whatsappId: Prisma.FieldRef<"User", 'String'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
 }
@@ -1701,6 +1974,44 @@ export type User$groupArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
    */
   include?: Prisma.GroupInclude<ExtArgs> | null
   where?: Prisma.GroupWhereInput
+}
+
+/**
+ * User.whatsappLinkCode
+ */
+export type User$whatsappLinkCodeArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the WhatsappLinkCode
+   */
+  select?: Prisma.WhatsappLinkCodeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the WhatsappLinkCode
+   */
+  omit?: Prisma.WhatsappLinkCodeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WhatsappLinkCodeInclude<ExtArgs> | null
+  where?: Prisma.WhatsappLinkCodeWhereInput
+}
+
+/**
+ * User.whatsappDraft
+ */
+export type User$whatsappDraftArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the WhatsappDraft
+   */
+  select?: Prisma.WhatsappDraftSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the WhatsappDraft
+   */
+  omit?: Prisma.WhatsappDraftOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WhatsappDraftInclude<ExtArgs> | null
+  where?: Prisma.WhatsappDraftWhereInput
 }
 
 /**
