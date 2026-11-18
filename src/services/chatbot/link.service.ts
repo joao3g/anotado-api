@@ -20,7 +20,7 @@ async function getUserId(login: string) {
 const createLinkCode = async (login: string) => {
     const userId = await getUserId(login);
 
-    const code = `ET-${Array.from({ length: 8 }, () => CODE_ALPHABET[randomInt(CODE_ALPHABET.length)]).join("")}`;
+    const code = `AN-${Array.from({ length: 8 }, () => CODE_ALPHABET[randomInt(CODE_ALPHABET.length)]).join("")}`;
     const expiresAt = new Date(Date.now() + LINK_CODE_MINUTES * 60_000);
 
     await botModel.saveLinkCode(userId, hashLinkCode(code), expiresAt);

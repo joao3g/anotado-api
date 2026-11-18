@@ -1,5 +1,5 @@
 {
-  "name": "expense-tracker",
+  "name": "anotado-api",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,16 +10,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/joao3g/expense-tracker.git"
+    "url": "git+https://github.com/joao3g/anotado-api.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "module",
   "bugs": {
-    "url": "https://github.com/joao3g/expense-tracker/issues"
+    "url": "https://github.com/joao3g/anotado-api/issues"
   },
-  "homepage": "https://github.com/joao3g/expense-tracker#readme",
+  "homepage": "https://github.com/joao3g/anotado-api#readme",
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
     "@types/cors": "^2.8.19",
