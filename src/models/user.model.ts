@@ -214,4 +214,40 @@ const remove = async (id: string) => {
     });
 }
 
-export default { create, getById, getByLogin, getByEmail, getForAuthByLogin, getProfileByLogin, updateProfile, joinGroup, leaveGroup, removeMember, setMemberRole, find, update, remove };
+// Password reset: accounts with this email, ignoring case (emails are stored as typed).
+// Includes the last reset request, for the 2-minute wait between emails.
+const listForPasswordReset = async (email: string) => {
+    return await prisma.user.findMany({
+        where: { email: { equals: email, mode: "insensitive" } },
+        select: { id: true, login: true, name: true, email: true, passwordResetToken: { select: { createdAt: true } } },
+        take: 5
+    });
+}
+
+// One link per user: a new one replaces the old one (the old link stops working).
+const savePasswordResetToken = async (userId: string, tokenHash: string, expiresAt: Date) => {
+    await prisma.passwordResetToken.upsert({
+        where: { userId },
+        create: { userId, tokenHash, expiresAt },
+        update: { tokenHash, expiresAt, createdAt: new Date() }
+    });
+}
+
+// Uses a link once: the token is deleted even when it has expired. Sets the new password in the same transaction.
+// Returns false when the link is unknown, already used, or expired.
+const resetPasswordWithToken = async (tokenHash: string, newPassword: string, now: Date) => {
+    const passwordHash = await bcrypt.hash(newPassword, SALT_ROUNDS);
+
+    return await prisma.$transaction(async (tx) => {
+        const token = await tx.passwordResetToken.findUnique({ where: { tokenHash } });
+        if (!token) return false;
+
+        await tx.passwordResetToken.delete({ where: { userId: token.userId } });
+        if (token.expiresAt < now) return false;
+
+        await tx.user.update({ where: { id: token.userId }, data: { password: passwordHash } });
+        return true;
+    });
+}
+
+export default { create, getById, getByLogin, getByEmail, getForAuthByLogin, getProfileByLogin, updateProfile, joinGroup, leaveGroup, removeMember, setMemberRole, find, update, remove, listForPasswordReset, savePasswordResetToken, resetPasswordWithToken };

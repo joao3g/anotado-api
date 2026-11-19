@@ -80,6 +80,11 @@ export type Income = Prisma.IncomeModel
  */
 export type BotLinkCode = Prisma.BotLinkCodeModel
 /**
+ * Model PasswordResetToken
+ * 
+ */
+export type PasswordResetToken = Prisma.PasswordResetTokenModel
+/**
  * Model BotDraft
  * 
  */

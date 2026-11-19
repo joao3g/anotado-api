@@ -59,6 +59,7 @@ export const ModelName = {
   Recurrence: 'Recurrence',
   Income: 'Income',
   BotLinkCode: 'BotLinkCode',
+  PasswordResetToken: 'PasswordResetToken',
   BotDraft: 'BotDraft',
   BotInboundMessage: 'BotInboundMessage'
 } as const
@@ -199,6 +200,16 @@ export const BotLinkCodeScalarFieldEnum = {
 } as const
 
 export type BotLinkCodeScalarFieldEnum = (typeof BotLinkCodeScalarFieldEnum)[keyof typeof BotLinkCodeScalarFieldEnum]
+
+
+export const PasswordResetTokenScalarFieldEnum = {
+  userId: 'userId',
+  tokenHash: 'tokenHash',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt'
+} as const
+
+export type PasswordResetTokenScalarFieldEnum = (typeof PasswordResetTokenScalarFieldEnum)[keyof typeof PasswordResetTokenScalarFieldEnum]
 
 
 export const BotDraftScalarFieldEnum = {

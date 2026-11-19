@@ -32,4 +32,15 @@ const changePassword = z.object({
     newPassword
 });
 
-export default { login, register, updateProfile, updateAvatar, changePassword };
+// "Esqueceu a senha?". Max 254 chars: the longest valid email address.
+const forgotPassword = z.object({
+    email: z.email().max(254)
+});
+
+// The token from the email link: 32 random bytes as base64url (43 chars).
+const resetPassword = z.object({
+    token: z.string().regex(/^[A-Za-z0-9_-]{43}$/),
+    newPassword
+});
+
+export default { login, register, updateProfile, updateAvatar, changePassword, forgotPassword, resetPassword };

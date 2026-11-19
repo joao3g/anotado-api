@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import { Prisma } from '../generated/prisma/client.js';
 import userModel from '../models/user.model.js';
 import userService from '../services/user.service.js';
+import passwordResetService from '../services/password-reset.service.js';
 import authSchema from '../schemas/auth.schema.js';
 
 // Unique login or email already taken.
@@ -135,4 +136,40 @@ const changePassword = async (req: Request, res: Response) => {
     }
 }
 
-export default { login, register, getCurrentUser, updateProfile, updateAvatar, removeAvatar, changePassword };
+// Public. Always the same answer, sent BEFORE looking up the email, so neither the answer nor its time
+// tells whether an account exists. The email is sent after the response.
+const forgotPassword = async (req: Request, res: Response) => {
+    const parsed = authSchema.forgotPassword.safeParse(req.body);
+
+    if (!parsed.success) return res.status(400).json(z.treeifyError(parsed.error).properties);
+
+    res.status(200).json({ message: "If an account has this email, a reset link was sent." });
+
+    passwordResetService.requestReset(parsed.data.email)
+        .catch(error => console.error("[forgotPassword]: ", error));
+}
+
+// Public. The token from the email is the proof: it is used once and expires in 30 minutes.
+const resetPassword = async (req: Request, res: Response) => {
+    try {
+        const parsed = authSchema.resetPassword.safeParse(req.body);
+
+        // A malformed token gets the same answer as an unknown one.
+        if (!parsed.success) {
+            const errors = z.treeifyError(parsed.error).properties;
+            if (errors?.token) return res.status(400).json({ message: "Link inválido ou expirado. Peça um novo link." });
+            return res.status(400).json(errors);
+        }
+
+        const result = await passwordResetService.resetPassword(parsed.data.token, parsed.data.newPassword);
+
+        if (result === "INVALID") return res.status(400).json({ message: "Link inválido ou expirado. Peça um novo link." });
+
+        return res.sendStatus(200);
+    } catch (error) {
+        console.error("[resetPassword]: ", error);
+        return res.status(500).json({ message: "Failed to reset password!" })
+    }
+}
+
+export default { login, register, getCurrentUser, updateProfile, updateAvatar, removeAvatar, changePassword, forgotPassword, resetPassword };
