@@ -10,6 +10,7 @@ import CardRouter from './routers/card.router.js';
 import WhatsappRouter from './routers/whatsapp.router.js';
 import TelegramRouter from './routers/telegram.router.js';
 import BotsRouter from './routers/bots.router.js';
+import FeedbackRouter from './routers/feedback.router.js';
 import { registerTelegramWebhook } from './services/chatbot/telegram.channel.js';
 import authMiddleware from './middlewares/auth.middleware.js';
 import groupMiddleware from './middlewares/group.middleware.js';
@@ -36,6 +37,7 @@ app.use("/card", authMiddleware, groupMiddleware, CardRouter);
 app.use("/whatsapp", WhatsappRouter);
 app.use("/telegram", TelegramRouter);
 app.use("/bots", BotsRouter);
+app.use("/feedback", FeedbackRouter); // "Reportar problema": login only, no family needed
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);

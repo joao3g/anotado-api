@@ -260,6 +260,7 @@ export type UserWhereInput = {
   passwordResetToken?: Prisma.XOR<Prisma.PasswordResetTokenNullableScalarRelationFilter, Prisma.PasswordResetTokenWhereInput> | null
   emailVerificationToken?: Prisma.XOR<Prisma.EmailVerificationTokenNullableScalarRelationFilter, Prisma.EmailVerificationTokenWhereInput> | null
   incomes?: Prisma.IncomeListRelationFilter
+  feedbacks?: Prisma.FeedbackListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -283,6 +284,7 @@ export type UserOrderByWithRelationInput = {
   passwordResetToken?: Prisma.PasswordResetTokenOrderByWithRelationInput
   emailVerificationToken?: Prisma.EmailVerificationTokenOrderByWithRelationInput
   incomes?: Prisma.IncomeOrderByRelationAggregateInput
+  feedbacks?: Prisma.FeedbackOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -309,6 +311,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   passwordResetToken?: Prisma.XOR<Prisma.PasswordResetTokenNullableScalarRelationFilter, Prisma.PasswordResetTokenWhereInput> | null
   emailVerificationToken?: Prisma.XOR<Prisma.EmailVerificationTokenNullableScalarRelationFilter, Prisma.EmailVerificationTokenWhereInput> | null
   incomes?: Prisma.IncomeListRelationFilter
+  feedbacks?: Prisma.FeedbackListRelationFilter
 }, "id" | "email" | "login" | "whatsappId" | "telegramId">
 
 export type UserOrderByWithAggregationInput = {
@@ -371,6 +374,7 @@ export type UserCreateInput = {
   passwordResetToken?: Prisma.PasswordResetTokenCreateNestedOneWithoutUserInput
   emailVerificationToken?: Prisma.EmailVerificationTokenCreateNestedOneWithoutUserInput
   incomes?: Prisma.IncomeCreateNestedManyWithoutUserInput
+  feedbacks?: Prisma.FeedbackCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -393,6 +397,7 @@ export type UserUncheckedCreateInput = {
   passwordResetToken?: Prisma.PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
   emailVerificationToken?: Prisma.EmailVerificationTokenUncheckedCreateNestedOneWithoutUserInput
   incomes?: Prisma.IncomeUncheckedCreateNestedManyWithoutUserInput
+  feedbacks?: Prisma.FeedbackUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -415,6 +420,7 @@ export type UserUpdateInput = {
   passwordResetToken?: Prisma.PasswordResetTokenUpdateOneWithoutUserNestedInput
   emailVerificationToken?: Prisma.EmailVerificationTokenUpdateOneWithoutUserNestedInput
   incomes?: Prisma.IncomeUpdateManyWithoutUserNestedInput
+  feedbacks?: Prisma.FeedbackUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -437,6 +443,7 @@ export type UserUncheckedUpdateInput = {
   passwordResetToken?: Prisma.PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
   emailVerificationToken?: Prisma.EmailVerificationTokenUncheckedUpdateOneWithoutUserNestedInput
   incomes?: Prisma.IncomeUncheckedUpdateManyWithoutUserNestedInput
+  feedbacks?: Prisma.FeedbackUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -553,6 +560,11 @@ export type UserOrderByRelationAggregateInput = {
 export type UserScalarRelationFilter = {
   is?: Prisma.UserWhereInput
   isNot?: Prisma.UserWhereInput
+}
+
+export type UserNullableScalarRelationFilter = {
+  is?: Prisma.UserWhereInput | null
+  isNot?: Prisma.UserWhereInput | null
 }
 
 export type StringFieldUpdateOperationsInput = {
@@ -687,6 +699,22 @@ export type UserUpdateOneRequiredWithoutBotDraftNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutBotDraftInput, Prisma.UserUpdateWithoutBotDraftInput>, Prisma.UserUncheckedUpdateWithoutBotDraftInput>
 }
 
+export type UserCreateNestedOneWithoutFeedbacksInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutFeedbacksInput, Prisma.UserUncheckedCreateWithoutFeedbacksInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFeedbacksInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutFeedbacksNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutFeedbacksInput, Prisma.UserUncheckedCreateWithoutFeedbacksInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFeedbacksInput
+  upsert?: Prisma.UserUpsertWithoutFeedbacksInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutFeedbacksInput, Prisma.UserUpdateWithoutFeedbacksInput>, Prisma.UserUncheckedUpdateWithoutFeedbacksInput>
+}
+
 export type UserCreateWithoutGroupInput = {
   id?: string
   name?: string | null
@@ -706,6 +734,7 @@ export type UserCreateWithoutGroupInput = {
   passwordResetToken?: Prisma.PasswordResetTokenCreateNestedOneWithoutUserInput
   emailVerificationToken?: Prisma.EmailVerificationTokenCreateNestedOneWithoutUserInput
   incomes?: Prisma.IncomeCreateNestedManyWithoutUserInput
+  feedbacks?: Prisma.FeedbackCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutGroupInput = {
@@ -727,6 +756,7 @@ export type UserUncheckedCreateWithoutGroupInput = {
   passwordResetToken?: Prisma.PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
   emailVerificationToken?: Prisma.EmailVerificationTokenUncheckedCreateNestedOneWithoutUserInput
   incomes?: Prisma.IncomeUncheckedCreateNestedManyWithoutUserInput
+  feedbacks?: Prisma.FeedbackUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutGroupInput = {
@@ -794,6 +824,7 @@ export type UserCreateWithoutIncomesInput = {
   botDraft?: Prisma.BotDraftCreateNestedOneWithoutUserInput
   passwordResetToken?: Prisma.PasswordResetTokenCreateNestedOneWithoutUserInput
   emailVerificationToken?: Prisma.EmailVerificationTokenCreateNestedOneWithoutUserInput
+  feedbacks?: Prisma.FeedbackCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutIncomesInput = {
@@ -815,6 +846,7 @@ export type UserUncheckedCreateWithoutIncomesInput = {
   botDraft?: Prisma.BotDraftUncheckedCreateNestedOneWithoutUserInput
   passwordResetToken?: Prisma.PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
   emailVerificationToken?: Prisma.EmailVerificationTokenUncheckedCreateNestedOneWithoutUserInput
+  feedbacks?: Prisma.FeedbackUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutIncomesInput = {
@@ -852,6 +884,7 @@ export type UserUpdateWithoutIncomesInput = {
   botDraft?: Prisma.BotDraftUpdateOneWithoutUserNestedInput
   passwordResetToken?: Prisma.PasswordResetTokenUpdateOneWithoutUserNestedInput
   emailVerificationToken?: Prisma.EmailVerificationTokenUpdateOneWithoutUserNestedInput
+  feedbacks?: Prisma.FeedbackUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutIncomesInput = {
@@ -873,6 +906,7 @@ export type UserUncheckedUpdateWithoutIncomesInput = {
   botDraft?: Prisma.BotDraftUncheckedUpdateOneWithoutUserNestedInput
   passwordResetToken?: Prisma.PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
   emailVerificationToken?: Prisma.EmailVerificationTokenUncheckedUpdateOneWithoutUserNestedInput
+  feedbacks?: Prisma.FeedbackUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutBotLinkCodeInput = {
@@ -894,6 +928,7 @@ export type UserCreateWithoutBotLinkCodeInput = {
   passwordResetToken?: Prisma.PasswordResetTokenCreateNestedOneWithoutUserInput
   emailVerificationToken?: Prisma.EmailVerificationTokenCreateNestedOneWithoutUserInput
   incomes?: Prisma.IncomeCreateNestedManyWithoutUserInput
+  feedbacks?: Prisma.FeedbackCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutBotLinkCodeInput = {
@@ -915,6 +950,7 @@ export type UserUncheckedCreateWithoutBotLinkCodeInput = {
   passwordResetToken?: Prisma.PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
   emailVerificationToken?: Prisma.EmailVerificationTokenUncheckedCreateNestedOneWithoutUserInput
   incomes?: Prisma.IncomeUncheckedCreateNestedManyWithoutUserInput
+  feedbacks?: Prisma.FeedbackUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutBotLinkCodeInput = {
@@ -952,6 +988,7 @@ export type UserUpdateWithoutBotLinkCodeInput = {
   passwordResetToken?: Prisma.PasswordResetTokenUpdateOneWithoutUserNestedInput
   emailVerificationToken?: Prisma.EmailVerificationTokenUpdateOneWithoutUserNestedInput
   incomes?: Prisma.IncomeUpdateManyWithoutUserNestedInput
+  feedbacks?: Prisma.FeedbackUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBotLinkCodeInput = {
@@ -973,6 +1010,7 @@ export type UserUncheckedUpdateWithoutBotLinkCodeInput = {
   passwordResetToken?: Prisma.PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
   emailVerificationToken?: Prisma.EmailVerificationTokenUncheckedUpdateOneWithoutUserNestedInput
   incomes?: Prisma.IncomeUncheckedUpdateManyWithoutUserNestedInput
+  feedbacks?: Prisma.FeedbackUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPasswordResetTokenInput = {
@@ -994,6 +1032,7 @@ export type UserCreateWithoutPasswordResetTokenInput = {
   botDraft?: Prisma.BotDraftCreateNestedOneWithoutUserInput
   emailVerificationToken?: Prisma.EmailVerificationTokenCreateNestedOneWithoutUserInput
   incomes?: Prisma.IncomeCreateNestedManyWithoutUserInput
+  feedbacks?: Prisma.FeedbackCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPasswordResetTokenInput = {
@@ -1015,6 +1054,7 @@ export type UserUncheckedCreateWithoutPasswordResetTokenInput = {
   botDraft?: Prisma.BotDraftUncheckedCreateNestedOneWithoutUserInput
   emailVerificationToken?: Prisma.EmailVerificationTokenUncheckedCreateNestedOneWithoutUserInput
   incomes?: Prisma.IncomeUncheckedCreateNestedManyWithoutUserInput
+  feedbacks?: Prisma.FeedbackUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPasswordResetTokenInput = {
@@ -1052,6 +1092,7 @@ export type UserUpdateWithoutPasswordResetTokenInput = {
   botDraft?: Prisma.BotDraftUpdateOneWithoutUserNestedInput
   emailVerificationToken?: Prisma.EmailVerificationTokenUpdateOneWithoutUserNestedInput
   incomes?: Prisma.IncomeUpdateManyWithoutUserNestedInput
+  feedbacks?: Prisma.FeedbackUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPasswordResetTokenInput = {
@@ -1073,6 +1114,7 @@ export type UserUncheckedUpdateWithoutPasswordResetTokenInput = {
   botDraft?: Prisma.BotDraftUncheckedUpdateOneWithoutUserNestedInput
   emailVerificationToken?: Prisma.EmailVerificationTokenUncheckedUpdateOneWithoutUserNestedInput
   incomes?: Prisma.IncomeUncheckedUpdateManyWithoutUserNestedInput
+  feedbacks?: Prisma.FeedbackUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutEmailVerificationTokenInput = {
@@ -1094,6 +1136,7 @@ export type UserCreateWithoutEmailVerificationTokenInput = {
   botDraft?: Prisma.BotDraftCreateNestedOneWithoutUserInput
   passwordResetToken?: Prisma.PasswordResetTokenCreateNestedOneWithoutUserInput
   incomes?: Prisma.IncomeCreateNestedManyWithoutUserInput
+  feedbacks?: Prisma.FeedbackCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutEmailVerificationTokenInput = {
@@ -1115,6 +1158,7 @@ export type UserUncheckedCreateWithoutEmailVerificationTokenInput = {
   botDraft?: Prisma.BotDraftUncheckedCreateNestedOneWithoutUserInput
   passwordResetToken?: Prisma.PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
   incomes?: Prisma.IncomeUncheckedCreateNestedManyWithoutUserInput
+  feedbacks?: Prisma.FeedbackUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutEmailVerificationTokenInput = {
@@ -1152,6 +1196,7 @@ export type UserUpdateWithoutEmailVerificationTokenInput = {
   botDraft?: Prisma.BotDraftUpdateOneWithoutUserNestedInput
   passwordResetToken?: Prisma.PasswordResetTokenUpdateOneWithoutUserNestedInput
   incomes?: Prisma.IncomeUpdateManyWithoutUserNestedInput
+  feedbacks?: Prisma.FeedbackUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEmailVerificationTokenInput = {
@@ -1173,6 +1218,7 @@ export type UserUncheckedUpdateWithoutEmailVerificationTokenInput = {
   botDraft?: Prisma.BotDraftUncheckedUpdateOneWithoutUserNestedInput
   passwordResetToken?: Prisma.PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
   incomes?: Prisma.IncomeUncheckedUpdateManyWithoutUserNestedInput
+  feedbacks?: Prisma.FeedbackUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutBotDraftInput = {
@@ -1194,6 +1240,7 @@ export type UserCreateWithoutBotDraftInput = {
   passwordResetToken?: Prisma.PasswordResetTokenCreateNestedOneWithoutUserInput
   emailVerificationToken?: Prisma.EmailVerificationTokenCreateNestedOneWithoutUserInput
   incomes?: Prisma.IncomeCreateNestedManyWithoutUserInput
+  feedbacks?: Prisma.FeedbackCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutBotDraftInput = {
@@ -1215,6 +1262,7 @@ export type UserUncheckedCreateWithoutBotDraftInput = {
   passwordResetToken?: Prisma.PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
   emailVerificationToken?: Prisma.EmailVerificationTokenUncheckedCreateNestedOneWithoutUserInput
   incomes?: Prisma.IncomeUncheckedCreateNestedManyWithoutUserInput
+  feedbacks?: Prisma.FeedbackUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutBotDraftInput = {
@@ -1252,6 +1300,7 @@ export type UserUpdateWithoutBotDraftInput = {
   passwordResetToken?: Prisma.PasswordResetTokenUpdateOneWithoutUserNestedInput
   emailVerificationToken?: Prisma.EmailVerificationTokenUpdateOneWithoutUserNestedInput
   incomes?: Prisma.IncomeUpdateManyWithoutUserNestedInput
+  feedbacks?: Prisma.FeedbackUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBotDraftInput = {
@@ -1270,6 +1319,111 @@ export type UserUncheckedUpdateWithoutBotDraftInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   botLinkCode?: Prisma.BotLinkCodeUncheckedUpdateOneWithoutUserNestedInput
+  passwordResetToken?: Prisma.PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
+  emailVerificationToken?: Prisma.EmailVerificationTokenUncheckedUpdateOneWithoutUserNestedInput
+  incomes?: Prisma.IncomeUncheckedUpdateManyWithoutUserNestedInput
+  feedbacks?: Prisma.FeedbackUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutFeedbacksInput = {
+  id?: string
+  name?: string | null
+  email?: string | null
+  emailVerifiedAt?: Date | string | null
+  login: string
+  password: string
+  phone?: string | null
+  avatar?: string | null
+  role?: $Enums.GroupRole
+  whatsappId?: string | null
+  telegramId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  group?: Prisma.GroupCreateNestedOneWithoutUsersInput
+  botLinkCode?: Prisma.BotLinkCodeCreateNestedOneWithoutUserInput
+  botDraft?: Prisma.BotDraftCreateNestedOneWithoutUserInput
+  passwordResetToken?: Prisma.PasswordResetTokenCreateNestedOneWithoutUserInput
+  emailVerificationToken?: Prisma.EmailVerificationTokenCreateNestedOneWithoutUserInput
+  incomes?: Prisma.IncomeCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutFeedbacksInput = {
+  id?: string
+  name?: string | null
+  email?: string | null
+  emailVerifiedAt?: Date | string | null
+  login: string
+  password: string
+  phone?: string | null
+  avatar?: string | null
+  groupId?: string | null
+  role?: $Enums.GroupRole
+  whatsappId?: string | null
+  telegramId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  botLinkCode?: Prisma.BotLinkCodeUncheckedCreateNestedOneWithoutUserInput
+  botDraft?: Prisma.BotDraftUncheckedCreateNestedOneWithoutUserInput
+  passwordResetToken?: Prisma.PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
+  emailVerificationToken?: Prisma.EmailVerificationTokenUncheckedCreateNestedOneWithoutUserInput
+  incomes?: Prisma.IncomeUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutFeedbacksInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutFeedbacksInput, Prisma.UserUncheckedCreateWithoutFeedbacksInput>
+}
+
+export type UserUpsertWithoutFeedbacksInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutFeedbacksInput, Prisma.UserUncheckedUpdateWithoutFeedbacksInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutFeedbacksInput, Prisma.UserUncheckedCreateWithoutFeedbacksInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutFeedbacksInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutFeedbacksInput, Prisma.UserUncheckedUpdateWithoutFeedbacksInput>
+}
+
+export type UserUpdateWithoutFeedbacksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  login?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumGroupRoleFieldUpdateOperationsInput | $Enums.GroupRole
+  whatsappId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  group?: Prisma.GroupUpdateOneWithoutUsersNestedInput
+  botLinkCode?: Prisma.BotLinkCodeUpdateOneWithoutUserNestedInput
+  botDraft?: Prisma.BotDraftUpdateOneWithoutUserNestedInput
+  passwordResetToken?: Prisma.PasswordResetTokenUpdateOneWithoutUserNestedInput
+  emailVerificationToken?: Prisma.EmailVerificationTokenUpdateOneWithoutUserNestedInput
+  incomes?: Prisma.IncomeUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutFeedbacksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  login?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  groupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumGroupRoleFieldUpdateOperationsInput | $Enums.GroupRole
+  whatsappId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  botLinkCode?: Prisma.BotLinkCodeUncheckedUpdateOneWithoutUserNestedInput
+  botDraft?: Prisma.BotDraftUncheckedUpdateOneWithoutUserNestedInput
   passwordResetToken?: Prisma.PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
   emailVerificationToken?: Prisma.EmailVerificationTokenUncheckedUpdateOneWithoutUserNestedInput
   incomes?: Prisma.IncomeUncheckedUpdateManyWithoutUserNestedInput
@@ -1310,6 +1464,7 @@ export type UserUpdateWithoutGroupInput = {
   passwordResetToken?: Prisma.PasswordResetTokenUpdateOneWithoutUserNestedInput
   emailVerificationToken?: Prisma.EmailVerificationTokenUpdateOneWithoutUserNestedInput
   incomes?: Prisma.IncomeUpdateManyWithoutUserNestedInput
+  feedbacks?: Prisma.FeedbackUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutGroupInput = {
@@ -1331,6 +1486,7 @@ export type UserUncheckedUpdateWithoutGroupInput = {
   passwordResetToken?: Prisma.PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
   emailVerificationToken?: Prisma.EmailVerificationTokenUncheckedUpdateOneWithoutUserNestedInput
   incomes?: Prisma.IncomeUncheckedUpdateManyWithoutUserNestedInput
+  feedbacks?: Prisma.FeedbackUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateManyWithoutGroupInput = {
@@ -1356,10 +1512,12 @@ export type UserUncheckedUpdateManyWithoutGroupInput = {
 
 export type UserCountOutputType = {
   incomes: number
+  feedbacks: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   incomes?: boolean | UserCountOutputTypeCountIncomesArgs
+  feedbacks?: boolean | UserCountOutputTypeCountFeedbacksArgs
 }
 
 /**
@@ -1377,6 +1535,13 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
  */
 export type UserCountOutputTypeCountIncomesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.IncomeWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountFeedbacksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.FeedbackWhereInput
 }
 
 
@@ -1401,6 +1566,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   passwordResetToken?: boolean | Prisma.User$passwordResetTokenArgs<ExtArgs>
   emailVerificationToken?: boolean | Prisma.User$emailVerificationTokenArgs<ExtArgs>
   incomes?: boolean | Prisma.User$incomesArgs<ExtArgs>
+  feedbacks?: boolean | Prisma.User$feedbacksArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1465,6 +1631,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   passwordResetToken?: boolean | Prisma.User$passwordResetTokenArgs<ExtArgs>
   emailVerificationToken?: boolean | Prisma.User$emailVerificationTokenArgs<ExtArgs>
   incomes?: boolean | Prisma.User$incomesArgs<ExtArgs>
+  feedbacks?: boolean | Prisma.User$feedbacksArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1483,6 +1650,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     passwordResetToken: Prisma.$PasswordResetTokenPayload<ExtArgs> | null
     emailVerificationToken: Prisma.$EmailVerificationTokenPayload<ExtArgs> | null
     incomes: Prisma.$IncomePayload<ExtArgs>[]
+    feedbacks: Prisma.$FeedbackPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1899,6 +2067,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   passwordResetToken<T extends Prisma.User$passwordResetTokenArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$passwordResetTokenArgs<ExtArgs>>): Prisma.Prisma__PasswordResetTokenClient<runtime.Types.Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   emailVerificationToken<T extends Prisma.User$emailVerificationTokenArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$emailVerificationTokenArgs<ExtArgs>>): Prisma.Prisma__EmailVerificationTokenClient<runtime.Types.Result.GetResult<Prisma.$EmailVerificationTokenPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   incomes<T extends Prisma.User$incomesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$incomesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$IncomePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  feedbacks<T extends Prisma.User$feedbacksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$feedbacksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FeedbackPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2454,6 +2623,30 @@ export type User$incomesArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   distinct?: Prisma.IncomeScalarFieldEnum | Prisma.IncomeScalarFieldEnum[]
+}
+
+/**
+ * User.feedbacks
+ */
+export type User$feedbacksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Feedback
+   */
+  select?: Prisma.FeedbackSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Feedback
+   */
+  omit?: Prisma.FeedbackOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FeedbackInclude<ExtArgs> | null
+  where?: Prisma.FeedbackWhereInput
+  orderBy?: Prisma.FeedbackOrderByWithRelationInput | Prisma.FeedbackOrderByWithRelationInput[]
+  cursor?: Prisma.FeedbackWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.FeedbackScalarFieldEnum | Prisma.FeedbackScalarFieldEnum[]
 }
 
 /**
