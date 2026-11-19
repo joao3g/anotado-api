@@ -77,3 +77,8 @@ export type BotDraft = Prisma.BotDraftModel
  * 
  */
 export type BotInboundMessage = Prisma.BotInboundMessageModel
+/**
+ * Model Feedback
+ * 
+ */
+export type Feedback = Prisma.FeedbackModel

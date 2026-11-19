@@ -1,6 +1,7 @@
 import { emailConfig } from '../utils/email-config.js';
 
-type Email = { to: string, subject: string, text: string, html: string };
+// replyTo: where "Reply" in the inbox goes (e.g. the user who sent a report).
+type Email = { to: string, subject: string, text: string, html: string, replyTo?: string };
 
 // Sends one email with Resend's HTTP API (no library). Returns false on failure.
 // Never logs the email body: it may hold a password reset link.
@@ -12,7 +13,10 @@ const sendEmail = async (email: Email) => {
                 Authorization: `Bearer ${emailConfig.resendApiKey}`,
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ from: emailConfig.from, to: [email.to], subject: email.subject, text: email.text, html: email.html }),
+            body: JSON.stringify({
+                from: emailConfig.from, to: [email.to], subject: email.subject, text: email.text, html: email.html,
+                ...(email.replyTo ? { reply_to: email.replyTo } : {})
+            }),
             signal: AbortSignal.timeout(10_000)
         });
 

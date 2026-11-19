@@ -24,3 +24,11 @@ export const PaymentMethod = {
 } as const
 
 export type PaymentMethod = (typeof PaymentMethod)[keyof typeof PaymentMethod]
+
+
+export const FeedbackType = {
+  BUG: 'BUG',
+  COMPLAINT: 'COMPLAINT'
+} as const
+
+export type FeedbackType = (typeof FeedbackType)[keyof typeof FeedbackType]
