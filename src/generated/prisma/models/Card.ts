@@ -28,10 +28,12 @@ export type AggregateCard = {
 
 export type CardAvgAggregateOutputType = {
   closingDay: number | null
+  dueDay: number | null
 }
 
 export type CardSumAggregateOutputType = {
   closingDay: number | null
+  dueDay: number | null
 }
 
 export type CardMinAggregateOutputType = {
@@ -40,6 +42,7 @@ export type CardMinAggregateOutputType = {
   lastFourDigits: string | null
   color: string | null
   closingDay: number | null
+  dueDay: number | null
   groupId: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -51,6 +54,7 @@ export type CardMaxAggregateOutputType = {
   lastFourDigits: string | null
   color: string | null
   closingDay: number | null
+  dueDay: number | null
   groupId: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -62,6 +66,7 @@ export type CardCountAggregateOutputType = {
   lastFourDigits: number
   color: number
   closingDay: number
+  dueDay: number
   groupId: number
   createdAt: number
   updatedAt: number
@@ -71,10 +76,12 @@ export type CardCountAggregateOutputType = {
 
 export type CardAvgAggregateInputType = {
   closingDay?: true
+  dueDay?: true
 }
 
 export type CardSumAggregateInputType = {
   closingDay?: true
+  dueDay?: true
 }
 
 export type CardMinAggregateInputType = {
@@ -83,6 +90,7 @@ export type CardMinAggregateInputType = {
   lastFourDigits?: true
   color?: true
   closingDay?: true
+  dueDay?: true
   groupId?: true
   createdAt?: true
   updatedAt?: true
@@ -94,6 +102,7 @@ export type CardMaxAggregateInputType = {
   lastFourDigits?: true
   color?: true
   closingDay?: true
+  dueDay?: true
   groupId?: true
   createdAt?: true
   updatedAt?: true
@@ -105,6 +114,7 @@ export type CardCountAggregateInputType = {
   lastFourDigits?: true
   color?: true
   closingDay?: true
+  dueDay?: true
   groupId?: true
   createdAt?: true
   updatedAt?: true
@@ -203,6 +213,7 @@ export type CardGroupByOutputType = {
   lastFourDigits: string | null
   color: string
   closingDay: number
+  dueDay: number
   groupId: string
   createdAt: Date
   updatedAt: Date
@@ -237,6 +248,7 @@ export type CardWhereInput = {
   lastFourDigits?: Prisma.StringNullableFilter<"Card"> | string | null
   color?: Prisma.StringFilter<"Card"> | string
   closingDay?: Prisma.IntFilter<"Card"> | number
+  dueDay?: Prisma.IntFilter<"Card"> | number
   groupId?: Prisma.StringFilter<"Card"> | string
   createdAt?: Prisma.DateTimeFilter<"Card"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Card"> | Date | string
@@ -251,6 +263,7 @@ export type CardOrderByWithRelationInput = {
   lastFourDigits?: Prisma.SortOrderInput | Prisma.SortOrder
   color?: Prisma.SortOrder
   closingDay?: Prisma.SortOrder
+  dueDay?: Prisma.SortOrder
   groupId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -268,6 +281,7 @@ export type CardWhereUniqueInput = Prisma.AtLeast<{
   lastFourDigits?: Prisma.StringNullableFilter<"Card"> | string | null
   color?: Prisma.StringFilter<"Card"> | string
   closingDay?: Prisma.IntFilter<"Card"> | number
+  dueDay?: Prisma.IntFilter<"Card"> | number
   groupId?: Prisma.StringFilter<"Card"> | string
   createdAt?: Prisma.DateTimeFilter<"Card"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Card"> | Date | string
@@ -282,6 +296,7 @@ export type CardOrderByWithAggregationInput = {
   lastFourDigits?: Prisma.SortOrderInput | Prisma.SortOrder
   color?: Prisma.SortOrder
   closingDay?: Prisma.SortOrder
+  dueDay?: Prisma.SortOrder
   groupId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -301,6 +316,7 @@ export type CardScalarWhereWithAggregatesInput = {
   lastFourDigits?: Prisma.StringNullableWithAggregatesFilter<"Card"> | string | null
   color?: Prisma.StringWithAggregatesFilter<"Card"> | string
   closingDay?: Prisma.IntWithAggregatesFilter<"Card"> | number
+  dueDay?: Prisma.IntWithAggregatesFilter<"Card"> | number
   groupId?: Prisma.StringWithAggregatesFilter<"Card"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Card"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Card"> | Date | string
@@ -312,6 +328,7 @@ export type CardCreateInput = {
   lastFourDigits?: string | null
   color?: string
   closingDay: number
+  dueDay: number
   createdAt?: Date | string
   updatedAt?: Date | string
   expenses?: Prisma.ExpenseCreateNestedManyWithoutCardInput
@@ -325,6 +342,7 @@ export type CardUncheckedCreateInput = {
   lastFourDigits?: string | null
   color?: string
   closingDay: number
+  dueDay: number
   groupId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -338,6 +356,7 @@ export type CardUpdateInput = {
   lastFourDigits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   color?: Prisma.StringFieldUpdateOperationsInput | string
   closingDay?: Prisma.IntFieldUpdateOperationsInput | number
+  dueDay?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expenses?: Prisma.ExpenseUpdateManyWithoutCardNestedInput
@@ -351,6 +370,7 @@ export type CardUncheckedUpdateInput = {
   lastFourDigits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   color?: Prisma.StringFieldUpdateOperationsInput | string
   closingDay?: Prisma.IntFieldUpdateOperationsInput | number
+  dueDay?: Prisma.IntFieldUpdateOperationsInput | number
   groupId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -364,6 +384,7 @@ export type CardCreateManyInput = {
   lastFourDigits?: string | null
   color?: string
   closingDay: number
+  dueDay: number
   groupId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -375,6 +396,7 @@ export type CardUpdateManyMutationInput = {
   lastFourDigits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   color?: Prisma.StringFieldUpdateOperationsInput | string
   closingDay?: Prisma.IntFieldUpdateOperationsInput | number
+  dueDay?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -385,6 +407,7 @@ export type CardUncheckedUpdateManyInput = {
   lastFourDigits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   color?: Prisma.StringFieldUpdateOperationsInput | string
   closingDay?: Prisma.IntFieldUpdateOperationsInput | number
+  dueDay?: Prisma.IntFieldUpdateOperationsInput | number
   groupId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -406,6 +429,7 @@ export type CardCountOrderByAggregateInput = {
   lastFourDigits?: Prisma.SortOrder
   color?: Prisma.SortOrder
   closingDay?: Prisma.SortOrder
+  dueDay?: Prisma.SortOrder
   groupId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -413,6 +437,7 @@ export type CardCountOrderByAggregateInput = {
 
 export type CardAvgOrderByAggregateInput = {
   closingDay?: Prisma.SortOrder
+  dueDay?: Prisma.SortOrder
 }
 
 export type CardMaxOrderByAggregateInput = {
@@ -421,6 +446,7 @@ export type CardMaxOrderByAggregateInput = {
   lastFourDigits?: Prisma.SortOrder
   color?: Prisma.SortOrder
   closingDay?: Prisma.SortOrder
+  dueDay?: Prisma.SortOrder
   groupId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -432,6 +458,7 @@ export type CardMinOrderByAggregateInput = {
   lastFourDigits?: Prisma.SortOrder
   color?: Prisma.SortOrder
   closingDay?: Prisma.SortOrder
+  dueDay?: Prisma.SortOrder
   groupId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -439,6 +466,7 @@ export type CardMinOrderByAggregateInput = {
 
 export type CardSumOrderByAggregateInput = {
   closingDay?: Prisma.SortOrder
+  dueDay?: Prisma.SortOrder
 }
 
 export type CardNullableScalarRelationFilter = {
@@ -534,6 +562,7 @@ export type CardCreateWithoutGroupInput = {
   lastFourDigits?: string | null
   color?: string
   closingDay: number
+  dueDay: number
   createdAt?: Date | string
   updatedAt?: Date | string
   expenses?: Prisma.ExpenseCreateNestedManyWithoutCardInput
@@ -546,6 +575,7 @@ export type CardUncheckedCreateWithoutGroupInput = {
   lastFourDigits?: string | null
   color?: string
   closingDay: number
+  dueDay: number
   createdAt?: Date | string
   updatedAt?: Date | string
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutCardInput
@@ -587,6 +617,7 @@ export type CardScalarWhereInput = {
   lastFourDigits?: Prisma.StringNullableFilter<"Card"> | string | null
   color?: Prisma.StringFilter<"Card"> | string
   closingDay?: Prisma.IntFilter<"Card"> | number
+  dueDay?: Prisma.IntFilter<"Card"> | number
   groupId?: Prisma.StringFilter<"Card"> | string
   createdAt?: Prisma.DateTimeFilter<"Card"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Card"> | Date | string
@@ -598,6 +629,7 @@ export type CardCreateWithoutExpensesInput = {
   lastFourDigits?: string | null
   color?: string
   closingDay: number
+  dueDay: number
   createdAt?: Date | string
   updatedAt?: Date | string
   recurrences?: Prisma.RecurrenceCreateNestedManyWithoutCardInput
@@ -610,6 +642,7 @@ export type CardUncheckedCreateWithoutExpensesInput = {
   lastFourDigits?: string | null
   color?: string
   closingDay: number
+  dueDay: number
   groupId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -638,6 +671,7 @@ export type CardUpdateWithoutExpensesInput = {
   lastFourDigits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   color?: Prisma.StringFieldUpdateOperationsInput | string
   closingDay?: Prisma.IntFieldUpdateOperationsInput | number
+  dueDay?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   recurrences?: Prisma.RecurrenceUpdateManyWithoutCardNestedInput
@@ -650,6 +684,7 @@ export type CardUncheckedUpdateWithoutExpensesInput = {
   lastFourDigits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   color?: Prisma.StringFieldUpdateOperationsInput | string
   closingDay?: Prisma.IntFieldUpdateOperationsInput | number
+  dueDay?: Prisma.IntFieldUpdateOperationsInput | number
   groupId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -662,6 +697,7 @@ export type CardCreateWithoutRecurrencesInput = {
   lastFourDigits?: string | null
   color?: string
   closingDay: number
+  dueDay: number
   createdAt?: Date | string
   updatedAt?: Date | string
   expenses?: Prisma.ExpenseCreateNestedManyWithoutCardInput
@@ -674,6 +710,7 @@ export type CardUncheckedCreateWithoutRecurrencesInput = {
   lastFourDigits?: string | null
   color?: string
   closingDay: number
+  dueDay: number
   groupId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -702,6 +739,7 @@ export type CardUpdateWithoutRecurrencesInput = {
   lastFourDigits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   color?: Prisma.StringFieldUpdateOperationsInput | string
   closingDay?: Prisma.IntFieldUpdateOperationsInput | number
+  dueDay?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expenses?: Prisma.ExpenseUpdateManyWithoutCardNestedInput
@@ -714,6 +752,7 @@ export type CardUncheckedUpdateWithoutRecurrencesInput = {
   lastFourDigits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   color?: Prisma.StringFieldUpdateOperationsInput | string
   closingDay?: Prisma.IntFieldUpdateOperationsInput | number
+  dueDay?: Prisma.IntFieldUpdateOperationsInput | number
   groupId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -726,6 +765,7 @@ export type CardCreateManyGroupInput = {
   lastFourDigits?: string | null
   color?: string
   closingDay: number
+  dueDay: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -736,6 +776,7 @@ export type CardUpdateWithoutGroupInput = {
   lastFourDigits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   color?: Prisma.StringFieldUpdateOperationsInput | string
   closingDay?: Prisma.IntFieldUpdateOperationsInput | number
+  dueDay?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expenses?: Prisma.ExpenseUpdateManyWithoutCardNestedInput
@@ -748,6 +789,7 @@ export type CardUncheckedUpdateWithoutGroupInput = {
   lastFourDigits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   color?: Prisma.StringFieldUpdateOperationsInput | string
   closingDay?: Prisma.IntFieldUpdateOperationsInput | number
+  dueDay?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutCardNestedInput
@@ -760,6 +802,7 @@ export type CardUncheckedUpdateManyWithoutGroupInput = {
   lastFourDigits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   color?: Prisma.StringFieldUpdateOperationsInput | string
   closingDay?: Prisma.IntFieldUpdateOperationsInput | number
+  dueDay?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -810,6 +853,7 @@ export type CardSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   lastFourDigits?: boolean
   color?: boolean
   closingDay?: boolean
+  dueDay?: boolean
   groupId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -825,6 +869,7 @@ export type CardSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   lastFourDigits?: boolean
   color?: boolean
   closingDay?: boolean
+  dueDay?: boolean
   groupId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -837,6 +882,7 @@ export type CardSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   lastFourDigits?: boolean
   color?: boolean
   closingDay?: boolean
+  dueDay?: boolean
   groupId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -849,12 +895,13 @@ export type CardSelectScalar = {
   lastFourDigits?: boolean
   color?: boolean
   closingDay?: boolean
+  dueDay?: boolean
   groupId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type CardOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "lastFourDigits" | "color" | "closingDay" | "groupId" | "createdAt" | "updatedAt", ExtArgs["result"]["card"]>
+export type CardOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "lastFourDigits" | "color" | "closingDay" | "dueDay" | "groupId" | "createdAt" | "updatedAt", ExtArgs["result"]["card"]>
 export type CardInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   expenses?: boolean | Prisma.Card$expensesArgs<ExtArgs>
   recurrences?: boolean | Prisma.Card$recurrencesArgs<ExtArgs>
@@ -881,6 +928,7 @@ export type $CardPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     lastFourDigits: string | null
     color: string
     closingDay: number
+    dueDay: number
     groupId: string
     createdAt: Date
     updatedAt: Date
@@ -1315,6 +1363,7 @@ export interface CardFieldRefs {
   readonly lastFourDigits: Prisma.FieldRef<"Card", 'String'>
   readonly color: Prisma.FieldRef<"Card", 'String'>
   readonly closingDay: Prisma.FieldRef<"Card", 'Int'>
+  readonly dueDay: Prisma.FieldRef<"Card", 'Int'>
   readonly groupId: Prisma.FieldRef<"Card", 'String'>
   readonly createdAt: Prisma.FieldRef<"Card", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Card", 'DateTime'>

@@ -24,8 +24,8 @@ type RecurrenceBase = {
     groupId: string
 }
 
-// Closing day of the series' card. Not stored on the series: it is read from the card every time.
-type RecurrenceWithClosingDay = RecurrenceBase & { closingDay: number | null }
+// Closing and due days of the series' card (null when not CREDIT). Not stored on the series: they are read from the card every time.
+type RecurrenceWithInvoiceDays = RecurrenceBase & { invoiceDays: { closingDay: number, dueDay: number } | null }
 
 async function getGroupId(userLogin: string) {
     const userData = await userModel.getByLogin(userLogin);
@@ -42,7 +42,7 @@ function openEndedHorizon() {
 
 // Installment #number. Dates always come from the anchor (startDate), never from the previous installment.
 // The amount is copied as-is: it is the value of EACH installment. No division, no rounding.
-function buildInstallment(recurrence: RecurrenceWithClosingDay, number: number): InstallmentInput {
+function buildInstallment(recurrence: RecurrenceWithInvoiceDays, number: number): InstallmentInput {
     const transactionDate = addMonthsClamped(recurrence.startDate, number - 1);
 
     return {
@@ -51,7 +51,7 @@ function buildInstallment(recurrence: RecurrenceWithClosingDay, number: number):
         amount: recurrence.amount,
         paymentMethod: recurrence.paymentMethod,
         transactionDate,
-        dueDate: recurrence.closingDay !== null ? calculateNextInvoiceDate(transactionDate, recurrence.closingDay) : transactionDate,
+        dueDate: recurrence.invoiceDays !== null ? calculateNextInvoiceDate(transactionDate, recurrence.invoiceDays) : transactionDate,
         categoryId: recurrence.categoryId,
         cardId: recurrence.cardId,
         groupId: recurrence.groupId,
@@ -61,7 +61,7 @@ function buildInstallment(recurrence: RecurrenceWithClosingDay, number: number):
 
 // Builds installments from `fromNumber` on. Finite series stop at totalInstallments.
 // Never-ending series stop when dueDate passes `until`.
-function buildInstallments(recurrence: RecurrenceWithClosingDay, fromNumber: number, until: Date) {
+function buildInstallments(recurrence: RecurrenceWithInvoiceDays, fromNumber: number, until: Date) {
     const installments: InstallmentInput[] = [];
 
     for (let number = fromNumber; installments.length < MAX_INSTALLMENTS_PER_RUN; number++) {
@@ -84,7 +84,7 @@ const ensureGeneratedUntil = async (groupId: string, until: Date) => {
         // CREDIT series always have a card (database CHECK). Defensive: skip if not, never guess a closing day.
         if (recurrence.paymentMethod === "CREDIT" && !recurrence.card) continue;
 
-        const installments = buildInstallments({ ...recurrence, closingDay: recurrence.card?.closingDay ?? null }, recurrence.generatedCount + 1, until);
+        const installments = buildInstallments({ ...recurrence, invoiceDays: recurrence.card ?? null }, recurrence.generatedCount + 1, until);
         if (installments.length) await recurrenceModel.appendInstallments(recurrence.id, recurrence.generatedCount, installments);
     }
 }
@@ -119,7 +119,7 @@ const create = async (userLogin: string, data: z.infer<typeof recurrenceSchema.c
             groupId
         };
 
-        const installments = buildInstallments({ ...recurrence, closingDay: card?.closingDay ?? null }, 1, openEndedHorizon());
+        const installments = buildInstallments({ ...recurrence, invoiceDays: card ?? null }, 1, openEndedHorizon());
         const created = await recurrenceModel.create(recurrence, installments);
 
         return { ok: true, data: { id: created.id, generatedInstallments: installments.length } };

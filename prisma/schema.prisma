@@ -85,7 +85,8 @@ model Card {
 	title String
 	lastFourDigits String? // Exactly 4 digits, as a string to keep leading zeros. Never a full card number.
 	color String @default("009A4D") // Hex WITHOUT "#", exactly 6 chars (same format as Category.color)
-	closingDay Int // 1..27 (invoice day 2..28 exists in every month). dueDate of a CREDIT expense = the day after this, in the next invoice.
+	closingDay Int // 1..27. A purchase on or after this day goes to the next invoice.
+	dueDay Int // 1..28 (exists in every month). dueDate of a CREDIT expense = this day: in the closing month when dueDay > closingDay, else in the month after.
 
 	expenses Expense[]
 	recurrences Recurrence[]

@@ -12,6 +12,7 @@ const cardSelect = {
     lastFourDigits: true,
     color: true,
     closingDay: true,
+    dueDay: true,
     createdAt: true
 }
 
@@ -53,14 +54,14 @@ const countUsage = async (id: string, groupId: string) => {
     return expenses + recurrences;
 }
 
-// Updates the card. When the closing day changes, recalculates dueDate of the card's expenses
+// Updates the card. When the closing or due day changes (`newDays`), recalculates dueDate of the card's expenses
 // with dueDate > today (open invoices and future installments). Past rows never change.
 // All in one transaction: the card and its expenses never disagree.
-const updateAndRecalculate = async (id: string, groupId: string, data: Prisma.CardUpdateInput, newClosingDay: number | null, today: Date) => {
+const updateAndRecalculate = async (id: string, groupId: string, data: Prisma.CardUpdateInput, newDays: { closingDay: number, dueDay: number } | null, today: Date) => {
     return await prisma.$transaction(async tx => {
         const card = await tx.card.update({ where: { id, groupId }, data, select: cardSelect });
 
-        if (newClosingDay === null) return { card, recalculatedExpenses: 0 };
+        if (newDays === null) return { card, recalculatedExpenses: 0 };
 
         const futureExpenses = await tx.expense.findMany({
             where: { cardId: id, groupId, dueDate: { gt: today } },
@@ -70,7 +71,7 @@ const updateAndRecalculate = async (id: string, groupId: string, data: Prisma.Ca
         // Group ids by their new dueDate: one updateMany per distinct date instead of one query per row.
         const idsByNewDueDate = new Map<number, string[]>();
         for (const expense of futureExpenses) {
-            const newDueDate = calculateNextInvoiceDate(expense.transactionDate, newClosingDay);
+            const newDueDate = calculateNextInvoiceDate(expense.transactionDate, newDays);
             if (newDueDate.getTime() === expense.dueDate.getTime()) continue;
 
             const ids = idsByNewDueDate.get(newDueDate.getTime()) ?? [];

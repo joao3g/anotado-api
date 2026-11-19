@@ -267,7 +267,7 @@ function summaryText(draft: Draft, context: Context) {
         `📅 ${brDate(draft.date)}`,
         `💳 ${PAYMENT_LABEL[draft.paymentMethod!]}${card ? ` · ${cardLabel(card)}` : ""}`
     ];
-    if (card) lines.push(`🧾 Fatura de ${brDate(calculateNextInvoiceDate(draft.date, card.closingDay))}`);
+    if (card) lines.push(`🧾 Fatura de ${brDate(calculateNextInvoiceDate(draft.date, card))}`);
     lines.push(`🏷️ ${plain(category?.title ?? "Sem categoria")}`);
 
     return lines.join("\n");
