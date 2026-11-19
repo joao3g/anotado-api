@@ -129,6 +129,7 @@ export const CardScalarFieldEnum = {
   lastFourDigits: 'lastFourDigits',
   color: 'color',
   closingDay: 'closingDay',
+  dueDay: 'dueDay',
   groupId: 'groupId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

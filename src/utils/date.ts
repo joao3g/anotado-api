@@ -2,12 +2,17 @@
 // A "YYYY-MM-DD" string parsed by new Date() is UTC midnight, so we only use UTC getters/setters.
 // Local getters (getDate, setMonth...) would shift a day if the server time zone is not UTC.
 
-export function calculateNextInvoiceDate(date: Date, cardClosingDay: number) {
-    const dueDate = new Date(date);
-    dueDate.setUTCDate(cardClosingDay + 1);
-    if (date.getUTCDate() >= cardClosingDay) dueDate.setUTCMonth(dueDate.getUTCMonth() + 1);
+// Due date of the invoice a CREDIT purchase on `date` goes to.
+// 1. The invoice closes in the purchase month when the day is before closingDay, else in the next month
+//    (a purchase on the closing day goes to the next invoice).
+// 2. It is due on dueDay: in the closing month when dueDay > closingDay, else in the month after.
+// Example: closes on the 3rd, due on the 10th. Bought Nov 5 -> closes Dec 3 -> due Dec 10.
+// dueDay is 1..28, so the day exists in every month. Date.UTC moves month 12 to January of the next year.
+export function calculateNextInvoiceDate(date: Date, card: { closingDay: number, dueDay: number }) {
+    let monthOffset = date.getUTCDate() >= card.closingDay ? 1 : 0;
+    if (card.dueDay <= card.closingDay) monthOffset += 1;
 
-    return dueDate;
+    return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + monthOffset, card.dueDay));
 }
 
 // Adds months and clamps the day to the last day of the target month.

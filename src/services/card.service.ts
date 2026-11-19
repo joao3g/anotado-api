@@ -24,6 +24,7 @@ const create = async (userLogin: string, data: z.infer<typeof cardSchema.create>
             lastFourDigits: data.lastFourDigits ?? null,
             color: data.color.toUpperCase(),
             closingDay: data.closingDay,
+            dueDay: data.dueDay,
             groupId
         });
     } catch (error) {
@@ -47,16 +48,19 @@ const update = async (userLogin: string, data: z.infer<typeof cardSchema.update>
     const currentCard = await cardModel.getByIdInGroup(data.id, groupId);
     if (!currentCard) return { ok: false, reason: "NOT_FOUND" };
 
-    // Only recalculate dates when the closing day really changes.
-    const newClosingDay = data.closingDay !== undefined && data.closingDay !== currentCard.closingDay ? data.closingDay : null;
+    // Only recalculate dates when the closing or due day really changes. A day not sent keeps its current value.
+    const closingDay = data.closingDay ?? currentCard.closingDay;
+    const dueDay = data.dueDay ?? currentCard.dueDay;
+    const daysChanged = closingDay !== currentCard.closingDay || dueDay !== currentCard.dueDay;
 
     // Undefined keys are ignored by Prisma: only the fields sent change. "" clears lastFourDigits.
     const result = await cardModel.updateAndRecalculate(currentCard.id, groupId, {
         title: data.title,
         lastFourDigits: data.lastFourDigits === "" ? null : data.lastFourDigits,
         color: data.color?.toUpperCase(),
-        closingDay: data.closingDay
-    }, newClosingDay, todayInBrazil());
+        closingDay: data.closingDay,
+        dueDay: data.dueDay
+    }, daysChanged ? { closingDay, dueDay } : null, todayInBrazil());
 
     return { ok: true, data: { recalculatedExpenses: result.recalculatedExpenses } };
 }

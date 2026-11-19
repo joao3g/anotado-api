@@ -32,7 +32,7 @@ const create = async (userLogin: string, data: z.infer<typeof expenseSchema.crea
             paymentMethod: data.paymentMethod,
             amount: data.amount,
             transactionDate: new Date(data.date),
-            dueDate: card ? calculateNextInvoiceDate(new Date(data.date), card.closingDay) : new Date(data.date),
+            dueDate: card ? calculateNextInvoiceDate(new Date(data.date), card) : new Date(data.date),
             category: { connect: { id: data.category } },
             ...(card ? { card: { connect: { id: card.id } } } : {}),
             group: { connect: { id: userData.group.id } }
@@ -56,16 +56,16 @@ const createMany = async (userLogin: string, data: z.infer<typeof expenseSchema.
         const validCount = await categoryModel.countInGroup(categoryIds, userData.group.id);
         if (validCount !== categoryIds.length) return false;
 
-        // Same for the cards of CREDIT items. The map also gives each card's closing day.
+        // Same for the cards of CREDIT items. The map also gives each card's closing and due days.
         const cardIds = [...new Set(data.filter(item => item.paymentMethod === "CREDIT").map(item => item.card as string))];
         const cards = await cardModel.listByIdsInGroup(cardIds, userData.group.id);
         if (cards.length !== cardIds.length) return false;
-        const closingDayByCardId = new Map(cards.map(card => [card.id, card.closingDay]));
+        const cardById = new Map(cards.map(card => [card.id, card]));
 
         const toCreateArray: ExpenseCreateManyInput[] = data.map(data => {
             if (!userData.group?.id) throw Error("User group not found!");
 
-            const closingDay = data.paymentMethod === "CREDIT" ? closingDayByCardId.get(data.card as string) : undefined;
+            const card = data.paymentMethod === "CREDIT" ? cardById.get(data.card as string) : undefined;
 
             return {
                 title: data.title,
@@ -73,9 +73,9 @@ const createMany = async (userLogin: string, data: z.infer<typeof expenseSchema.
                 paymentMethod: data.paymentMethod,
                 amount: data.amount,
                 transactionDate: new Date(data.date),
-                dueDate: closingDay !== undefined ? calculateNextInvoiceDate(new Date(data.date), closingDay) : new Date(data.date),
+                dueDate: card !== undefined ? calculateNextInvoiceDate(new Date(data.date), card) : new Date(data.date),
                 categoryId: data.category,
-                cardId: closingDay !== undefined ? data.card : null,
+                cardId: card !== undefined ? card.id : null,
                 groupId: userData.group.id
             }
         });
@@ -182,7 +182,7 @@ const update = async (userLogin: string, data: z.infer<typeof expenseSchema.upda
 
     // CREDIT keeps (or gets) a card from the group. Any other method drops the card.
     const paymentMethod = data.paymentMethod ?? currentExpense.paymentMethod;
-    let card: { id: string, closingDay: number } | null = null;
+    let card: { id: string, closingDay: number, dueDay: number } | null = null;
     if (paymentMethod === "CREDIT") {
         const cardId = data.card ?? currentExpense.cardId;
         if (!cardId) return { ok: false, reason: "CARD_REQUIRED" };
@@ -207,12 +207,12 @@ const update = async (userLogin: string, data: z.infer<typeof expenseSchema.upda
         card: card ? { connect: { id: card.id } } : { disconnect: true },
     };
 
-    // dueDate depends on the date, the payment method AND the card's closing day, so recompute it when any of them is sent.
+    // dueDate depends on the date, the payment method AND the card's closing and due days, so recompute it when any of them is sent.
     if (data.date || data.paymentMethod || data.card) {
         const transactionDate = data.date ? new Date(data.date) : currentExpense.transactionDate;
 
         toUpdate.transactionDate = transactionDate;
-        toUpdate.dueDate = card ? calculateNextInvoiceDate(transactionDate, card.closingDay) : transactionDate;
+        toUpdate.dueDate = card ? calculateNextInvoiceDate(transactionDate, card) : transactionDate;
     }
 
     return { ok: true, data: await expenseModel.update(data.id, toUpdate) };

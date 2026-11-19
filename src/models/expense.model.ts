@@ -14,7 +14,7 @@ const expenseSelect = {
     dueDate: true,
     paymentMethod: true,
     category: true,
-    card: { select: { id: true, title: true, lastFourDigits: true, color: true, closingDay: true } },
+    card: { select: { id: true, title: true, lastFourDigits: true, color: true, closingDay: true, dueDay: true } },
     recurrenceId: true,
     installmentNumber: true,
     recurrence: { select: { totalInstallments: true } }, // For the "3/10" label in the UI
