@@ -28,6 +28,7 @@ export type UserMinAggregateOutputType = {
   id: string | null
   name: string | null
   email: string | null
+  emailVerifiedAt: Date | null
   login: string | null
   password: string | null
   phone: string | null
@@ -44,6 +45,7 @@ export type UserMaxAggregateOutputType = {
   id: string | null
   name: string | null
   email: string | null
+  emailVerifiedAt: Date | null
   login: string | null
   password: string | null
   phone: string | null
@@ -60,6 +62,7 @@ export type UserCountAggregateOutputType = {
   id: number
   name: number
   email: number
+  emailVerifiedAt: number
   login: number
   password: number
   phone: number
@@ -78,6 +81,7 @@ export type UserMinAggregateInputType = {
   id?: true
   name?: true
   email?: true
+  emailVerifiedAt?: true
   login?: true
   password?: true
   phone?: true
@@ -94,6 +98,7 @@ export type UserMaxAggregateInputType = {
   id?: true
   name?: true
   email?: true
+  emailVerifiedAt?: true
   login?: true
   password?: true
   phone?: true
@@ -110,6 +115,7 @@ export type UserCountAggregateInputType = {
   id?: true
   name?: true
   email?: true
+  emailVerifiedAt?: true
   login?: true
   password?: true
   phone?: true
@@ -199,6 +205,7 @@ export type UserGroupByOutputType = {
   id: string
   name: string | null
   email: string | null
+  emailVerifiedAt: Date | null
   login: string
   password: string
   phone: string | null
@@ -236,6 +243,7 @@ export type UserWhereInput = {
   id?: Prisma.StringFilter<"User"> | string
   name?: Prisma.StringNullableFilter<"User"> | string | null
   email?: Prisma.StringNullableFilter<"User"> | string | null
+  emailVerifiedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   login?: Prisma.StringFilter<"User"> | string
   password?: Prisma.StringFilter<"User"> | string
   phone?: Prisma.StringNullableFilter<"User"> | string | null
@@ -249,6 +257,8 @@ export type UserWhereInput = {
   group?: Prisma.XOR<Prisma.GroupNullableScalarRelationFilter, Prisma.GroupWhereInput> | null
   botLinkCode?: Prisma.XOR<Prisma.BotLinkCodeNullableScalarRelationFilter, Prisma.BotLinkCodeWhereInput> | null
   botDraft?: Prisma.XOR<Prisma.BotDraftNullableScalarRelationFilter, Prisma.BotDraftWhereInput> | null
+  passwordResetToken?: Prisma.XOR<Prisma.PasswordResetTokenNullableScalarRelationFilter, Prisma.PasswordResetTokenWhereInput> | null
+  emailVerificationToken?: Prisma.XOR<Prisma.EmailVerificationTokenNullableScalarRelationFilter, Prisma.EmailVerificationTokenWhereInput> | null
   incomes?: Prisma.IncomeListRelationFilter
 }
 
@@ -256,6 +266,7 @@ export type UserOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrderInput | Prisma.SortOrder
   email?: Prisma.SortOrderInput | Prisma.SortOrder
+  emailVerifiedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   login?: Prisma.SortOrder
   password?: Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -269,6 +280,8 @@ export type UserOrderByWithRelationInput = {
   group?: Prisma.GroupOrderByWithRelationInput
   botLinkCode?: Prisma.BotLinkCodeOrderByWithRelationInput
   botDraft?: Prisma.BotDraftOrderByWithRelationInput
+  passwordResetToken?: Prisma.PasswordResetTokenOrderByWithRelationInput
+  emailVerificationToken?: Prisma.EmailVerificationTokenOrderByWithRelationInput
   incomes?: Prisma.IncomeOrderByRelationAggregateInput
 }
 
@@ -282,6 +295,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   name?: Prisma.StringNullableFilter<"User"> | string | null
+  emailVerifiedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   password?: Prisma.StringFilter<"User"> | string
   phone?: Prisma.StringNullableFilter<"User"> | string | null
   avatar?: Prisma.StringNullableFilter<"User"> | string | null
@@ -292,6 +306,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   group?: Prisma.XOR<Prisma.GroupNullableScalarRelationFilter, Prisma.GroupWhereInput> | null
   botLinkCode?: Prisma.XOR<Prisma.BotLinkCodeNullableScalarRelationFilter, Prisma.BotLinkCodeWhereInput> | null
   botDraft?: Prisma.XOR<Prisma.BotDraftNullableScalarRelationFilter, Prisma.BotDraftWhereInput> | null
+  passwordResetToken?: Prisma.XOR<Prisma.PasswordResetTokenNullableScalarRelationFilter, Prisma.PasswordResetTokenWhereInput> | null
+  emailVerificationToken?: Prisma.XOR<Prisma.EmailVerificationTokenNullableScalarRelationFilter, Prisma.EmailVerificationTokenWhereInput> | null
   incomes?: Prisma.IncomeListRelationFilter
 }, "id" | "email" | "login" | "whatsappId" | "telegramId">
 
@@ -299,6 +315,7 @@ export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrderInput | Prisma.SortOrder
   email?: Prisma.SortOrderInput | Prisma.SortOrder
+  emailVerifiedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   login?: Prisma.SortOrder
   password?: Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -321,6 +338,7 @@ export type UserScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"User"> | string
   name?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   email?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  emailVerifiedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   login?: Prisma.StringWithAggregatesFilter<"User"> | string
   password?: Prisma.StringWithAggregatesFilter<"User"> | string
   phone?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
@@ -337,6 +355,7 @@ export type UserCreateInput = {
   id?: string
   name?: string | null
   email?: string | null
+  emailVerifiedAt?: Date | string | null
   login: string
   password: string
   phone?: string | null
@@ -349,6 +368,8 @@ export type UserCreateInput = {
   group?: Prisma.GroupCreateNestedOneWithoutUsersInput
   botLinkCode?: Prisma.BotLinkCodeCreateNestedOneWithoutUserInput
   botDraft?: Prisma.BotDraftCreateNestedOneWithoutUserInput
+  passwordResetToken?: Prisma.PasswordResetTokenCreateNestedOneWithoutUserInput
+  emailVerificationToken?: Prisma.EmailVerificationTokenCreateNestedOneWithoutUserInput
   incomes?: Prisma.IncomeCreateNestedManyWithoutUserInput
 }
 
@@ -356,6 +377,7 @@ export type UserUncheckedCreateInput = {
   id?: string
   name?: string | null
   email?: string | null
+  emailVerifiedAt?: Date | string | null
   login: string
   password: string
   phone?: string | null
@@ -368,6 +390,8 @@ export type UserUncheckedCreateInput = {
   updatedAt?: Date | string
   botLinkCode?: Prisma.BotLinkCodeUncheckedCreateNestedOneWithoutUserInput
   botDraft?: Prisma.BotDraftUncheckedCreateNestedOneWithoutUserInput
+  passwordResetToken?: Prisma.PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
+  emailVerificationToken?: Prisma.EmailVerificationTokenUncheckedCreateNestedOneWithoutUserInput
   incomes?: Prisma.IncomeUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -375,6 +399,7 @@ export type UserUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   login?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -387,6 +412,8 @@ export type UserUpdateInput = {
   group?: Prisma.GroupUpdateOneWithoutUsersNestedInput
   botLinkCode?: Prisma.BotLinkCodeUpdateOneWithoutUserNestedInput
   botDraft?: Prisma.BotDraftUpdateOneWithoutUserNestedInput
+  passwordResetToken?: Prisma.PasswordResetTokenUpdateOneWithoutUserNestedInput
+  emailVerificationToken?: Prisma.EmailVerificationTokenUpdateOneWithoutUserNestedInput
   incomes?: Prisma.IncomeUpdateManyWithoutUserNestedInput
 }
 
@@ -394,6 +421,7 @@ export type UserUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   login?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -406,6 +434,8 @@ export type UserUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   botLinkCode?: Prisma.BotLinkCodeUncheckedUpdateOneWithoutUserNestedInput
   botDraft?: Prisma.BotDraftUncheckedUpdateOneWithoutUserNestedInput
+  passwordResetToken?: Prisma.PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
+  emailVerificationToken?: Prisma.EmailVerificationTokenUncheckedUpdateOneWithoutUserNestedInput
   incomes?: Prisma.IncomeUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -413,6 +443,7 @@ export type UserCreateManyInput = {
   id?: string
   name?: string | null
   email?: string | null
+  emailVerifiedAt?: Date | string | null
   login: string
   password: string
   phone?: string | null
@@ -429,6 +460,7 @@ export type UserUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   login?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -444,6 +476,7 @@ export type UserUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   login?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -460,6 +493,7 @@ export type UserCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   email?: Prisma.SortOrder
+  emailVerifiedAt?: Prisma.SortOrder
   login?: Prisma.SortOrder
   password?: Prisma.SortOrder
   phone?: Prisma.SortOrder
@@ -476,6 +510,7 @@ export type UserMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   email?: Prisma.SortOrder
+  emailVerifiedAt?: Prisma.SortOrder
   login?: Prisma.SortOrder
   password?: Prisma.SortOrder
   phone?: Prisma.SortOrder
@@ -492,6 +527,7 @@ export type UserMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   email?: Prisma.SortOrder
+  emailVerifiedAt?: Prisma.SortOrder
   login?: Prisma.SortOrder
   password?: Prisma.SortOrder
   phone?: Prisma.SortOrder
@@ -525,6 +561,10 @@ export type StringFieldUpdateOperationsInput = {
 
 export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null
+}
+
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
 }
 
 export type EnumGroupRoleFieldUpdateOperationsInput = {
@@ -605,6 +645,34 @@ export type UserUpdateOneRequiredWithoutBotLinkCodeNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutBotLinkCodeInput, Prisma.UserUpdateWithoutBotLinkCodeInput>, Prisma.UserUncheckedUpdateWithoutBotLinkCodeInput>
 }
 
+export type UserCreateNestedOneWithoutPasswordResetTokenInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPasswordResetTokenInput, Prisma.UserUncheckedCreateWithoutPasswordResetTokenInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPasswordResetTokenInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutPasswordResetTokenNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPasswordResetTokenInput, Prisma.UserUncheckedCreateWithoutPasswordResetTokenInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPasswordResetTokenInput
+  upsert?: Prisma.UserUpsertWithoutPasswordResetTokenInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPasswordResetTokenInput, Prisma.UserUpdateWithoutPasswordResetTokenInput>, Prisma.UserUncheckedUpdateWithoutPasswordResetTokenInput>
+}
+
+export type UserCreateNestedOneWithoutEmailVerificationTokenInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutEmailVerificationTokenInput, Prisma.UserUncheckedCreateWithoutEmailVerificationTokenInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutEmailVerificationTokenInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutEmailVerificationTokenNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutEmailVerificationTokenInput, Prisma.UserUncheckedCreateWithoutEmailVerificationTokenInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutEmailVerificationTokenInput
+  upsert?: Prisma.UserUpsertWithoutEmailVerificationTokenInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutEmailVerificationTokenInput, Prisma.UserUpdateWithoutEmailVerificationTokenInput>, Prisma.UserUncheckedUpdateWithoutEmailVerificationTokenInput>
+}
+
 export type UserCreateNestedOneWithoutBotDraftInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutBotDraftInput, Prisma.UserUncheckedCreateWithoutBotDraftInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutBotDraftInput
@@ -623,6 +691,7 @@ export type UserCreateWithoutGroupInput = {
   id?: string
   name?: string | null
   email?: string | null
+  emailVerifiedAt?: Date | string | null
   login: string
   password: string
   phone?: string | null
@@ -634,6 +703,8 @@ export type UserCreateWithoutGroupInput = {
   updatedAt?: Date | string
   botLinkCode?: Prisma.BotLinkCodeCreateNestedOneWithoutUserInput
   botDraft?: Prisma.BotDraftCreateNestedOneWithoutUserInput
+  passwordResetToken?: Prisma.PasswordResetTokenCreateNestedOneWithoutUserInput
+  emailVerificationToken?: Prisma.EmailVerificationTokenCreateNestedOneWithoutUserInput
   incomes?: Prisma.IncomeCreateNestedManyWithoutUserInput
 }
 
@@ -641,6 +712,7 @@ export type UserUncheckedCreateWithoutGroupInput = {
   id?: string
   name?: string | null
   email?: string | null
+  emailVerifiedAt?: Date | string | null
   login: string
   password: string
   phone?: string | null
@@ -652,6 +724,8 @@ export type UserUncheckedCreateWithoutGroupInput = {
   updatedAt?: Date | string
   botLinkCode?: Prisma.BotLinkCodeUncheckedCreateNestedOneWithoutUserInput
   botDraft?: Prisma.BotDraftUncheckedCreateNestedOneWithoutUserInput
+  passwordResetToken?: Prisma.PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
+  emailVerificationToken?: Prisma.EmailVerificationTokenUncheckedCreateNestedOneWithoutUserInput
   incomes?: Prisma.IncomeUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -688,6 +762,7 @@ export type UserScalarWhereInput = {
   id?: Prisma.StringFilter<"User"> | string
   name?: Prisma.StringNullableFilter<"User"> | string | null
   email?: Prisma.StringNullableFilter<"User"> | string | null
+  emailVerifiedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   login?: Prisma.StringFilter<"User"> | string
   password?: Prisma.StringFilter<"User"> | string
   phone?: Prisma.StringNullableFilter<"User"> | string | null
@@ -704,6 +779,7 @@ export type UserCreateWithoutIncomesInput = {
   id?: string
   name?: string | null
   email?: string | null
+  emailVerifiedAt?: Date | string | null
   login: string
   password: string
   phone?: string | null
@@ -716,12 +792,15 @@ export type UserCreateWithoutIncomesInput = {
   group?: Prisma.GroupCreateNestedOneWithoutUsersInput
   botLinkCode?: Prisma.BotLinkCodeCreateNestedOneWithoutUserInput
   botDraft?: Prisma.BotDraftCreateNestedOneWithoutUserInput
+  passwordResetToken?: Prisma.PasswordResetTokenCreateNestedOneWithoutUserInput
+  emailVerificationToken?: Prisma.EmailVerificationTokenCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutIncomesInput = {
   id?: string
   name?: string | null
   email?: string | null
+  emailVerifiedAt?: Date | string | null
   login: string
   password: string
   phone?: string | null
@@ -734,6 +813,8 @@ export type UserUncheckedCreateWithoutIncomesInput = {
   updatedAt?: Date | string
   botLinkCode?: Prisma.BotLinkCodeUncheckedCreateNestedOneWithoutUserInput
   botDraft?: Prisma.BotDraftUncheckedCreateNestedOneWithoutUserInput
+  passwordResetToken?: Prisma.PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
+  emailVerificationToken?: Prisma.EmailVerificationTokenUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutIncomesInput = {
@@ -756,6 +837,7 @@ export type UserUpdateWithoutIncomesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   login?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -768,12 +850,15 @@ export type UserUpdateWithoutIncomesInput = {
   group?: Prisma.GroupUpdateOneWithoutUsersNestedInput
   botLinkCode?: Prisma.BotLinkCodeUpdateOneWithoutUserNestedInput
   botDraft?: Prisma.BotDraftUpdateOneWithoutUserNestedInput
+  passwordResetToken?: Prisma.PasswordResetTokenUpdateOneWithoutUserNestedInput
+  emailVerificationToken?: Prisma.EmailVerificationTokenUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutIncomesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   login?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -786,12 +871,15 @@ export type UserUncheckedUpdateWithoutIncomesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   botLinkCode?: Prisma.BotLinkCodeUncheckedUpdateOneWithoutUserNestedInput
   botDraft?: Prisma.BotDraftUncheckedUpdateOneWithoutUserNestedInput
+  passwordResetToken?: Prisma.PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
+  emailVerificationToken?: Prisma.EmailVerificationTokenUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutBotLinkCodeInput = {
   id?: string
   name?: string | null
   email?: string | null
+  emailVerifiedAt?: Date | string | null
   login: string
   password: string
   phone?: string | null
@@ -803,6 +891,8 @@ export type UserCreateWithoutBotLinkCodeInput = {
   updatedAt?: Date | string
   group?: Prisma.GroupCreateNestedOneWithoutUsersInput
   botDraft?: Prisma.BotDraftCreateNestedOneWithoutUserInput
+  passwordResetToken?: Prisma.PasswordResetTokenCreateNestedOneWithoutUserInput
+  emailVerificationToken?: Prisma.EmailVerificationTokenCreateNestedOneWithoutUserInput
   incomes?: Prisma.IncomeCreateNestedManyWithoutUserInput
 }
 
@@ -810,6 +900,7 @@ export type UserUncheckedCreateWithoutBotLinkCodeInput = {
   id?: string
   name?: string | null
   email?: string | null
+  emailVerifiedAt?: Date | string | null
   login: string
   password: string
   phone?: string | null
@@ -821,6 +912,8 @@ export type UserUncheckedCreateWithoutBotLinkCodeInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   botDraft?: Prisma.BotDraftUncheckedCreateNestedOneWithoutUserInput
+  passwordResetToken?: Prisma.PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
+  emailVerificationToken?: Prisma.EmailVerificationTokenUncheckedCreateNestedOneWithoutUserInput
   incomes?: Prisma.IncomeUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -844,6 +937,7 @@ export type UserUpdateWithoutBotLinkCodeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   login?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -855,6 +949,8 @@ export type UserUpdateWithoutBotLinkCodeInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   group?: Prisma.GroupUpdateOneWithoutUsersNestedInput
   botDraft?: Prisma.BotDraftUpdateOneWithoutUserNestedInput
+  passwordResetToken?: Prisma.PasswordResetTokenUpdateOneWithoutUserNestedInput
+  emailVerificationToken?: Prisma.EmailVerificationTokenUpdateOneWithoutUserNestedInput
   incomes?: Prisma.IncomeUpdateManyWithoutUserNestedInput
 }
 
@@ -862,6 +958,7 @@ export type UserUncheckedUpdateWithoutBotLinkCodeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   login?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -873,13 +970,16 @@ export type UserUncheckedUpdateWithoutBotLinkCodeInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   botDraft?: Prisma.BotDraftUncheckedUpdateOneWithoutUserNestedInput
+  passwordResetToken?: Prisma.PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
+  emailVerificationToken?: Prisma.EmailVerificationTokenUncheckedUpdateOneWithoutUserNestedInput
   incomes?: Prisma.IncomeUncheckedUpdateManyWithoutUserNestedInput
 }
 
-export type UserCreateWithoutBotDraftInput = {
+export type UserCreateWithoutPasswordResetTokenInput = {
   id?: string
   name?: string | null
   email?: string | null
+  emailVerifiedAt?: Date | string | null
   login: string
   password: string
   phone?: string | null
@@ -891,13 +991,16 @@ export type UserCreateWithoutBotDraftInput = {
   updatedAt?: Date | string
   group?: Prisma.GroupCreateNestedOneWithoutUsersInput
   botLinkCode?: Prisma.BotLinkCodeCreateNestedOneWithoutUserInput
+  botDraft?: Prisma.BotDraftCreateNestedOneWithoutUserInput
+  emailVerificationToken?: Prisma.EmailVerificationTokenCreateNestedOneWithoutUserInput
   incomes?: Prisma.IncomeCreateNestedManyWithoutUserInput
 }
 
-export type UserUncheckedCreateWithoutBotDraftInput = {
+export type UserUncheckedCreateWithoutPasswordResetTokenInput = {
   id?: string
   name?: string | null
   email?: string | null
+  emailVerifiedAt?: Date | string | null
   login: string
   password: string
   phone?: string | null
@@ -909,6 +1012,208 @@ export type UserUncheckedCreateWithoutBotDraftInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   botLinkCode?: Prisma.BotLinkCodeUncheckedCreateNestedOneWithoutUserInput
+  botDraft?: Prisma.BotDraftUncheckedCreateNestedOneWithoutUserInput
+  emailVerificationToken?: Prisma.EmailVerificationTokenUncheckedCreateNestedOneWithoutUserInput
+  incomes?: Prisma.IncomeUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutPasswordResetTokenInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutPasswordResetTokenInput, Prisma.UserUncheckedCreateWithoutPasswordResetTokenInput>
+}
+
+export type UserUpsertWithoutPasswordResetTokenInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutPasswordResetTokenInput, Prisma.UserUncheckedUpdateWithoutPasswordResetTokenInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutPasswordResetTokenInput, Prisma.UserUncheckedCreateWithoutPasswordResetTokenInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutPasswordResetTokenInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutPasswordResetTokenInput, Prisma.UserUncheckedUpdateWithoutPasswordResetTokenInput>
+}
+
+export type UserUpdateWithoutPasswordResetTokenInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  login?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumGroupRoleFieldUpdateOperationsInput | $Enums.GroupRole
+  whatsappId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  group?: Prisma.GroupUpdateOneWithoutUsersNestedInput
+  botLinkCode?: Prisma.BotLinkCodeUpdateOneWithoutUserNestedInput
+  botDraft?: Prisma.BotDraftUpdateOneWithoutUserNestedInput
+  emailVerificationToken?: Prisma.EmailVerificationTokenUpdateOneWithoutUserNestedInput
+  incomes?: Prisma.IncomeUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutPasswordResetTokenInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  login?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  groupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumGroupRoleFieldUpdateOperationsInput | $Enums.GroupRole
+  whatsappId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  botLinkCode?: Prisma.BotLinkCodeUncheckedUpdateOneWithoutUserNestedInput
+  botDraft?: Prisma.BotDraftUncheckedUpdateOneWithoutUserNestedInput
+  emailVerificationToken?: Prisma.EmailVerificationTokenUncheckedUpdateOneWithoutUserNestedInput
+  incomes?: Prisma.IncomeUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutEmailVerificationTokenInput = {
+  id?: string
+  name?: string | null
+  email?: string | null
+  emailVerifiedAt?: Date | string | null
+  login: string
+  password: string
+  phone?: string | null
+  avatar?: string | null
+  role?: $Enums.GroupRole
+  whatsappId?: string | null
+  telegramId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  group?: Prisma.GroupCreateNestedOneWithoutUsersInput
+  botLinkCode?: Prisma.BotLinkCodeCreateNestedOneWithoutUserInput
+  botDraft?: Prisma.BotDraftCreateNestedOneWithoutUserInput
+  passwordResetToken?: Prisma.PasswordResetTokenCreateNestedOneWithoutUserInput
+  incomes?: Prisma.IncomeCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutEmailVerificationTokenInput = {
+  id?: string
+  name?: string | null
+  email?: string | null
+  emailVerifiedAt?: Date | string | null
+  login: string
+  password: string
+  phone?: string | null
+  avatar?: string | null
+  groupId?: string | null
+  role?: $Enums.GroupRole
+  whatsappId?: string | null
+  telegramId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  botLinkCode?: Prisma.BotLinkCodeUncheckedCreateNestedOneWithoutUserInput
+  botDraft?: Prisma.BotDraftUncheckedCreateNestedOneWithoutUserInput
+  passwordResetToken?: Prisma.PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
+  incomes?: Prisma.IncomeUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutEmailVerificationTokenInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutEmailVerificationTokenInput, Prisma.UserUncheckedCreateWithoutEmailVerificationTokenInput>
+}
+
+export type UserUpsertWithoutEmailVerificationTokenInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutEmailVerificationTokenInput, Prisma.UserUncheckedUpdateWithoutEmailVerificationTokenInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutEmailVerificationTokenInput, Prisma.UserUncheckedCreateWithoutEmailVerificationTokenInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutEmailVerificationTokenInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutEmailVerificationTokenInput, Prisma.UserUncheckedUpdateWithoutEmailVerificationTokenInput>
+}
+
+export type UserUpdateWithoutEmailVerificationTokenInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  login?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumGroupRoleFieldUpdateOperationsInput | $Enums.GroupRole
+  whatsappId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  group?: Prisma.GroupUpdateOneWithoutUsersNestedInput
+  botLinkCode?: Prisma.BotLinkCodeUpdateOneWithoutUserNestedInput
+  botDraft?: Prisma.BotDraftUpdateOneWithoutUserNestedInput
+  passwordResetToken?: Prisma.PasswordResetTokenUpdateOneWithoutUserNestedInput
+  incomes?: Prisma.IncomeUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutEmailVerificationTokenInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  login?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  groupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumGroupRoleFieldUpdateOperationsInput | $Enums.GroupRole
+  whatsappId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  botLinkCode?: Prisma.BotLinkCodeUncheckedUpdateOneWithoutUserNestedInput
+  botDraft?: Prisma.BotDraftUncheckedUpdateOneWithoutUserNestedInput
+  passwordResetToken?: Prisma.PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
+  incomes?: Prisma.IncomeUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutBotDraftInput = {
+  id?: string
+  name?: string | null
+  email?: string | null
+  emailVerifiedAt?: Date | string | null
+  login: string
+  password: string
+  phone?: string | null
+  avatar?: string | null
+  role?: $Enums.GroupRole
+  whatsappId?: string | null
+  telegramId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  group?: Prisma.GroupCreateNestedOneWithoutUsersInput
+  botLinkCode?: Prisma.BotLinkCodeCreateNestedOneWithoutUserInput
+  passwordResetToken?: Prisma.PasswordResetTokenCreateNestedOneWithoutUserInput
+  emailVerificationToken?: Prisma.EmailVerificationTokenCreateNestedOneWithoutUserInput
+  incomes?: Prisma.IncomeCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutBotDraftInput = {
+  id?: string
+  name?: string | null
+  email?: string | null
+  emailVerifiedAt?: Date | string | null
+  login: string
+  password: string
+  phone?: string | null
+  avatar?: string | null
+  groupId?: string | null
+  role?: $Enums.GroupRole
+  whatsappId?: string | null
+  telegramId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  botLinkCode?: Prisma.BotLinkCodeUncheckedCreateNestedOneWithoutUserInput
+  passwordResetToken?: Prisma.PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
+  emailVerificationToken?: Prisma.EmailVerificationTokenUncheckedCreateNestedOneWithoutUserInput
   incomes?: Prisma.IncomeUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -932,6 +1237,7 @@ export type UserUpdateWithoutBotDraftInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   login?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -943,6 +1249,8 @@ export type UserUpdateWithoutBotDraftInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   group?: Prisma.GroupUpdateOneWithoutUsersNestedInput
   botLinkCode?: Prisma.BotLinkCodeUpdateOneWithoutUserNestedInput
+  passwordResetToken?: Prisma.PasswordResetTokenUpdateOneWithoutUserNestedInput
+  emailVerificationToken?: Prisma.EmailVerificationTokenUpdateOneWithoutUserNestedInput
   incomes?: Prisma.IncomeUpdateManyWithoutUserNestedInput
 }
 
@@ -950,6 +1258,7 @@ export type UserUncheckedUpdateWithoutBotDraftInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   login?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -961,6 +1270,8 @@ export type UserUncheckedUpdateWithoutBotDraftInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   botLinkCode?: Prisma.BotLinkCodeUncheckedUpdateOneWithoutUserNestedInput
+  passwordResetToken?: Prisma.PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
+  emailVerificationToken?: Prisma.EmailVerificationTokenUncheckedUpdateOneWithoutUserNestedInput
   incomes?: Prisma.IncomeUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -968,6 +1279,7 @@ export type UserCreateManyGroupInput = {
   id?: string
   name?: string | null
   email?: string | null
+  emailVerifiedAt?: Date | string | null
   login: string
   password: string
   phone?: string | null
@@ -983,6 +1295,7 @@ export type UserUpdateWithoutGroupInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   login?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -994,6 +1307,8 @@ export type UserUpdateWithoutGroupInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   botLinkCode?: Prisma.BotLinkCodeUpdateOneWithoutUserNestedInput
   botDraft?: Prisma.BotDraftUpdateOneWithoutUserNestedInput
+  passwordResetToken?: Prisma.PasswordResetTokenUpdateOneWithoutUserNestedInput
+  emailVerificationToken?: Prisma.EmailVerificationTokenUpdateOneWithoutUserNestedInput
   incomes?: Prisma.IncomeUpdateManyWithoutUserNestedInput
 }
 
@@ -1001,6 +1316,7 @@ export type UserUncheckedUpdateWithoutGroupInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   login?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1012,6 +1328,8 @@ export type UserUncheckedUpdateWithoutGroupInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   botLinkCode?: Prisma.BotLinkCodeUncheckedUpdateOneWithoutUserNestedInput
   botDraft?: Prisma.BotDraftUncheckedUpdateOneWithoutUserNestedInput
+  passwordResetToken?: Prisma.PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
+  emailVerificationToken?: Prisma.EmailVerificationTokenUncheckedUpdateOneWithoutUserNestedInput
   incomes?: Prisma.IncomeUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -1019,6 +1337,7 @@ export type UserUncheckedUpdateManyWithoutGroupInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   login?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1065,6 +1384,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   id?: boolean
   name?: boolean
   email?: boolean
+  emailVerifiedAt?: boolean
   login?: boolean
   password?: boolean
   phone?: boolean
@@ -1078,6 +1398,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   group?: boolean | Prisma.User$groupArgs<ExtArgs>
   botLinkCode?: boolean | Prisma.User$botLinkCodeArgs<ExtArgs>
   botDraft?: boolean | Prisma.User$botDraftArgs<ExtArgs>
+  passwordResetToken?: boolean | Prisma.User$passwordResetTokenArgs<ExtArgs>
+  emailVerificationToken?: boolean | Prisma.User$emailVerificationTokenArgs<ExtArgs>
   incomes?: boolean | Prisma.User$incomesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
@@ -1086,6 +1408,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   id?: boolean
   name?: boolean
   email?: boolean
+  emailVerifiedAt?: boolean
   login?: boolean
   password?: boolean
   phone?: boolean
@@ -1103,6 +1426,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   id?: boolean
   name?: boolean
   email?: boolean
+  emailVerifiedAt?: boolean
   login?: boolean
   password?: boolean
   phone?: boolean
@@ -1120,6 +1444,7 @@ export type UserSelectScalar = {
   id?: boolean
   name?: boolean
   email?: boolean
+  emailVerifiedAt?: boolean
   login?: boolean
   password?: boolean
   phone?: boolean
@@ -1132,11 +1457,13 @@ export type UserSelectScalar = {
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "login" | "password" | "phone" | "avatar" | "groupId" | "role" | "whatsappId" | "telegramId" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "emailVerifiedAt" | "login" | "password" | "phone" | "avatar" | "groupId" | "role" | "whatsappId" | "telegramId" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   group?: boolean | Prisma.User$groupArgs<ExtArgs>
   botLinkCode?: boolean | Prisma.User$botLinkCodeArgs<ExtArgs>
   botDraft?: boolean | Prisma.User$botDraftArgs<ExtArgs>
+  passwordResetToken?: boolean | Prisma.User$passwordResetTokenArgs<ExtArgs>
+  emailVerificationToken?: boolean | Prisma.User$emailVerificationTokenArgs<ExtArgs>
   incomes?: boolean | Prisma.User$incomesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -1153,12 +1480,15 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     group: Prisma.$GroupPayload<ExtArgs> | null
     botLinkCode: Prisma.$BotLinkCodePayload<ExtArgs> | null
     botDraft: Prisma.$BotDraftPayload<ExtArgs> | null
+    passwordResetToken: Prisma.$PasswordResetTokenPayload<ExtArgs> | null
+    emailVerificationToken: Prisma.$EmailVerificationTokenPayload<ExtArgs> | null
     incomes: Prisma.$IncomePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     name: string | null
     email: string | null
+    emailVerifiedAt: Date | null
     login: string
     password: string
     phone: string | null
@@ -1566,6 +1896,8 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   group<T extends Prisma.User$groupArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$groupArgs<ExtArgs>>): Prisma.Prisma__GroupClient<runtime.Types.Result.GetResult<Prisma.$GroupPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   botLinkCode<T extends Prisma.User$botLinkCodeArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$botLinkCodeArgs<ExtArgs>>): Prisma.Prisma__BotLinkCodeClient<runtime.Types.Result.GetResult<Prisma.$BotLinkCodePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   botDraft<T extends Prisma.User$botDraftArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$botDraftArgs<ExtArgs>>): Prisma.Prisma__BotDraftClient<runtime.Types.Result.GetResult<Prisma.$BotDraftPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  passwordResetToken<T extends Prisma.User$passwordResetTokenArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$passwordResetTokenArgs<ExtArgs>>): Prisma.Prisma__PasswordResetTokenClient<runtime.Types.Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  emailVerificationToken<T extends Prisma.User$emailVerificationTokenArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$emailVerificationTokenArgs<ExtArgs>>): Prisma.Prisma__EmailVerificationTokenClient<runtime.Types.Result.GetResult<Prisma.$EmailVerificationTokenPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   incomes<T extends Prisma.User$incomesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$incomesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$IncomePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1599,6 +1931,7 @@ export interface UserFieldRefs {
   readonly id: Prisma.FieldRef<"User", 'String'>
   readonly name: Prisma.FieldRef<"User", 'String'>
   readonly email: Prisma.FieldRef<"User", 'String'>
+  readonly emailVerifiedAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly login: Prisma.FieldRef<"User", 'String'>
   readonly password: Prisma.FieldRef<"User", 'String'>
   readonly phone: Prisma.FieldRef<"User", 'String'>
@@ -2059,6 +2392,44 @@ export type User$botDraftArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    */
   include?: Prisma.BotDraftInclude<ExtArgs> | null
   where?: Prisma.BotDraftWhereInput
+}
+
+/**
+ * User.passwordResetToken
+ */
+export type User$passwordResetTokenArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PasswordResetToken
+   */
+  select?: Prisma.PasswordResetTokenSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PasswordResetToken
+   */
+  omit?: Prisma.PasswordResetTokenOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PasswordResetTokenInclude<ExtArgs> | null
+  where?: Prisma.PasswordResetTokenWhereInput
+}
+
+/**
+ * User.emailVerificationToken
+ */
+export type User$emailVerificationTokenArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the EmailVerificationToken
+   */
+  select?: Prisma.EmailVerificationTokenSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the EmailVerificationToken
+   */
+  omit?: Prisma.EmailVerificationTokenOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EmailVerificationTokenInclude<ExtArgs> | null
+  where?: Prisma.EmailVerificationTokenWhereInput
 }
 
 /**

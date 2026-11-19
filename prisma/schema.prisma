@@ -14,6 +14,7 @@ model User {
     id       String  @id @default(uuid())
     name     String?
     email    String? @unique
+    emailVerifiedAt DateTime? // null = email not confirmed yet: login is refused. Users from before verification existed are set.
     login    String @unique
     password String
     phone    String? // Brazilian phone, digits only (10 or 11 digits with area code)
@@ -30,6 +31,9 @@ model User {
 	telegramId String? @unique // Telegram user id (digits); only private chats are used
 	botLinkCode BotLinkCode?
 	botDraft BotDraft?
+
+	passwordResetToken PasswordResetToken?
+	emailVerificationToken EmailVerificationToken?
 
 	incomes Income[]
 
@@ -199,6 +203,27 @@ model BotLinkCode {
 
 	codeHash String @unique
 	expiresAt DateTime
+}
+
+// "Esqueceu a senha?" link sent by email. One per user: a new request replaces the old link.
+// Only the SHA-256 hash is stored; the token itself is never stored or logged. Used once, valid for 30 minutes.
+model PasswordResetToken {
+	user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+	userId String @id
+
+	tokenHash String @unique
+	expiresAt DateTime
+	createdAt DateTime @default(now()) // A new request within 2 minutes sends no email (no email flood)
+}
+
+// Sign-up "Confirmar e-mail" link. Same rules as PasswordResetToken, but valid for 24 hours.
+model EmailVerificationToken {
+	user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+	userId String @id
+
+	tokenHash String @unique
+	expiresAt DateTime
+	createdAt DateTime @default(now()) // A new request within 2 minutes sends no email (no email flood)
 }
 
 // Expense being built in a bot chat, waiting for "Salvar". One per user; expires after 10 minutes.
