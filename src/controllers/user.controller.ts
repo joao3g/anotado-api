@@ -93,9 +93,24 @@ const updateProfile = async (req: Request, res: Response) => {
 
         if (!parsed.success) return res.status(400).json(z.treeifyError(parsed.error).properties);
 
-        await userService.updateProfile(req.user.login, parsed.data);
+        const result = await userService.updateProfile(req.user.login, parsed.data);
 
-        return res.sendStatus(200);
+        if (result.status === "EMAIL_TAKEN") return res.status(409).json({ message: "E-mail já está em uso." });
+        if (result.status === "TOO_SOON") return res.status(429).json({ message: "Aguarde 2 minutos para pedir outra troca de e-mail." });
+        if (result.status === "SAVED") return res.status(200).json({ emailChangePending: false });
+
+        // New email: it changes only after the link sent to it is opened.
+        res.status(200).json({ emailChangePending: true });
+
+        // After the response: link to the new address, warning to the old one.
+        if (result.sendEmails) {
+            emailVerificationService.sendEmailChangeLink(result.user, result.newEmail)
+                .catch(error => console.error("[updateProfile]: ", error));
+            if (result.oldEmail) {
+                emailVerificationService.sendEmailChangeNotice(result.user, result.oldEmail, result.newEmail)
+                    .catch(error => console.error("[updateProfile]: ", error));
+            }
+        }
     } catch (error) {
         if (isUniqueViolation(error)) return res.status(409).json({ message: "E-mail já está em uso." });
 
@@ -210,12 +225,44 @@ const verifyEmail = async (req: Request, res: Response) => {
         const result = parsed.success ? await emailVerificationService.verify(parsed.data.token) : "INVALID";
 
         if (result === "INVALID") return res.status(400).json({ message: "Link inválido ou expirado. Peça um novo link." });
+        if (result === "EMAIL_TAKEN") return res.status(409).json({ message: "Este e-mail passou a ser usado por outra conta. A troca foi cancelada." });
 
-        return res.sendStatus(200);
+        return res.status(200).json({ emailChanged: result === "EMAIL_CHANGED" });
     } catch (error) {
         console.error("[verifyEmail]: ", error);
         return res.status(500).json({ message: "Failed to verify email!" })
     }
 }
 
-export default { login, register, getCurrentUser, updateProfile, updateAvatar, removeAvatar, changePassword, forgotPassword, resetPassword, resendVerification, verifyEmail };
+// Settings > Perfil: send the link to the pending email again.
+const resendEmailChange = async (req: Request, res: Response) => {
+    try {
+        if (!req.user) return res.status(401).json({ message: "Authentication failed!" });
+
+        const result = await emailVerificationService.resendEmailChange(req.user.login);
+
+        if (result === "NO_PENDING") return res.status(400).json({ message: "Nenhuma troca de e-mail pendente." });
+        if (result === "TOO_SOON") return res.status(429).json({ message: "Aguarde 2 minutos para reenviar." });
+
+        return res.sendStatus(200);
+    } catch (error) {
+        console.error("[resendEmailChange]: ", error);
+        return res.status(500).json({ message: "Failed to resend email!" });
+    }
+}
+
+// Settings > Perfil: "Cancelar troca". The link already sent stops working.
+const cancelEmailChange = async (req: Request, res: Response) => {
+    try {
+        if (!req.user) return res.status(401).json({ message: "Authentication failed!" });
+
+        await emailVerificationService.cancelEmailChange(req.user.login);
+
+        return res.sendStatus(200);
+    } catch (error) {
+        console.error("[cancelEmailChange]: ", error);
+        return res.status(500).json({ message: "Failed to cancel email change!" });
+    }
+}
+
+export default { login, register, getCurrentUser, updateProfile, updateAvatar, removeAvatar, changePassword, forgotPassword, resetPassword, resendVerification, verifyEmail, resendEmailChange, cancelEmailChange };

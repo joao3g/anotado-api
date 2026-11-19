@@ -84,6 +84,7 @@ const getProfileByLogin = async (login: string) => {
             email: true,
             phone: true,
             avatar: true,
+            pendingEmail: true,
             role: true,
             group: { select: { id: true, title: true } }
         }
@@ -91,7 +92,7 @@ const getProfileByLogin = async (login: string) => {
 }
 
 // Only name, email, phone and photo. Password and group are changed by their own functions.
-const updateProfile = async (id: string, data: { name?: string, email?: string, phone?: string | null, avatar?: string | null }) => {
+const updateProfile = async (id: string, data: { name?: string, email?: string, pendingEmail?: string | null, phone?: string | null, avatar?: string | null }) => {
     return await prisma.user.update({
         where: { id },
         data,
@@ -273,17 +274,65 @@ const saveEmailVerificationToken = async (userId: string, tokenHash: string, exp
 }
 
 // Uses a link once (deleted even when expired) and marks the email as confirmed. Returns false for an unknown, used, or expired link.
+// Uses a link once (deleted even when expired). Two kinds of link share the table:
+// - the user has a pendingEmail (change in Settings > Perfil): it becomes the email -> "EMAIL_CHANGED",
+//   unless another account uses it by now -> "EMAIL_TAKEN" (the change is dropped);
+// - otherwise it is the sign-up confirmation -> "VERIFIED".
 const verifyEmailWithToken = async (tokenHash: string, now: Date) => {
     return await prisma.$transaction(async (tx) => {
-        const token = await tx.emailVerificationToken.findUnique({ where: { tokenHash } });
-        if (!token) return false;
+        const token = await tx.emailVerificationToken.findUnique({
+            where: { tokenHash },
+            include: { user: { select: { pendingEmail: true } } }
+        });
+        if (!token) return "INVALID" as const;
 
         await tx.emailVerificationToken.delete({ where: { userId: token.userId } });
-        if (token.expiresAt < now) return false;
+        if (token.expiresAt < now) return "INVALID" as const;
 
-        await tx.user.update({ where: { id: token.userId }, data: { emailVerifiedAt: now } });
-        return true;
+        const pendingEmail = token.user.pendingEmail;
+        if (!pendingEmail) {
+            await tx.user.update({ where: { id: token.userId }, data: { emailVerifiedAt: now } });
+            return "VERIFIED" as const;
+        }
+
+        const taken = await tx.user.findFirst({
+            where: { email: { equals: pendingEmail, mode: "insensitive" }, NOT: { id: token.userId } },
+            select: { id: true }
+        });
+        if (taken) {
+            await tx.user.update({ where: { id: token.userId }, data: { pendingEmail: null } });
+            return "EMAIL_TAKEN" as const;
+        }
+
+        await tx.user.update({ where: { id: token.userId }, data: { email: pendingEmail, pendingEmail: null, emailVerifiedAt: now } });
+        return "EMAIL_CHANGED" as const;
     });
 }
 
-export default { create, getById, getByLogin, getByEmail, getForAuthByLogin, getProfileByLogin, updateProfile, joinGroup, leaveGroup, removeMember, setMemberRole, find, update, remove, listForPasswordReset, savePasswordResetToken, resetPasswordWithToken, listForVerificationResend, saveEmailVerificationToken, verifyEmailWithToken };
+// Email change: another account already uses this email (ignoring case)?
+const emailUsedByOther = async (email: string, userId: string) => {
+    const other = await prisma.user.findFirst({
+        where: { email: { equals: email, mode: "insensitive" }, NOT: { id: userId } },
+        select: { id: true }
+    });
+
+    return other !== null;
+}
+
+// What the email change needs: current and pending email, and when the last link was sent (2-minute wait).
+const getForEmailChange = async (login: string) => {
+    return await prisma.user.findUnique({
+        where: { login },
+        select: { id: true, login: true, name: true, email: true, pendingEmail: true, emailVerificationToken: { select: { createdAt: true } } }
+    });
+}
+
+// "Cancelar troca": drops the pending email and its link together.
+const cancelPendingEmail = async (id: string) => {
+    await prisma.$transaction([
+        prisma.emailVerificationToken.deleteMany({ where: { userId: id } }),
+        prisma.user.update({ where: { id }, data: { pendingEmail: null } })
+    ]);
+}
+
+export default { create, getById, getByLogin, getByEmail, getForAuthByLogin, getProfileByLogin, updateProfile, joinGroup, leaveGroup, removeMember, setMemberRole, find, update, remove, listForPasswordReset, savePasswordResetToken, resetPasswordWithToken, listForVerificationResend, saveEmailVerificationToken, verifyEmailWithToken, emailUsedByOther, getForEmailChange, cancelPendingEmail };
