@@ -729,10 +729,6 @@ export type RecurrenceUpdateOneWithoutExpensesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.RecurrenceUpdateToOneWithWhereWithoutExpensesInput, Prisma.RecurrenceUpdateWithoutExpensesInput>, Prisma.RecurrenceUncheckedUpdateWithoutExpensesInput>
 }
 
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
-}
-
 export type RecurrenceCreateWithoutGroupInput = {
   id?: string
   title: string

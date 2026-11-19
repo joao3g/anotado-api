@@ -27,11 +27,14 @@ const userSelect = {
     createdAt: true
 }
 
+// Returns what the sign-up needs to send the verification email. Never the password hash.
 const create = async (data: Prisma.UserCreateInput) => {
     const hash = await bcrypt.hash(data.password, SALT_ROUNDS);
-    await prisma.user.create({ data: { ...data, password: hash } });
 
-    return;
+    return await prisma.user.create({
+        data: { ...data, password: hash },
+        select: { id: true, login: true, name: true, email: true }
+    });
 }
 
 const getById = async (id: string) => {
@@ -64,6 +67,7 @@ const getForAuthByLogin = async (login: string) => {
             name: true,
             email: true,
             password: true,
+            emailVerifiedAt: true,
             group: true
         }
     });
@@ -250,4 +254,36 @@ const resetPasswordWithToken = async (tokenHash: string, newPassword: string, no
     });
 }
 
-export default { create, getById, getByLogin, getByEmail, getForAuthByLogin, getProfileByLogin, updateProfile, joinGroup, leaveGroup, removeMember, setMemberRole, find, update, remove, listForPasswordReset, savePasswordResetToken, resetPasswordWithToken };
+// Email verification: unconfirmed accounts with this email, ignoring case. Includes the last link's time (2-minute wait).
+const listForVerificationResend = async (email: string) => {
+    return await prisma.user.findMany({
+        where: { email: { equals: email, mode: "insensitive" }, emailVerifiedAt: null },
+        select: { id: true, login: true, name: true, email: true, emailVerificationToken: { select: { createdAt: true } } },
+        take: 5
+    });
+}
+
+// One link per user: a new one replaces the old one.
+const saveEmailVerificationToken = async (userId: string, tokenHash: string, expiresAt: Date) => {
+    await prisma.emailVerificationToken.upsert({
+        where: { userId },
+        create: { userId, tokenHash, expiresAt },
+        update: { tokenHash, expiresAt, createdAt: new Date() }
+    });
+}
+
+// Uses a link once (deleted even when expired) and marks the email as confirmed. Returns false for an unknown, used, or expired link.
+const verifyEmailWithToken = async (tokenHash: string, now: Date) => {
+    return await prisma.$transaction(async (tx) => {
+        const token = await tx.emailVerificationToken.findUnique({ where: { tokenHash } });
+        if (!token) return false;
+
+        await tx.emailVerificationToken.delete({ where: { userId: token.userId } });
+        if (token.expiresAt < now) return false;
+
+        await tx.user.update({ where: { id: token.userId }, data: { emailVerifiedAt: now } });
+        return true;
+    });
+}
+
+export default { create, getById, getByLogin, getByEmail, getForAuthByLogin, getProfileByLogin, updateProfile, joinGroup, leaveGroup, removeMember, setMemberRole, find, update, remove, listForPasswordReset, savePasswordResetToken, resetPasswordWithToken, listForVerificationResend, saveEmailVerificationToken, verifyEmailWithToken };

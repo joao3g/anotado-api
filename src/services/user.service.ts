@@ -35,6 +35,9 @@ const login = async (login: string, password: string) => {
 
         if (!isPasswordCorrect) throw new Error("Incorrect password!");
 
+        // Checked only after the right password, so it never tells a stranger that an account exists.
+        if (!userData.emailVerifiedAt) return { status: "EMAIL_NOT_VERIFIED" as const, email: userData.email ?? "" };
+
         // A user without a family can log in: the app then asks for a family code or a new family.
         const user = await getMe(login);
         if (!user) throw new Error("User not found!");
@@ -48,6 +51,7 @@ const login = async (login: string, password: string) => {
         };
 
         return {
+            status: "OK" as const,
             token: jwt.sign(
                 payload,
                 SECRET_KEY,

@@ -1,16 +1,10 @@
-import { createHash, randomBytes } from 'node:crypto';
 import userModel from '../models/user.model.js';
 import emailService from './email.service.js';
 import { emailConfig, isEmailEnabled } from '../utils/email-config.js';
+import { escapeHtml, hashEmailToken, newEmailToken } from '../utils/email-token.js';
 
 const LINK_MINUTES = 30;
 const MIN_MINUTES_BETWEEN_EMAILS = 2;
-
-// The token travels only in the email link. Only this hash is stored.
-export const hashResetToken = (token: string) => createHash("sha256").update(token).digest("hex");
-
-const escapeHtml = (text: string) =>
-    text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 
 function buildEmail(user: { login: string, name: string | null }, link: string) {
     const greeting = user.name ? `Olá, ${user.name}!` : "Olá!";
@@ -56,9 +50,8 @@ const requestReset = async (email: string) => {
         const lastRequest = user.passwordResetToken?.createdAt.getTime();
         if (lastRequest !== undefined && now - lastRequest < MIN_MINUTES_BETWEEN_EMAILS * 60_000) continue;
 
-        // 32 random bytes = 43 base64url chars: impossible to guess.
-        const token = randomBytes(32).toString("base64url");
-        await userModel.savePasswordResetToken(user.id, hashResetToken(token), new Date(now + LINK_MINUTES * 60_000));
+        const { token, hash } = newEmailToken();
+        await userModel.savePasswordResetToken(user.id, hash, new Date(now + LINK_MINUTES * 60_000));
 
         // In the URL hash (#): browsers never send it to a server, so it is not in any request log.
         const link = `${emailConfig.appUrl}/reset-password#token=${token}`;
@@ -68,7 +61,7 @@ const requestReset = async (email: string) => {
 }
 
 const resetPassword = async (token: string, newPassword: string) => {
-    const ok = await userModel.resetPasswordWithToken(hashResetToken(token), newPassword, new Date());
+    const ok = await userModel.resetPasswordWithToken(hashEmailToken(token), newPassword, new Date());
 
     return ok ? "OK" : "INVALID";
 }

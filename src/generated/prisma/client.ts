@@ -85,6 +85,11 @@ export type BotLinkCode = Prisma.BotLinkCodeModel
  */
 export type PasswordResetToken = Prisma.PasswordResetTokenModel
 /**
+ * Model EmailVerificationToken
+ * 
+ */
+export type EmailVerificationToken = Prisma.EmailVerificationTokenModel
+/**
  * Model BotDraft
  * 
  */

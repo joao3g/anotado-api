@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { EMAIL_TOKEN_REGEX } from '../utils/email-token.js';
 
 // bcrypt only uses the first 72 bytes, so longer passwords are rejected instead of silently cut.
 const newPassword = z.string().min(8).max(72);
@@ -37,10 +38,21 @@ const forgotPassword = z.object({
     email: z.email().max(254)
 });
 
-// The token from the email link: 32 random bytes as base64url (43 chars).
+// The token from an email link: 32 random bytes as base64url (43 chars).
+const emailToken = z.string().regex(EMAIL_TOKEN_REGEX);
+
 const resetPassword = z.object({
-    token: z.string().regex(/^[A-Za-z0-9_-]{43}$/),
+    token: emailToken,
     newPassword
 });
 
-export default { login, register, updateProfile, updateAvatar, changePassword, forgotPassword, resetPassword };
+// Sign-up email confirmation.
+const resendVerification = z.object({
+    email: z.email().max(254)
+});
+
+const verifyEmail = z.object({
+    token: emailToken
+});
+
+export default { login, register, updateProfile, updateAvatar, changePassword, forgotPassword, resetPassword, resendVerification, verifyEmail };
