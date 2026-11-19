@@ -4,6 +4,8 @@ import jwt from 'jsonwebtoken';
 import User from '../models/user.model.js';
 import Group from '../models/group.model.js';
 import { JwtUserPayload } from '../types/jwt.js';
+import emailVerificationService from './email-verification.service.js';
+import { isEmailEnabled } from '../utils/email-config.js';
 
 const SECRET_KEY = process.env["SECRET_KEY"];
 if (!SECRET_KEY) throw new Error("Invalid SECRET_KEY!");
@@ -20,6 +22,7 @@ const getMe = async (login: string) => {
         email: profile.email,
         phone: profile.phone,
         avatar: profile.avatar,
+        pendingEmail: profile.pendingEmail, // New email waiting for its link (Settings > Perfil), or null
         group: profile.group ?
             { title: profile.group.title, totalMembers: await Group.countUsersByGroup(profile.group.id), role: profile.role }
             : null
@@ -65,16 +68,37 @@ const login = async (login: string, password: string) => {
     }
 }
 
+// A new email is not saved as the email: it waits in pendingEmail until the link sent to it is opened
+// (the old email keeps working meanwhile). The controller sends the emails after answering.
+// Only a change of upper/lower case, or no email settings (local dev), saves the email at once.
 const updateProfile = async (login: string, data: { name: string, email: string, phone?: string }) => {
-    const userData = await User.getByLogin(login);
-    if (!userData) throw new Error("User not found!");
+    const user = await User.getForEmailChange(login);
+    if (!user) throw new Error("User not found!");
 
-    await User.updateProfile(userData.id, {
+    const newEmail = data.email.trim();
+    const sameMailbox = (user.email ?? "").toLowerCase() === newEmail.toLowerCase();
+    const changeAtOnce = sameMailbox || !isEmailEnabled();
+
+    if (!sameMailbox && await User.emailUsedByOther(newEmail, user.id)) return { status: "EMAIL_TAKEN" as const };
+
+    // At most one link every 2 minutes: otherwise saving a different email again and again would send
+    // unlimited emails to any address. The same pending email saved again just sends nothing new.
+    const samePending = (user.pendingEmail ?? "").toLowerCase() === newEmail.toLowerCase();
+    const tooSoon = !changeAtOnce && emailVerificationService.sentRecently(user.emailVerificationToken);
+    if (tooSoon && !samePending) return { status: "TOO_SOON" as const };
+
+    await User.updateProfile(user.id, {
         name: data.name,
-        email: data.email,
         // Not sent = keep; "" = remove
-        ...(data.phone !== undefined ? { phone: data.phone === "" ? null : data.phone } : {})
+        ...(data.phone !== undefined ? { phone: data.phone === "" ? null : data.phone } : {}),
+        // Saving the same email (e.g. only the name changed) keeps a pending change as it is.
+        ...(changeAtOnce ? { email: newEmail } : { pendingEmail: newEmail }),
+        ...(!sameMailbox && changeAtOnce ? { pendingEmail: null } : {})
     });
+
+    if (changeAtOnce) return { status: "SAVED" as const };
+
+    return { status: "EMAIL_CHANGE_PENDING" as const, sendEmails: !tooSoon, user, oldEmail: user.email, newEmail };
 }
 
 const setAvatar = async (login: string, avatar: string | null) => {

@@ -22,4 +22,8 @@ router.put("/me/avatar", authMiddleware, UserController.updateAvatar);
 router.delete("/me/avatar", authMiddleware, UserController.removeAvatar);
 router.patch("/me/password", authMiddleware, UserController.changePassword);
 
+// Email change: the new email waits for its link (see updateProfile).
+router.post("/me/email/resend", authMiddleware, UserController.resendEmailChange);
+router.delete("/me/email/pending", authMiddleware, UserController.cancelEmailChange);
+
 export default router;
